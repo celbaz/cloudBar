@@ -1,0 +1,28 @@
+body {
+  background-color: #e67e22;
+  font-family: 'courier new';
+}
+
+.main {
+  color: ghostwhite;
+  padding: 100px 100px 75px;
+  text-align: center;
+}
+
+.sign-in-button {
+  width: 100px;
+  position: relative;
+  margin: -25px auto;
+  text-align: center;
+  padding: 10px 15px;
+  background-color: #34495e;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0px 0px rgba(42, 62, 80, 1.0);
+}
+
+.sign-in-button a {
+  color: ghostwhite;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+}
