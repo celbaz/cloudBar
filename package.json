@@ -5,17 +5,18 @@
   "main": "index.js",
   "scripts": {
     "build": "electron-packager . Example --platform=darwin --arch=x64 --version=0.26.0 --ignore=node_modules/electron --icon=Icon.icns",
-    "start": "electron ."
+    "build-js": "browserify -t [babelify] javascripts/components/Initialize.jsx > javascripts/build/main.js",
+    "start": "npm run build-js && electron ."
   },
   "author": "Carl Elbaz",
   "license": "ISC",
   "dependencies": {
     "menubar": "^2.0.16",
-    "react": "^0.13.0",
-    "browserify": "^3.38.0",
-    "reactify": "^1.0.0"
+    "react": "^0.13.3"
   },
   "devDependencies": {
+    "babelify": "^6.1.3",
+    "browserify": "^11.0.1",
     "electron-packager": "^5.0.1",
     "electron-prebuilt": "^0.29.2"
   }
