@@ -31,7 +31,16 @@ var Wrapper = (function (_React$Component) {
   _createClass(Wrapper, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // if authenticated then display player view
+      // window.setTimeout(function () {
+      //   window.SC.initialize({
+      //     client_id: "214389ad8add5d1248a0e8f0c00e0bdc",
+      //     redirect_uri: " "
+      //   });
+      //
+      //   window.SC.connect(function(what){
+      //     console.log(this);
+      //   });
+      // }, 3000);
     }
   }, {
     key: "render",
@@ -66,10 +75,17 @@ module.exports = exports["default"];
 },{"react":160}],2:[function(require,module,exports){
 'use strict';
 
-var React = require('react');
-var Wrapper = require('./Wrapper.jsx');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-React.render(React.createElement(Wrapper), document.body);
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _WrapperJsx = require('./Wrapper.jsx');
+
+var _WrapperJsx2 = _interopRequireDefault(_WrapperJsx);
+
+_react2['default'].render(_react2['default'].createElement(_WrapperJsx2['default']), document.body);
 
 },{"./Wrapper.jsx":4,"react":160}],3:[function(require,module,exports){
 "use strict";

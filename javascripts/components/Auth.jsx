@@ -3,7 +3,16 @@ import React from 'react'
 export default class Wrapper extends React.Component {
 
   componentDidMount () {
-    // if authenticated then display player view
+    // window.setTimeout(function () {
+    //   window.SC.initialize({
+    //     client_id: "214389ad8add5d1248a0e8f0c00e0bdc",
+    //     redirect_uri: " "
+    //   });
+    //
+    //   window.SC.connect(function(what){
+    //     console.log(this);
+    //   });
+    // }, 3000);
   }
 
   render () {
