@@ -29421,7 +29421,7 @@ var Login = React.createClass({
     var options = {
       client_id: '68c7400f38328848d4eeea65d8eec5dc',
       client_secret: '196357e64e7636dd1eb75db21b4e0c98',
-      redirect_uri: 'http://www.google.com'
+      redirect_uri: 'http://localhost/callback'
     };
 
     //Build the OAuth consent page URL
@@ -29434,16 +29434,19 @@ var Login = React.createClass({
     var githubUrl = 'https://soundcloud.com/connect?';
     var authUrl = githubUrl + 'client_id=' + options.client_id + '&redirect_uri=' + options.redirect_uri + "&response_type=token";
     authWindow.loadUrl(authUrl);
-    console.log(authUrl);
+
+    console.log("pageLoad ");
+
     authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
 
-      var raw_code = /code=([^&]*)/.exec(newUrl) || null;
+      var raw_code = newUrl.match(/access_token=([^&]*)/) || null;
       var code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
       var error = /\?error=(.+)$/.exec(newUrl);
 
-      if (code || error) {}
-      // Close the browser if code found or error
-      // authWindow.close();
+      if (code || error) {
+        // Close the browser if code found or error
+        authWindow.close();
+      }
 
       // If there is a code, proceed to get token from github
       if (code) {
@@ -29462,9 +29465,12 @@ var Login = React.createClass({
   requestGithubToken: function requestGithubToken(options, code) {
     var self = this;
 
+    console.log(code);
     apiRequests.post('https://api.soundcloud.com/oauth2/token', {
       client_id: options.client_id,
       client_secret: options.client_secret,
+      redirect_uri: options.redirect_uri,
+      grant_type: 'authorization_code',
       code: code
     }).end(function (err, response) {
       if (response && response.ok) {
@@ -30435,19 +30441,19 @@ var apiRequests = {
   },
 
   post: function post(url, params) {
-    return request.post(url).send(params).set('Accept', 'application/json').set('User-Agent', 'Cloudbar');
+    return request.post(url).send(params).set('Accept', 'application/json');
   },
 
   getAuth: function getAuth(url) {
-    return request.get(url).set('Authorization', 'token ' + AuthStore.authStatus()).set('Cache-Control', 'no-cache').set('User-Agent', 'Cloudbar');
+    return request.get(url).set('Authorization', 'token ' + AuthStore.authStatus());
   },
 
   putAuth: function putAuth(url, params) {
-    return request.put(url).send(params).set('Authorization', 'token ' + AuthStore.authStatus()).set('Cache-Control', 'no-cache').set('User-Agent', 'Cloudbar');
+    return request.put(url).send(params).set('Authorization', 'token ' + AuthStore.authStatus());
   },
 
   patchAuth: function patchAuth(url, params) {
-    return request.patch(url).send(params).set('Authorization', 'token ' + AuthStore.authStatus()).set('Cache-Control', 'no-cache').set('User-Agent', 'Cloudbar');
+    return request.patch(url).send(params).set('Authorization', 'token ' + AuthStore.authStatus());
   }
 };
 

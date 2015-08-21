@@ -12,34 +12,27 @@ var apiRequests = {
     return request
       .post(url)
       .send(params)
-      .set('Accept', 'application/json')
-      .set('User-Agent', 'Cloudbar');
+      .set('Accept', 'application/json');
   },
 
   getAuth: function (url) {
     return request
       .get(url)
-      .set('Authorization', 'token ' + AuthStore.authStatus())
-      .set('Cache-Control', 'no-cache')
-      .set('User-Agent', 'Cloudbar');
+      .set('Authorization', 'token ' + AuthStore.authStatus());
   },
 
   putAuth: function (url, params) {
     return request
       .put(url)
       .send(params)
-      .set('Authorization', 'token ' + AuthStore.authStatus())
-      .set('Cache-Control', 'no-cache')
-      .set('User-Agent', 'Cloudbar');
+      .set('Authorization', 'token ' + AuthStore.authStatus());
   },
 
   patchAuth: function (url, params) {
     return request
       .patch(url)
       .send(params)
-      .set('Authorization', 'token ' + AuthStore.authStatus())
-      .set('Cache-Control', 'no-cache')
-      .set('User-Agent', 'Cloudbar');
+      .set('Authorization', 'token ' + AuthStore.authStatus());
   }
 };
 
