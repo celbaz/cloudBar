@@ -29369,7 +29369,7 @@ var Footer = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'container-fluid footer' },
+      { className: 'footer' },
       React.createElement(
         'div',
         { className: 'row' },
@@ -29384,8 +29384,7 @@ var Footer = React.createClass({
           React.createElement(
             'span',
             { className: 'github-link', onClick: this.openRepoBrowser },
-            'Fork me on ',
-            React.createElement('span', { className: 'octicon octicon-mark-github' })
+            'For more info / complaints'
           )
         )
       )
@@ -29488,18 +29487,14 @@ var Login = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'container-fluid main-container login' },
+      { className: 'main-container login' },
       React.createElement(
         'div',
-        { className: 'row' },
+        null,
         React.createElement(
-          'div',
-          { className: 'col-xs-offset-2 col-xs-8' },
-          React.createElement(
-            'button',
-            { className: 'btn btn-default btn-lg btn-block', onClick: this.authSoundCloud },
-            'Log in to SoundCloud'
-          )
+          'button',
+          { className: 'sign-in-button', onClick: this.authSoundCloud },
+          'Log in to SoundCloud'
         )
       )
     );
@@ -29514,7 +29509,6 @@ module.exports = Login;
 var React = require('react');
 var Reflux = require('reflux');
 var Router = require('react-router');
-
 var ipc = window.require('ipc');
 
 var Actions = require('../actions/actions');
@@ -29572,6 +29566,7 @@ var Navigation = React.createClass({
   },
 
   appQuit: function appQuit() {
+    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 
@@ -29593,24 +29588,20 @@ var Navigation = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'container-fluid' },
+      { className: 'header' },
       React.createElement(
         'div',
         { className: 'row navigation' },
         React.createElement(
           'div',
-          { className: 'col-xs-4 left' },
+          { className: 'left-section' },
           backIcon,
           refreshIcon
         ),
+        React.createElement('div', { className: 'center-section' }),
         React.createElement(
           'div',
-          { className: 'col-xs-4 logo' },
-          React.createElement('img', { className: 'img-responsive', src: 'images/logo-hor-white.png' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4 right' },
+          { className: 'right-section' },
           settingsIcon,
           logoutIcon,
           quitIcon

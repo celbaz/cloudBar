@@ -22,7 +22,7 @@ var Footer = React.createClass({
 
   render: function () {
     return (
-      <div className='container-fluid footer'>
+      <div className='footer'>
         <div className='row'>
           <div className="col-xs-6">
             {
@@ -33,7 +33,7 @@ var Footer = React.createClass({
           </div>
           <div className='col-xs-6 right'>
             <span className='github-link' onClick={this.openRepoBrowser}>
-              Fork me on <span className="octicon octicon-mark-github"/>
+              For more info / complaints
             </span>
           </div>
         </div>

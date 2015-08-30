@@ -1,7 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
 var Router = require('react-router');
-
 var ipc = window.require('ipc');
 
 var Actions = require('../actions/actions');
@@ -60,6 +59,7 @@ var Navigation = React.createClass({
   },
 
   appQuit: function () {
+    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 
@@ -92,16 +92,15 @@ var Navigation = React.createClass({
     }
 
     return (
-      <div className='container-fluid'>
+      <div className='header'>
         <div className='row navigation'>
-          <div className='col-xs-4 left'>
+          <div className='left-section'>
             {backIcon}
             {refreshIcon}
           </div>
-          <div className='col-xs-4 logo'>
-            <img className='img-responsive' src='images/logo-hor-white.png' />
+          <div className='center-section'>
           </div>
-          <div className='col-xs-4 right'>
+          <div className='right-section'>
             {settingsIcon}
             {logoutIcon}
             {quitIcon}

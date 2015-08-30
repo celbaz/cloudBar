@@ -1,0 +1,28 @@
+html, body, header, nav, h1, a,
+ul, li, strong, main, button, i,
+section, div, h2, h3, p, form,
+fieldset, label,
+span, footer, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Clearfix */
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}

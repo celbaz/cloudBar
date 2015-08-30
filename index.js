@@ -1,19 +1,23 @@
 var menubar = require('menubar');
-// var BrowserWindow = require('BrowserWindow');
-var Auth = require('./app/auth');
+var ipc = require('ipc');
 
+// TODO: REMOVE always-on-top flag
 var mb = menubar({
   dir: __dirname,
-  // index: 'file://' +  __dirname + '/html/index.html'
+  height: 390,
+  width: 300,
   index: 'file://' + __dirname + '/index.html'
 });
+
+mb.ipc = ipc;
 
 mb.on('ready', function ready () {
   console.log('app is ready')
   console.log('directory name is', __dirname)
-});
 
-mb.on('after-show', function afterShow () {
-  console.log("\n\n\n HELLO \n");
-  // Auth();
+  // Place Global Events Here :)
+  mb.ipc.on('app-quit', function (event) {
+    mb.app.quit();
+    console.log("QUITTING");
+  })
 });
