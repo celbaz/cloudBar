@@ -3,21 +3,62 @@ body {
   font-family: 'courier new';
 }
 
-.main {
+div#app {
+  height: 100vh;
+  position: relative;
   color: ghostwhite;
-  padding: 100px 100px 75px;
-  text-align: center;
+}
+
+#app > div {
+  height: 100%
+}
+
+div.footer {
+  position: absolute;
+  bottom: 0;
+  height: 10vh;
+}
+
+/*TODO: Take out bottom border*/
+div.header {
+  height: 10vh;
+  border-bottom: 2px solid gray;
+}
+
+.navigation {
+  height: 100%;
+}
+
+div.right-section {
+  text-align: right;
+  padding: 9px;
+  font-size: 20px;
 }
 
 .sign-in-button {
-  width: 100px;
   position: relative;
-  margin: -25px auto;
   text-align: center;
   padding: 10px 15px;
   background-color: #34495e;
+  color: ghostwhite;
+  font-size: 18px;
+  font-weight: 500;
   border-radius: 6px;
   box-shadow: 3px 3px 0px 0px rgba(42, 62, 80, 1.0);
+}
+
+div.main-container {
+    height: 80vh;
+}
+
+.main-container > div {
+  margin: 100px 25px;
+}
+
+/*.main {
+  color: ghostwhite;
+  padding: 100px 100px 75px;
+  text-align: center;
 }
 
 .sign-in-button a {
@@ -25,4 +66,4 @@ body {
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
-}
+}*/

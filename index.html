@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cloudbar</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+  </head>
+
+  <body>
+      <div id="app"></div>
+  </body>
+
+  <script type="text/javascript" src="src/build/app.js"></script>
+
+  <script type="text/javascript">
+    // Disable zoom
+    document.addEventListener('mousewheel', function(e) {
+      if(e.deltaY % 1 !== 0) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</html>
