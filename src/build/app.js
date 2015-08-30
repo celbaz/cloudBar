@@ -30006,9 +30006,6 @@ var SettingsPage = React.createClass({
   getInitialState: function getInitialState() {
     var settings = SettingsStore.getSettings();
     return {
-      participating: settings.participating,
-      playSound: settings.playSound,
-      showNotifications: settings.showNotifications,
       openAtStartup: settings.openAtStartup
     };
   },
@@ -30024,81 +30021,43 @@ var SettingsPage = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'container-fluid main-container settings' },
+      { className: 'main-container settings' },
       React.createElement(
         'div',
-        { className: 'row' },
+        { className: 'settings-row' },
         React.createElement(
           'div',
-          { className: 'col-xs-8' },
-          'Show only participating'
+          { className: 'toggle-label' },
+          'Features to Come'
         ),
         React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.participating,
-            onChange: this.toggleSetting.bind(this, 'participating') })
+          'ul',
+          null,
+          React.createElement(
+            'li',
+            null,
+            'Auto open at Computer Startup'
+          ),
+          React.createElement(
+            'li',
+            null,
+            'Spotify Integration'
+          ),
+          React.createElement(
+            'li',
+            null,
+            'UI redesign'
+          )
         )
       ),
       React.createElement(
         'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Play sound'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.playSound,
-            onChange: this.toggleSetting.bind(this, 'playSound') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Show notifications'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.showNotifications,
-            onChange: this.toggleSetting.bind(this, 'showNotifications') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Open at startup'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.openAtStartup,
-            onChange: this.toggleSetting.bind(this, 'openAtStartup') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
+        { className: 'quit-app' },
         React.createElement(
           'button',
-          {
-            className: 'btn btn-block btn-danger btn-close',
-            onClick: this.appQuit },
+          { className: '', onClick: this.appQuit },
           React.createElement('i', { className: 'fa fa-power-off' }),
-          'Quit Gitify'
+          'Quit Cloudbar'
         )
       )
     );

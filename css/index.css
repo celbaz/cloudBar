@@ -90,10 +90,42 @@ div.main-container {
     height: 80vh;
 }
 
-.main-container > div {
+.main-container.login {
   margin: 100px 25px;
 }
 
+.settings-row ul > li {
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+div.toggle-label {
+  text-align: center;
+  padding: 15px 0px;
+  font-size: 20px;
+}
+
+div.quit-app {
+  display: block;
+  border: 2px solid whitesmoke;
+  left: 61px;
+  bottom: 20vh;
+  position: absolute;
+  border-radius: 2px;
+  padding: 10px;
+  background-color: whitesmoke;
+  transition: all 0.7s ease;
+}
+
+div.quit-app:hover {
+  background-color: #34495e;
+}
+
+.quit-app span {
+  padding-left: 5px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
 /*.main {
   color: ghostwhite;
   padding: 100px 100px 75px;
