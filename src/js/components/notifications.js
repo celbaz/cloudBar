@@ -18,7 +18,7 @@ var Notifications = React.createClass({
     var searchTerms = searchTerm.split(/\s+/);
     return _.all(searchTerms, this.areIn.bind(null, obj.repository.full_name));
   },
-  // 
+  //
   // mixins: [
   //   Reflux.connect(NotificationsStore, 'notifications'),
   //   Reflux.connect(SearchStore, 'searchTerm'),
@@ -108,7 +108,7 @@ var Notifications = React.createClass({
     // }
 
     return (
-      <div>HELLO WORLD</div>
+      <div>Hi, Carl!</div>
     );
   }
 });

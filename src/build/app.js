@@ -29348,7 +29348,7 @@ var React = require('react');
 var Reflux = require('reflux');
 var remote = window.require('remote');
 var shell = remote.require('shell');
-var SearchInput = require('./search-input');
+var Sections = require('./sections');
 var AuthStore = require('../stores/auth');
 
 var Footer = React.createClass({
@@ -29369,7 +29369,7 @@ var Footer = React.createClass({
   render: function render() {
     var content;
     if (this.state.authStatus) {
-      content = React.createElement(SearchInput, null);
+      content = React.createElement(Sections, null);
     } else {
       content = React.createElement(
         'span',
@@ -29382,18 +29382,14 @@ var Footer = React.createClass({
     return React.createElement(
       'div',
       { className: 'footer' },
-      React.createElement(
-        'div',
-        { className: 'row' },
-        content
-      )
+      content
     );
   }
 });
 
 module.exports = Footer;
 
-},{"../stores/auth":253,"./search-input":251,"react":217,"reflux":218}],246:[function(require,module,exports){
+},{"../stores/auth":253,"./sections":251,"react":217,"reflux":218}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29820,7 +29816,7 @@ var Notifications = React.createClass({
     return React.createElement(
       'div',
       null,
-      'HELLO WORLD'
+      'Hi, Carl!'
     );
   }
 });
@@ -29946,50 +29942,68 @@ module.exports = Repository;
 
 var React = require('react');
 var Reflux = require('reflux');
-var SearchStore = require('../stores/search');
+var Router = require('react-router');
+var ipc = window.require('ipc');
+
 var Actions = require('../actions/actions');
+var AuthStore = require('../stores/auth');
 
-var SearchInput = React.createClass({
-  displayName: 'SearchInput',
+var Sections = React.createClass({
+  displayName: 'Sections',
 
-  mixins: [Reflux.connect(SearchStore, 'searchTerm')],
+  mixins: [Router.State, Reflux.connect(AuthStore, 'authStatus')],
 
-  onChange: function onChange(event) {
-    Actions.updateSearchTerm(event.target.value);
-  },
-
-  clearSearch: function clearSearch() {
-    Actions.clearSearchTerm();
+  contextTypes: {
+    router: React.PropTypes.func
   },
 
   getInitialState: function getInitialState() {
-    return {};
+    return {
+      authStatus: AuthStore.authStatus()
+    };
+  },
+
+  goToHome: function goToHome() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goToSearch: function goToSearch() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goToProfile: function goToProfile() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goToPlayer: function goToPlayer() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goBack: function goBack() {
+    this.context.router.transitionTo('notifications');
+  },
+
+  appQuit: function appQuit() {
+    console.log("CLICKED");
+    ipc.sendChannel('app-quit');
   },
 
   render: function render() {
-    var clearSearchIcon;
-
-    if (this.state.searchTerm) {
-      clearSearchIcon = React.createElement('span', { className: 'octicon octicon-x', onClick: this.clearSearch });
-    }
 
     return React.createElement(
-      'div',
-      { className: 'search-wrapper' },
-      clearSearchIcon,
-      React.createElement('input', {
-        value: this.state.searchTerm,
-        onChange: this.onChange,
-        className: 'search',
-        type: 'text',
-        placeholder: 'Search...' })
+      'span',
+      { className: 'sections' },
+      React.createElement('i', { className: 'fa  fa-tachometer', onClick: this.goToHome }),
+      React.createElement('i', { className: 'fa fa-search', onClick: this.goToSearch }),
+      React.createElement('i', { className: 'fa fa-user', onClick: this.goToProfile }),
+      React.createElement('i', { className: 'fa fa-plug', onClick: this.goToPlayer })
     );
   }
 });
 
-module.exports = SearchInput;
+module.exports = Sections;
 
-},{"../actions/actions":243,"../stores/search":255,"react":217,"reflux":218}],252:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":253,"react":217,"react-router":26,"reflux":218}],252:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30036,7 +30050,7 @@ var SettingsPage = React.createClass({
           React.createElement(
             'li',
             null,
-            'Auto open at Computer Startup'
+            'Auto Open At Computer Startup'
           ),
           React.createElement(
             'li',
@@ -30046,7 +30060,7 @@ var SettingsPage = React.createClass({
           React.createElement(
             'li',
             null,
-            'UI redesign'
+            'UI Redesign'
           )
         )
       ),

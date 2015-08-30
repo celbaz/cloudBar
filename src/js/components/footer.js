@@ -2,7 +2,7 @@ var React = require('react');
 var Reflux = require('reflux');
 var remote = window.require('remote');
 var shell = remote.require('shell');
-var SearchInput = require('./search-input');
+var Sections = require('./sections');
 var AuthStore = require('../stores/auth');
 
 var Footer = React.createClass({
@@ -23,16 +23,14 @@ var Footer = React.createClass({
   render: function () {
     var content;
     if(this.state.authStatus) {
-      content = <SearchInput />
+      content = <Sections />
     } else {
       content = <span className='github-link' onClick={this.openRepoBrowser}>For More Info<i className="fa fa-github"></i></span>;
     }
 
     return (
       <div className='footer'>
-        <div className='row'>
-          {content}
-        </div>
+        {content}
       </div>
     );
   }
