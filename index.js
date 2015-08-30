@@ -16,8 +16,13 @@ mb.on('ready', function ready () {
   console.log('directory name is', __dirname)
 
   // Place Global Events Here :)
-  mb.ipc.on('app-quit', function (event) {
+  mb.ipc.on('app-quit', function () {
+    console.log("Closing Application");
     mb.app.quit();
-    console.log("QUITTING");
-  })
+  });
+
+  // after authentication re-open app
+  mb.ipc.on('reopen-window', function () {
+    mb.window.show();
+  });
 });

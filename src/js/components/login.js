@@ -29,26 +29,25 @@ var Login = React.createClass({
       show: true,
       'node-integration': false
     });
-    var githubUrl = 'https://soundcloud.com/connect?';
-    var authUrl = githubUrl + 'client_id=' + options.client_id + '&redirect_uri=' + options.redirect_uri + "&response_type=token";
+    var soundcloudUrl = 'https://soundcloud.com/connect?';
+    var authUrl = soundcloudUrl + 'client_id=' + options.client_id + '&redirect_uri=' + options.redirect_uri + "&response_type=token";
     authWindow.loadUrl(authUrl);
 
-    console.log("pageLoad ");
-
     authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
-
       var raw_code = newUrl.match(/access_token=([^&]*)/) || null;
       var code = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
       var error = /\?error=(.+)$/.exec(newUrl);
 
       if (code || error) {
-        // Close the browser if code found or error
         authWindow.close();
       }
 
-      // If there is a code, proceed to get token from github
       if (code) {
-        self.requestGithubToken(options, code);
+        Actions.login(code);
+        ipc.sendChannel('reopen-window');
+        self.context.router.transitionTo('notifications');
+        // TODO: clean up or comment out unused code in this file
+        // self.requestSoundCloudToken(options, code);
       } else if (error) {
         alert('Oops! Something went wrong and we couldn\'t ' +
           'log you in using SoundCloud. Please try again.');
@@ -63,10 +62,9 @@ var Login = React.createClass({
 
   },
 
-  requestGithubToken: function (options, code) {
+  requestSoundCloudToken: function (options, code) {
     var self = this;
 
-    console.log(code);
     apiRequests
       .post('https://api.soundcloud.com/oauth2/token', {
         client_id: options.client_id,
@@ -78,9 +76,9 @@ var Login = React.createClass({
       .end(function (err, response) {
         if (response && response.ok) {
           // Success - Do Something.
-          Actions.login(response.body.access_token);
-          self.context.router.transitionTo('notifications');
-          ipc.sendChannel('reopen-window');
+          // Actions.login(response.body.access_token);
+          // self.context.router.transitionTo('notifications');
+          // ipc.sendChannel('reopen-window');
         } else {
           // Error - Show messages.
           // Show appropriate message
