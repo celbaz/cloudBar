@@ -13,10 +13,29 @@ div#app {
   height: 100%
 }
 
+/* Footer Styles */
 div.footer {
   position: absolute;
   bottom: 0;
   height: 10vh;
+  width: 100%;
+  text-align: center;
+}
+
+.github-link {
+  font-size: 18px;
+  transition: color 0.7s ease;
+  letter-spacing: 0.5px;
+}
+ .github-link i {
+  font-size: 24px;
+  padding-left: 14px;
+  vertical-align: -3px;
+}
+
+span.github-link:hover {
+  color: #34495e;
+  cursor: pointer;
 }
 
 /*TODO: Take out bottom border*/
@@ -29,11 +48,31 @@ div.header {
   height: 100%;
 }
 
+.navigation > div {
+  padding: 10px;
+}
+
 div.right-section {
   text-align: right;
-  padding: 9px;
+}
+
+div.left-section {
+  float: left;
+  padding-left: 0px;
+}
+
+.navigation > div > i {
+  transition: color 0.7s ease;
+  padding-left: 10px;
   font-size: 20px;
 }
+
+.navigation > div > i:hover {
+  color: #34495e;
+  cursor: pointer;
+}
+
+/*Main Section Styles*/
 
 .sign-in-button {
   position: relative;

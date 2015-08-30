@@ -11,7 +11,7 @@ var Footer = React.createClass({
   ],
 
   openRepoBrowser: function () {
-    shell.openExternal('http://www.github.com/ekonstantinidis/gitify');
+    shell.openExternal('http://www.carlelbaz.com');
   },
 
   getInitialState: function () {
@@ -21,21 +21,17 @@ var Footer = React.createClass({
   },
 
   render: function () {
+    var content;
+    if(this.state.authStatus) {
+      content = <SearchInput />
+    } else {
+      content = <span className='github-link' onClick={this.openRepoBrowser}>For More Info<i className="fa fa-github"></i></span>;
+    }
+
     return (
       <div className='footer'>
         <div className='row'>
-          <div className="col-xs-6">
-            {
-              this.state.authStatus ? (
-                <SearchInput />
-              ) : undefined
-            }
-          </div>
-          <div className='col-xs-6 right'>
-            <span className='github-link' onClick={this.openRepoBrowser}>
-              For more info / complaints
-            </span>
-          </div>
+          {content}
         </div>
       </div>
     );

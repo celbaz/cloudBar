@@ -29357,7 +29357,7 @@ var Footer = React.createClass({
   mixins: [Reflux.connect(AuthStore, 'authStatus')],
 
   openRepoBrowser: function openRepoBrowser() {
-    shell.openExternal('http://www.github.com/ekonstantinidis/gitify');
+    shell.openExternal('http://www.carlelbaz.com');
   },
 
   getInitialState: function getInitialState() {
@@ -29367,26 +29367,25 @@ var Footer = React.createClass({
   },
 
   render: function render() {
+    var content;
+    if (this.state.authStatus) {
+      content = React.createElement(SearchInput, null);
+    } else {
+      content = React.createElement(
+        'span',
+        { className: 'github-link', onClick: this.openRepoBrowser },
+        'For More Info',
+        React.createElement('i', { className: 'fa fa-github' })
+      );
+    }
+
     return React.createElement(
       'div',
       { className: 'footer' },
       React.createElement(
         'div',
         { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-6' },
-          this.state.authStatus ? React.createElement(SearchInput, null) : undefined
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-6 right' },
-          React.createElement(
-            'span',
-            { className: 'github-link', onClick: this.openRepoBrowser },
-            'For more info / complaints'
-          )
-        )
+        content
       )
     );
   }
@@ -29596,7 +29595,6 @@ var Navigation = React.createClass({
           backIcon,
           refreshIcon
         ),
-        React.createElement('div', { className: 'center-section' }),
         React.createElement(
           'div',
           { className: 'right-section' },
