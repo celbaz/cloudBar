@@ -29440,15 +29440,14 @@ var Login = React.createClass({
       var error = /\?error=(.+)$/.exec(newUrl);
 
       if (code || error) {
-        // Close the browser if code found or error
         authWindow.close();
       }
 
-      // If there is a code, proceed to get token from github
       if (code) {
         Actions.login(code);
-        self.context.router.transitionTo('notifications');
         ipc.sendChannel('reopen-window');
+        self.context.router.transitionTo('notifications');
+        // TODO: clean up or comment out unused code in this file
         // self.requestSoundCloudToken(options, code);
       } else if (error) {
           alert('Oops! Something went wrong and we couldn\'t ' + 'log you in using SoundCloud. Please try again.');
@@ -29471,10 +29470,7 @@ var Login = React.createClass({
       grant_type: 'authorization_code',
       code: code
     }).end(function (err, response) {
-      console.log(err);
-      console.log(response);
       if (response && response.ok) {
-        console.log("HEHE ");
         // Success - Do Something.
         // Actions.login(response.body.access_token);
         // self.context.router.transitionTo('notifications');
