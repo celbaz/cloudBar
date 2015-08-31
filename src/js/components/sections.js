@@ -31,7 +31,7 @@ var Sections = React.createClass({
   },
 
   goToProfile: function () {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('profile');
   },
 
   goToPlayer: function () {
@@ -53,8 +53,8 @@ var Sections = React.createClass({
         <span className='sections'>
           <i className='fa  fa-tachometer' onClick={this.goToHome} />
           <i className='fa fa-search' onClick={this.goToSearch} />
-          <i className='fa fa-user' onClick={this.goToProfile} />
-          <i className='fa fa-plug' onClick={this.goToPlayer} />
+          <i className='fa fa-inbox' onClick={this.goToProfile} />
+          <i className='fa fa-soundcloud' onClick={this.goToPlayer} />
         </span>
       );
   }

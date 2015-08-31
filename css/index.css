@@ -145,6 +145,12 @@ div.quit-app:hover {
   height: 100%;
   background-color: #34495e;
 }
+
+
+.profile img {
+  border-radius: 15px;
+  width: 25%;
+}
 /*.main {
   color: ghostwhite;
   padding: 100px 100px 75px;
