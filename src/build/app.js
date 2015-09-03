@@ -29896,64 +29896,40 @@ var Profile = React.createClass({
       info = this.state.profile;
       profile = React.createElement(
         'div',
-        null,
-        React.createElement(
-          'span',
-          { onClick: this.openUserBrowser },
-          React.createElement(
-            'a',
-            null,
-            'My Account'
-          )
-        ),
-        React.createElement(
-          'span',
-          null,
-          info.full_name
-        ),
-        React.createElement(
-          'span',
-          null,
-          React.createElement('img', { src: info.avatar_url })
-        ),
+        { className: 'profile-wrapper' },
         React.createElement(
           'div',
-          { className: 'stats' },
+          { className: 'profile-info group' },
+          React.createElement('img', { src: info.avatar_url }),
           React.createElement(
-            'h2',
-            null,
-            'Statistics'
-          ),
-          React.createElement(
-            'ul',
-            null,
+            'div',
+            { className: 'profile-info-right' },
             React.createElement(
-              'li',
+              'span',
               null,
-              '# of playlists: ',
-              info.playlist_count
+              info.full_name
             ),
             React.createElement(
-              'li',
-              null,
-              '# of favorites: ',
-              info.public_favorites_count
-            ),
-            React.createElement(
-              'li',
-              null,
-              '# of followers: ',
-              info.followers_count
-            ),
-            React.createElement(
-              'li',
-              null,
-              '# of followings: ',
-              info.followings_count
+              'span',
+              { onClick: this.openUserBrowser },
+              React.createElement(
+                'a',
+                null,
+                'View My Account'
+              )
             )
           )
         )
       );
+      //   <div className="stats">
+      //     <h2>Statistics</h2>
+      //   <ul>
+      //     <li># of playlists: {info.playlist_count}</li>
+      //     <li># of favorites: {info.public_favorites_count}</li>
+      //     <li># of followers: {info.followers_count}</li>
+      //     <li># of followings: {info.followings_count}</li>
+      //   </ul>
+      // </div>
     }
 
     return React.createElement(

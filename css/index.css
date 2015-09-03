@@ -148,8 +148,37 @@ div.quit-app:hover {
 
 
 .profile img {
-  border-radius: 15px;
-  width: 25%;
+  border-radius: 10px;
+  width: 20%;
+  margin-left: -25px;
+  float: left;
+}
+
+.profile-info-right {
+  padding-top: 5px;
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.profile-info-right > span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 19px;
+}
+
+.profile-info-right span > a {
+  transition: color 0.7s ease;
+}
+
+.profile-info-right span > a:hover {
+  cursor: pointer;
+  color: #34495e;
+}
+
+.profile-wrapper {
+  border-bottom: 5px solid;
+  padding-bottom: 10px;
+  border-radius: 6px;
 }
 /*.main {
   color: ghostwhite;

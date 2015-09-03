@@ -59,25 +59,27 @@ var Profile = React.createClass({
     } else {
       info = this.state.profile;
       profile = (
-        <div>
-          <span onClick={this.openUserBrowser}>
-            <a>My Account</a>
-          </span>
-          <span>{info.full_name}</span>
-          <span>
+        <div className="profile-wrapper">
+          <div className="profile-info group">
             <img src={info.avatar_url} />
-          </span>
-          <div className="stats">
-            <h2>Statistics</h2>
-          <ul>
-            <li># of playlists: {info.playlist_count}</li>
-            <li># of favorites: {info.public_favorites_count}</li>
-            <li># of followers: {info.followers_count}</li>
-            <li># of followings: {info.followings_count}</li>
-          </ul>
-        </div>
+            <div className="profile-info-right">
+              <span>{info.full_name}</span>
+              <span onClick={this.openUserBrowser}>
+                <a>View My Account</a>
+              </span>
+            </div>
+          </div>
       </div>
       );
+      //   <div className="stats">
+      //     <h2>Statistics</h2>
+      //   <ul>
+      //     <li># of playlists: {info.playlist_count}</li>
+      //     <li># of favorites: {info.public_favorites_count}</li>
+      //     <li># of followers: {info.followers_count}</li>
+      //     <li># of followings: {info.followings_count}</li>
+      //   </ul>
+      // </div>
     }
 
     return (
