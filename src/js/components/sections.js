@@ -27,7 +27,7 @@ var Sections = React.createClass({
   },
 
   goToSearch: function () {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('search');
   },
 
   goToProfile: function () {
