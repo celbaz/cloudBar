@@ -50,17 +50,17 @@ var SoundNotificationStore = Reflux.createStore({
     });
 
     // Play Sound / Show Notification.
-    if (newNotifications && newNotifications.length) {
-      if (playSound) {
-        self.playSound();
-      }
-      if (showNotifications) {
-        this.showNotification(newNotifications.length, response, {
-          full_name: newNotifications[0].repository.full_name,
-          subject: newNotifications[0].subject.title
-        });
-      }
-    }
+    // if (newNotifications && newNotifications.length) {
+    //   if (playSound) {
+    //     self.playSound();
+    //   }
+    //   if (showNotifications) {
+    //     this.showNotification(newNotifications.length, response, {
+    //       full_name: newNotifications[0].repository.full_name,
+    //       subject: newNotifications[0].subject.title
+    //     });
+    //   }
+    // }
 
     // Now Reset the previousNotifications array.
     self._previousNotifications = _.map(response, function (obj) {

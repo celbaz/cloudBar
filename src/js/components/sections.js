@@ -43,7 +43,6 @@ var Sections = React.createClass({
   },
 
   appQuit: function () {
-    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 

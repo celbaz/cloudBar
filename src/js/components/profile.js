@@ -45,7 +45,6 @@ var Profile = React.createClass({
   },
 
   render: function () {
-    window.conso = this;
     var profile, info, errors;
     var profileEmpty = _.isEmpty(this.state.profile);
 

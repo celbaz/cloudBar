@@ -3,18 +3,27 @@ var Reflux = require('reflux');
 var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
 
-var SearchInput = React.createClass({
+var Search = React.createClass({
   mixins: [
-    Reflux.connect(SearchStore, 'searchTerm')
+    Reflux.connect(SearchStore, 'searchResults'),
+    Reflux.listenTo(Actions.getSearchResults.completed, 'completedSearchResults'),
+    Reflux.listenTo(Actions.getSearchResults.failed, 'failedSearchResults')
   ],
 
   onChange: function (event) {
     Actions.updateSearchTerm(event.target.value);
+    // TODO: wait for user to stop typing.
+    this.getSearchResults(event.target.value);
   },
 
   toggleSearch: function (event) {
     this.searchType = event.target.textContent;
+    window.localStorage.setItem('searchtype', this.searchType);
     this.renderField();
+  },
+
+  getSearchResults: function () {
+    Actions.getSearchResults();
   },
 
   clearSearch: function () {
@@ -22,11 +31,11 @@ var SearchInput = React.createClass({
   },
 
   getInitialState: function () {
+    this.searchType = window.localStorage.getItem('searchtype') || 'Tracks'
     return {};
   },
 
   componentDidMount: function () {
-    this.searchType = 'Song';
     this.renderField();
   },
 
@@ -40,6 +49,20 @@ var SearchInput = React.createClass({
         options[i].setAttribute('class', ' ');
       }
     }
+  },
+
+  completedSearchResults: function () {
+    this.setState({
+      loading: false,
+      errors: false
+    });
+  },
+
+  failedSearchResults: function () {
+    this.setState({
+      loading: false,
+      errors: true
+    });
   },
 
   render: function () {
@@ -66,9 +89,9 @@ var SearchInput = React.createClass({
         </div>
         <div className="search-field" onClick={this.toggleSearch}>
           <div id="search-type">
-            <span>Song</span>
-            <span>Artist</span>
-            <span>Playlist</span>
+            <span>Tracks</span>
+            <span>Users</span>
+            <span>Playlists</span>
           </div>
         </div>
         <div className='search-results'>
@@ -79,4 +102,4 @@ var SearchInput = React.createClass({
   }
 });
 
-module.exports = SearchInput;
+module.exports = Search;
