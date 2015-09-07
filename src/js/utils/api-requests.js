@@ -4,8 +4,7 @@ var AuthStore = require('../stores/auth');
 var apiRequests = {
   get: function (url) {
     return request
-      .get(url)
-      .set('Accept', 'application/json');
+      .get(url);
   },
 
   post: function (url, params) {

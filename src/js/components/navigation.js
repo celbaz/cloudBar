@@ -98,8 +98,6 @@ var Navigation = React.createClass({
             {backIcon}
             {refreshIcon}
           </div>
-          <div className='center-section'>
-          </div>
           <div className='right-section'>
             {settingsIcon}
             {logoutIcon}

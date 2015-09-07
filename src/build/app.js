@@ -29262,6 +29262,7 @@ var Actions = Reflux.createActions({
 
   'login': {},
   'logout': {},
+  'getProfile': { asyncResult: true },
   'getNotifications': { asyncResult: true },
   'removeNotification': {},
   'removeRepoNotifications': {},
@@ -29283,6 +29284,7 @@ var Router = require('react-router');
 var AuthStore = require('./stores/auth');
 var Navigation = require('./components/navigation');
 var Footer = require('./components/footer');
+var ProfilePage = require('./components/profile');
 var LoginPage = require('./components/login');
 var NotificationsPage = require('./components/notifications');
 var SettingsPage = require('./components/settings');
@@ -29331,8 +29333,9 @@ var routes = React.createElement(
   Route,
   { handler: App, path: '/' },
   React.createElement(DefaultRoute, { handler: NotificationsPage }),
-  React.createElement(Route, { name: 'login', handler: LoginPage }),
   React.createElement(Route, { name: 'notifications', handler: NotificationsPage }),
+  React.createElement(Route, { name: 'login', handler: LoginPage }),
+  React.createElement(Route, { name: 'profile', handler: ProfilePage }),
   React.createElement(Route, { name: 'settings', handler: SettingsPage }),
   React.createElement(NotFoundRoute, { handler: NotFound })
 );
@@ -29341,14 +29344,14 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":249,"./components/settings":252,"./stores/auth":253,"react":217,"react-router":26}],245:[function(require,module,exports){
+},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":249,"./components/profile":250,"./components/settings":253,"./stores/auth":254,"react":217,"react-router":26}],245:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Reflux = require('reflux');
 var remote = window.require('remote');
 var shell = remote.require('shell');
-var SearchInput = require('./search-input');
+var Sections = require('./sections');
 var AuthStore = require('../stores/auth');
 
 var Footer = React.createClass({
@@ -29357,7 +29360,7 @@ var Footer = React.createClass({
   mixins: [Reflux.connect(AuthStore, 'authStatus')],
 
   openRepoBrowser: function openRepoBrowser() {
-    shell.openExternal('http://www.github.com/ekonstantinidis/gitify');
+    shell.openExternal('http://www.carlelbaz.com');
   },
 
   getInitialState: function getInitialState() {
@@ -29367,34 +29370,29 @@ var Footer = React.createClass({
   },
 
   render: function render() {
+    var content;
+    if (this.state.authStatus) {
+      content = React.createElement(Sections, null);
+    } else {
+      content = React.createElement(
+        'span',
+        { className: 'github-link', onClick: this.openRepoBrowser },
+        'For More Info',
+        React.createElement('i', { className: 'fa fa-github' })
+      );
+    }
+
     return React.createElement(
       'div',
       { className: 'footer' },
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-6' },
-          this.state.authStatus ? React.createElement(SearchInput, null) : undefined
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-6 right' },
-          React.createElement(
-            'span',
-            { className: 'github-link', onClick: this.openRepoBrowser },
-            'For more info / complaints'
-          )
-        )
-      )
+      content
     );
   }
 });
 
 module.exports = Footer;
 
-},{"../stores/auth":253,"./search-input":251,"react":217,"reflux":218}],246:[function(require,module,exports){
+},{"../stores/auth":254,"./sections":252,"react":217,"reflux":218}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29501,7 +29499,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"../actions/actions":243,"../utils/api-requests":258,"react":217}],247:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],247:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29596,7 +29594,6 @@ var Navigation = React.createClass({
           backIcon,
           refreshIcon
         ),
-        React.createElement('div', { className: 'center-section' }),
         React.createElement(
           'div',
           { className: 'right-section' },
@@ -29611,7 +29608,7 @@ var Navigation = React.createClass({
 
 module.exports = Navigation;
 
-},{"../actions/actions":243,"../stores/auth":253,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29705,7 +29702,7 @@ var NotificationItem = React.createClass({
 
 module.exports = NotificationItem;
 
-},{"../actions/actions":243,"../utils/api-requests":258,"react":217}],249:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],249:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29822,14 +29819,130 @@ var Notifications = React.createClass({
     return React.createElement(
       'div',
       null,
-      'HELLO WORLD'
+      'Hi, Carl!'
     );
   }
 });
 
 module.exports = Notifications;
 
-},{"../actions/actions":243,"../components/repository":250,"../stores/notifications":254,"../stores/search":255,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
+},{"../actions/actions":243,"../components/repository":251,"../stores/notifications":255,"../stores/search":257,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Reflux = require('reflux');
+var Loading = require('reloading');
+var _ = require('underscore');
+var remote = window.require('remote');
+var shell = remote.require('shell');
+var Actions = require('../actions/actions');
+var ProfileStore = require('../stores/profile');
+
+var Profile = React.createClass({
+  displayName: 'Profile',
+
+  mixins: [Reflux.connect(ProfileStore, 'profile'), Reflux.listenTo(Actions.getProfile.completed, 'completedProfile'), Reflux.listenTo(Actions.getProfile.failed, 'failedProfile')],
+
+  getInitialState: function getInitialState() {
+    return {
+      loading: true,
+      errors: false
+    };
+  },
+
+  componentWillMount: function componentWillMount() {
+    Actions.getProfile();
+  },
+
+  completedProfile: function completedProfile() {
+    this.setState({
+      loading: false,
+      errors: false
+    });
+  },
+
+  failedProfile: function failedProfile() {
+    this.setState({
+      loading: false,
+      errors: true
+    });
+  },
+
+  openUserBrowser: function openUserBrowser() {
+    shell.openExternal(this.state.profile.permalink_url);
+  },
+
+  render: function render() {
+    window.conso = this;
+    var profile, info, errors;
+    var profileEmpty = _.isEmpty(this.state.profile);
+
+    if (this.state.errors || profileEmpty) {
+      errors = React.createElement(
+        'div',
+        { className: 'profile-error' },
+        React.createElement(
+          'h3',
+          null,
+          'Oops something went wrong.'
+        ),
+        React.createElement(
+          'h4',
+          null,
+          'Couldn\'t get your profile.'
+        )
+      );
+    } else {
+      info = this.state.profile;
+      profile = React.createElement(
+        'div',
+        { className: 'profile-wrapper' },
+        React.createElement(
+          'div',
+          { className: 'profile-info group' },
+          React.createElement('img', { src: info.avatar_url }),
+          React.createElement(
+            'div',
+            { className: 'profile-info-right' },
+            React.createElement(
+              'span',
+              null,
+              info.full_name
+            ),
+            React.createElement(
+              'span',
+              { onClick: this.openUserBrowser },
+              React.createElement(
+                'a',
+                null,
+                'View My Account'
+              )
+            )
+          )
+        )
+      );
+      //   <div className="stats">
+      //     <h2>Statistics</h2>
+      //   <ul>
+      //     <li># of playlists: {info.playlist_count}</li>
+      //     <li># of favorites: {info.public_favorites_count}</li>
+      //     <li># of followers: {info.followers_count}</li>
+      //     <li># of followings: {info.followings_count}</li>
+      //   </ul>
+      // </div>
+    }
+
+    return React.createElement(
+      'div',
+      { className: 'main-container profile' },
+      profile ? profile : errors
+    );
+  }
+});
+
+module.exports = Profile;
+
+},{"../actions/actions":243,"../stores/profile":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29943,55 +30056,73 @@ var Repository = React.createClass({
 
 module.exports = Repository;
 
-},{"../actions/actions":243,"../components/notification":248,"../utils/api-requests":258,"react":217}],251:[function(require,module,exports){
+},{"../actions/actions":243,"../components/notification":248,"../utils/api-requests":260,"react":217}],252:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Reflux = require('reflux');
-var SearchStore = require('../stores/search');
+var Router = require('react-router');
+var ipc = window.require('ipc');
+
 var Actions = require('../actions/actions');
+var AuthStore = require('../stores/auth');
 
-var SearchInput = React.createClass({
-  displayName: 'SearchInput',
+var Sections = React.createClass({
+  displayName: 'Sections',
 
-  mixins: [Reflux.connect(SearchStore, 'searchTerm')],
+  mixins: [Router.State, Reflux.connect(AuthStore, 'authStatus')],
 
-  onChange: function onChange(event) {
-    Actions.updateSearchTerm(event.target.value);
-  },
-
-  clearSearch: function clearSearch() {
-    Actions.clearSearchTerm();
+  contextTypes: {
+    router: React.PropTypes.func
   },
 
   getInitialState: function getInitialState() {
-    return {};
+    return {
+      authStatus: AuthStore.authStatus()
+    };
+  },
+
+  goToHome: function goToHome() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goToSearch: function goToSearch() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goToProfile: function goToProfile() {
+    this.context.router.transitionTo('profile');
+  },
+
+  goToPlayer: function goToPlayer() {
+    this.context.router.transitionTo('settings');
+  },
+
+  goBack: function goBack() {
+    this.context.router.transitionTo('notifications');
+  },
+
+  appQuit: function appQuit() {
+    console.log("CLICKED");
+    ipc.sendChannel('app-quit');
   },
 
   render: function render() {
-    var clearSearchIcon;
-
-    if (this.state.searchTerm) {
-      clearSearchIcon = React.createElement('span', { className: 'octicon octicon-x', onClick: this.clearSearch });
-    }
 
     return React.createElement(
-      'div',
-      { className: 'search-wrapper' },
-      clearSearchIcon,
-      React.createElement('input', {
-        value: this.state.searchTerm,
-        onChange: this.onChange,
-        className: 'search',
-        type: 'text',
-        placeholder: 'Search...' })
+      'span',
+      { className: 'sections' },
+      React.createElement('i', { className: 'fa  fa-tachometer', onClick: this.goToHome }),
+      React.createElement('i', { className: 'fa fa-search', onClick: this.goToSearch }),
+      React.createElement('i', { className: 'fa fa-inbox', onClick: this.goToProfile }),
+      React.createElement('i', { className: 'fa fa-soundcloud', onClick: this.goToPlayer })
     );
   }
 });
 
-module.exports = SearchInput;
+module.exports = Sections;
 
-},{"../actions/actions":243,"../stores/search":255,"react":217,"reflux":218}],252:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],253:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30008,9 +30139,6 @@ var SettingsPage = React.createClass({
   getInitialState: function getInitialState() {
     var settings = SettingsStore.getSettings();
     return {
-      participating: settings.participating,
-      playSound: settings.playSound,
-      showNotifications: settings.showNotifications,
       openAtStartup: settings.openAtStartup
     };
   },
@@ -30026,81 +30154,43 @@ var SettingsPage = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'container-fluid main-container settings' },
+      { className: 'main-container settings' },
       React.createElement(
         'div',
-        { className: 'row' },
+        { className: 'settings-row' },
         React.createElement(
           'div',
-          { className: 'col-xs-8' },
-          'Show only participating'
+          { className: 'toggle-label' },
+          'Features to Come'
         ),
         React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.participating,
-            onChange: this.toggleSetting.bind(this, 'participating') })
+          'ul',
+          null,
+          React.createElement(
+            'li',
+            null,
+            'Auto Open At Computer Startup'
+          ),
+          React.createElement(
+            'li',
+            null,
+            'Spotify Integration'
+          ),
+          React.createElement(
+            'li',
+            null,
+            'UI Redesign'
+          )
         )
       ),
       React.createElement(
         'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Play sound'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.playSound,
-            onChange: this.toggleSetting.bind(this, 'playSound') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Show notifications'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.showNotifications,
-            onChange: this.toggleSetting.bind(this, 'showNotifications') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-8' },
-          'Open at startup'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          React.createElement(Toggle, {
-            defaultChecked: this.state.openAtStartup,
-            onChange: this.toggleSetting.bind(this, 'openAtStartup') })
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'row' },
+        { className: 'quit-app' },
         React.createElement(
           'button',
-          {
-            className: 'btn btn-block btn-danger btn-close',
-            onClick: this.appQuit },
+          { className: '', onClick: this.appQuit },
           React.createElement('i', { className: 'fa fa-power-off' }),
-          'Quit Gitify'
+          'Quit Cloudbar'
         )
       )
     );
@@ -30109,7 +30199,7 @@ var SettingsPage = React.createClass({
 
 module.exports = SettingsPage;
 
-},{"../actions/actions":243,"../stores/settings":256,"react":217,"react-toggle":42}],253:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"react":217,"react-toggle":42}],254:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30141,7 +30231,7 @@ var AuthStore = Reflux.createStore({
 
 module.exports = AuthStore;
 
-},{"../actions/actions":243,"reflux":218}],254:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],255:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30222,7 +30312,63 @@ var NotificationsStore = Reflux.createStore({
 
 module.exports = NotificationsStore;
 
-},{"../actions/actions":243,"../stores/settings":256,"../stores/sound-notification":257,"../utils/api-requests":258,"reflux":218,"underscore":242}],255:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],256:[function(require,module,exports){
+'use strict';
+
+var ipc = window.require('ipc');
+var _ = require('underscore');
+
+var Reflux = require('reflux');
+var Actions = require('../actions/actions');
+var apiRequests = require('../utils/api-requests');
+var SettingsStore = require('../stores/settings');
+
+require('../stores/sound-notification');
+
+var ProfileStore = Reflux.createStore({
+  listenables: Actions,
+
+  init: function init() {
+    this._profile = [];
+  },
+
+  // updateTrayIcon: function (notifications) {
+  //   if (notifications.length > 0) {
+  //     ipc.sendChannel('update-icon', 'TrayActive');
+  //   } else {
+  //     ipc.sendChannel('update-icon', 'TrayIdle');
+  //   }
+  // },
+
+  onGetProfile: function onGetProfile() {
+    var self = this;
+    apiRequests.get('https://api.soundcloud.com/me?oauth_token=' + window.localStorage.getItem('soundcloudtoken')).end(function (err, response) {
+      if (response && response.ok) {
+        // Success - Do Something.
+        Actions.getProfile.completed(response.body);
+        // self.updateTrayIcon(response.body);
+        // Actions.isNewNotification(response.body);
+      } else {
+          // Error - Show messages.
+          Actions.getProfile.failed(err);
+        }
+    });
+  },
+
+  onGetProfileCompleted: function onGetProfileCompleted(profile) {
+    this._profile = profile;
+    this.trigger(this._profile);
+  },
+
+  onGetProfileFailed: function onGetProfileFailed() {
+    this._profile = [];
+    this.trigger(this._profile);
+  }
+});
+
+module.exports = ProfileStore;
+
+},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],257:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30248,7 +30394,7 @@ var SearchStore = Reflux.createStore({
 
 module.exports = SearchStore;
 
-},{"../actions/actions":243,"reflux":218}],256:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],258:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30317,7 +30463,7 @@ var SettingsStore = Reflux.createStore({
 
 module.exports = SettingsStore;
 
-},{"../actions/actions":243,"reflux":218}],257:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],259:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30392,7 +30538,7 @@ var SoundNotificationStore = Reflux.createStore({
 
 module.exports = SoundNotificationStore;
 
-},{"../actions/actions":243,"../stores/settings":256,"reflux":218,"underscore":242}],258:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"reflux":218,"underscore":242}],260:[function(require,module,exports){
 'use strict';
 
 var request = require('superagent');
@@ -30400,7 +30546,7 @@ var AuthStore = require('../stores/auth');
 
 var apiRequests = {
   get: function get(url) {
-    return request.get(url).set('Accept', 'application/json');
+    return request.get(url);
   },
 
   post: function post(url, params) {
@@ -30422,4 +30568,4 @@ var apiRequests = {
 
 module.exports = apiRequests;
 
-},{"../stores/auth":253,"superagent":239}]},{},[244]);
+},{"../stores/auth":254,"superagent":239}]},{},[244]);

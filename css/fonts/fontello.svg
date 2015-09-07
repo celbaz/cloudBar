@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="cloud-flash" unicode="&#xe800;" d="m781 116q-21 0-37 15t-15 37 15 37 37 15q65 0 111 45t46 111-46 110-111 46q-22 0-42-6l-56-16-9 57q-14 75-71 124t-134 50q-86 0-148-62t-61-147q0-14 5-41l14-65-75 2q-40 0-70-30t-30-74q0-43 30-74t75-31q21 0 36-15t15-36-15-37-36-15q-86 0-148 61t-61 147q0 73 44 129t112 73l0 6q0 129 92 221t221 91q101 0 181-57t113-151q113 8 196-69t82-191q0-108-76-184t-184-76z m-227 209l-78-183 157-76-235-210 78 182-156 75z" horiz-adv-x="1041" />
+<glyph glyph-name="cloud" unicode="&#xe801;" d="m781-15l-572 0q-86 0-148 61t-61 148q0 72 44 128t112 73l0 8q0 130 92 221t221 91q100 0 180-58t114-152q115 9 196-68t82-191q0-107-76-184t-184-77z m-577 314q-40 0-70-31t-30-74 30-73 75-31l572 0q65 0 111 46t46 110-46 111-111 46q-18 0-42-8l-56-16-9 57q-14 75-71 125t-134 49q-86 0-148-61t-61-146q0-15 5-43l13-62z" horiz-adv-x="1041" />
+</font>
+</defs>
+</svg>
