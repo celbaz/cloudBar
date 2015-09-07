@@ -29880,7 +29880,7 @@ var Profile = React.createClass({
     if (this.state.errors || profileEmpty) {
       errors = React.createElement(
         'div',
-        null,
+        { className: 'profile-error' },
         React.createElement(
           'h3',
           null,

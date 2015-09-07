@@ -51,7 +51,7 @@ var Profile = React.createClass({
 
     if (this.state.errors || profileEmpty) {
       errors = (
-        <div>
+        <div className="profile-error">
           <h3>Oops something went wrong.</h3>
           <h4>Couldn't get your profile.</h4>
         </div>
