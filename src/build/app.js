@@ -29347,7 +29347,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":248,"./components/profile":249,"./components/search":250,"./components/settings":252,"./stores/auth":253,"react":217,"react-router":26}],245:[function(require,module,exports){
+},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":248,"./components/profile":249,"./components/search":250,"./components/settings":253,"./stores/auth":254,"react":217,"react-router":26}],245:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29395,7 +29395,7 @@ var Footer = React.createClass({
 
 module.exports = Footer;
 
-},{"../stores/auth":253,"./sections":251,"react":217,"reflux":218}],246:[function(require,module,exports){
+},{"../stores/auth":254,"./sections":252,"react":217,"reflux":218}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29502,7 +29502,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"../actions/actions":243,"../utils/api-requests":259,"react":217}],247:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],247:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29610,7 +29610,7 @@ var Navigation = React.createClass({
 
 module.exports = Navigation;
 
-},{"../actions/actions":243,"../stores/auth":253,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29733,7 +29733,7 @@ var Notifications = React.createClass({
 
 module.exports = Notifications;
 
-},{"../actions/actions":243,"../stores/notifications":254,"react":217,"reflux":218,"reloading":238,"underscore":242}],249:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/notifications":255,"react":217,"reflux":218,"reloading":238,"underscore":242}],249:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29848,13 +29848,14 @@ var Profile = React.createClass({
 
 module.exports = Profile;
 
-},{"../actions/actions":243,"../stores/profile":255,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/profile":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Reflux = require('reflux');
 var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
+var SearchItems = require('./searchItems');
 
 var Search = React.createClass({
   displayName: 'Search',
@@ -29864,6 +29865,7 @@ var Search = React.createClass({
   onChange: function onChange(event) {
     Actions.updateSearchTerm(event.target.value);
     // TODO: wait for user to stop typing.
+    this.setState({ query: event.target.value });
     this.getSearchResults(event.target.value);
   },
 
@@ -29882,8 +29884,14 @@ var Search = React.createClass({
   },
 
   getInitialState: function getInitialState() {
-    this.searchType = window.localStorage.getItem('searchtype') || 'Tracks';
-    return {};
+    var startingType = window.localStorage.getItem('searchtype');
+    if (startingType) {
+      this.searchType = startingType;
+    } else {
+      this.searchType = 'Tracks';
+      window.localStorage.setItem('searchtype', this.searchType);
+    }
+    return { query: "" };
   },
 
   componentDidMount: function componentDidMount() {
@@ -29921,7 +29929,7 @@ var Search = React.createClass({
   render: function render() {
     var clearSearchIcon;
 
-    if (this.state.searchTerm) {
+    if (this.state.query !== "") {
       clearSearchIcon = React.createElement(
         'span',
         { className: 'close-search', onClick: this.clearSearch },
@@ -29969,7 +29977,7 @@ var Search = React.createClass({
       React.createElement(
         'div',
         { className: 'search-results' },
-        'Results go here!'
+        React.createElement(SearchItems, { searchResults: this.state.searchResults })
       )
     );
   }
@@ -29977,7 +29985,85 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"../actions/actions":243,"../stores/search":256,"react":217,"reflux":218}],251:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/search":257,"./searchItems":251,"react":217,"reflux":218}],251:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var _ = require('underscore');
+
+var SearchItems = React.createClass({
+  displayName: 'SearchItems',
+
+  getInitialState: function getInitialState() {
+    return {};
+  },
+
+  generateResults: function generateResults() {
+    // TODO: add browser links to website
+    return _.map(this.props.searchResults, function (item) {
+      return React.createElement(
+        'div',
+        { className: 'search-item' },
+        React.createElement('img', { src: item.avatar_url || item.artwork_url }),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'h3',
+            { className: 'song-artist' },
+            item.username || item.user.username
+          ),
+          React.createElement(
+            'p',
+            { className: 'song-title' },
+            item.title
+          ),
+          React.createElement(
+            'span',
+            null,
+            React.createElement(
+              'p',
+              { className: 'song-comments' },
+              item.comment_count
+            ),
+            React.createElement(
+              'p',
+              { className: 'song-likes' },
+              item.likes_count
+            ),
+            React.createElement(
+              'p',
+              { className: 'song-plays' },
+              item.playback_count
+            )
+          )
+        )
+      );
+    });
+  },
+
+  noResults: function noResults() {
+    return React.createElement(
+      'span',
+      null,
+      'Click on the input box above to search.'
+    );
+  },
+
+  render: function render() {
+    var content = Array.isArray(this.props.searchResults) ? this.generateResults() : this.noResults();
+
+    return React.createElement(
+      'div',
+      { className: 'search-items' },
+      content
+    );
+  }
+});
+
+module.exports = SearchItems;
+
+},{"react":217,"underscore":242}],252:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30042,7 +30128,7 @@ var Sections = React.createClass({
 
 module.exports = Sections;
 
-},{"../actions/actions":243,"../stores/auth":253,"react":217,"react-router":26,"reflux":218}],252:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],253:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30119,7 +30205,7 @@ var SettingsPage = React.createClass({
 
 module.exports = SettingsPage;
 
-},{"../actions/actions":243,"../stores/settings":257,"react":217,"react-toggle":42}],253:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"react":217,"react-toggle":42}],254:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30151,7 +30237,7 @@ var AuthStore = Reflux.createStore({
 
 module.exports = AuthStore;
 
-},{"../actions/actions":243,"reflux":218}],254:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],255:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30232,7 +30318,7 @@ var NotificationsStore = Reflux.createStore({
 
 module.exports = NotificationsStore;
 
-},{"../actions/actions":243,"../stores/settings":257,"../stores/sound-notification":258,"../utils/api-requests":259,"reflux":218,"underscore":242}],255:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],256:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30288,7 +30374,7 @@ var ProfileStore = Reflux.createStore({
 
 module.exports = ProfileStore;
 
-},{"../actions/actions":243,"../stores/settings":257,"../stores/sound-notification":258,"../utils/api-requests":259,"reflux":218,"underscore":242}],256:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],257:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30339,7 +30425,6 @@ var SearchStore = Reflux.createStore({
     var self = this;
 
     apiRequests.get('https://api.soundcloud.com/' + self.prepareURL()).end(function (err, response) {
-      window.carl = [err, response];
       if (response && response.ok) {
         // Success - Do Something.
         Actions.getSearchResults.completed(response.body);
@@ -30366,7 +30451,7 @@ var SearchStore = Reflux.createStore({
 
 module.exports = SearchStore;
 
-},{"../actions/actions":243,"../utils/api-requests":259,"reflux":218,"reloading":238}],257:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":260,"reflux":218,"reloading":238}],258:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30435,7 +30520,7 @@ var SettingsStore = Reflux.createStore({
 
 module.exports = SettingsStore;
 
-},{"../actions/actions":243,"reflux":218}],258:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],259:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30510,7 +30595,7 @@ var SoundNotificationStore = Reflux.createStore({
 
 module.exports = SoundNotificationStore;
 
-},{"../actions/actions":243,"../stores/settings":257,"reflux":218,"underscore":242}],259:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":258,"reflux":218,"underscore":242}],260:[function(require,module,exports){
 'use strict';
 
 var request = require('superagent');
@@ -30540,4 +30625,4 @@ var apiRequests = {
 
 module.exports = apiRequests;
 
-},{"../stores/auth":253,"superagent":239}]},{},[244]);
+},{"../stores/auth":254,"superagent":239}]},{},[244]);

@@ -2,6 +2,7 @@ var React = require('react');
 var Reflux = require('reflux');
 var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
+var SearchItems = require('./searchItems');
 
 var Search = React.createClass({
   mixins: [
@@ -13,6 +14,7 @@ var Search = React.createClass({
   onChange: function (event) {
     Actions.updateSearchTerm(event.target.value);
     // TODO: wait for user to stop typing.
+    this.setState({query: event.target.value});
     this.getSearchResults(event.target.value);
   },
 
@@ -31,8 +33,14 @@ var Search = React.createClass({
   },
 
   getInitialState: function () {
-    this.searchType = window.localStorage.getItem('searchtype') || 'Tracks'
-    return {};
+    var startingType = window.localStorage.getItem('searchtype');
+    if(startingType) {
+      this.searchType = startingType;
+    } else {
+      this.searchType = 'Tracks';
+      window.localStorage.setItem('searchtype', this.searchType);
+    }
+    return { query: ""};
   },
 
   componentDidMount: function () {
@@ -68,7 +76,7 @@ var Search = React.createClass({
   render: function () {
     var clearSearchIcon;
 
-    if (this.state.searchTerm) {
+    if (this.state.query !== "") {
       clearSearchIcon = (
         <span className='close-search' onClick={this.clearSearch}>
           <i className="fa fa-times"></i>
@@ -95,7 +103,7 @@ var Search = React.createClass({
           </div>
         </div>
         <div className='search-results'>
-          Results go here!
+          <SearchItems searchResults={this.state.searchResults} />
         </div>
       </div>
     );

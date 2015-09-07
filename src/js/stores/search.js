@@ -48,7 +48,6 @@ var SearchStore = Reflux.createStore({
     apiRequests
       .get('https://api.soundcloud.com/' + self.prepareURL())
       .end(function (err, response) {
-        window.carl = [err, response];
         if (response && response.ok) {
           // Success - Do Something.
           Actions.getSearchResults.completed(response.body);
