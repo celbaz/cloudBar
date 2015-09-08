@@ -11,6 +11,7 @@ var Actions = Reflux.createActions({
   'isNewNotification': {},
   'updateSearchTerm': {},
   'clearSearchTerm': {},
+  'getSearchResults': {asyncResult: true},
   'setSetting': {}
 
 });

@@ -29269,6 +29269,7 @@ var Actions = Reflux.createActions({
   'isNewNotification': {},
   'updateSearchTerm': {},
   'clearSearchTerm': {},
+  'getSearchResults': { asyncResult: true },
   'setSetting': {}
 
 });
@@ -29284,7 +29285,9 @@ var Router = require('react-router');
 var AuthStore = require('./stores/auth');
 var Navigation = require('./components/navigation');
 var Footer = require('./components/footer');
+var PlayerPage = require('./components/player');
 var ProfilePage = require('./components/profile');
+var SearchPage = require('./components/search');
 var LoginPage = require('./components/login');
 var NotificationsPage = require('./components/notifications');
 var SettingsPage = require('./components/settings');
@@ -29336,7 +29339,9 @@ var routes = React.createElement(
   React.createElement(Route, { name: 'notifications', handler: NotificationsPage }),
   React.createElement(Route, { name: 'login', handler: LoginPage }),
   React.createElement(Route, { name: 'profile', handler: ProfilePage }),
+  React.createElement(Route, { name: 'search', handler: SearchPage }),
   React.createElement(Route, { name: 'settings', handler: SettingsPage }),
+  React.createElement(Route, { name: 'player', handler: PlayerPage }),
   React.createElement(NotFoundRoute, { handler: NotFound })
 );
 
@@ -29344,7 +29349,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":249,"./components/profile":250,"./components/settings":253,"./stores/auth":254,"react":217,"react-router":26}],245:[function(require,module,exports){
+},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":248,"./components/player":249,"./components/profile":250,"./components/search":251,"./components/settings":254,"./stores/auth":255,"react":217,"react-router":26}],245:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29392,7 +29397,7 @@ var Footer = React.createClass({
 
 module.exports = Footer;
 
-},{"../stores/auth":254,"./sections":252,"react":217,"reflux":218}],246:[function(require,module,exports){
+},{"../stores/auth":255,"./sections":253,"react":217,"reflux":218}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29499,7 +29504,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],247:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"react":217}],247:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29562,7 +29567,6 @@ var Navigation = React.createClass({
   },
 
   appQuit: function appQuit() {
-    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 
@@ -29608,101 +29612,7 @@ var Navigation = React.createClass({
 
 module.exports = Navigation;
 
-},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var remote = window.require('remote');
-var shell = remote.require('shell');
-
-var Actions = require('../actions/actions');
-var apiRequests = require('../utils/api-requests');
-
-var NotificationItem = React.createClass({
-  displayName: 'NotificationItem',
-
-  getInitialState: function getInitialState() {
-    return {
-      isRead: this.props.isRead
-    };
-  },
-
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.setState({
-      isRead: nextProps.isRead
-    });
-  },
-
-  openBrowser: function openBrowser() {
-    var url = this.props.notification.subject.url.replace('api.github.com/repos', 'www.github.com');
-    if (url.indexOf('/pulls/') != -1) {
-      url = url.replace('/pulls/', '/pull/');
-    }
-    shell.openExternal(url);
-  },
-
-  markAsRead: function markAsRead() {
-    var self = this;
-
-    if (this.state.read) {
-      return;
-    }
-
-    apiRequests.patchAuth('https://api.github.com/notifications/threads/' + this.props.notification.id).end(function (err, response) {
-      if (response && response.ok) {
-        // Notification Read
-        self.setState({
-          isRead: true
-        });
-        Actions.removeNotification(self.props.notification);
-      } else {
-        // Error - Show messages.
-        // Show appropriate message
-        self.setState({
-          isRead: false
-        });
-      }
-    });
-  },
-
-  render: function render() {
-    var typeIconClass;
-
-    if (this.props.notification.subject.type == 'Issue') {
-      typeIconClass = 'octicon octicon-issue-opened';
-    } else if (this.props.notification.subject.type == 'PullRequest') {
-      typeIconClass = 'octicon octicon-git-pull-request';
-    } else if (this.props.notification.subject.type == 'Commit') {
-      typeIconClass = 'octicon octicon-git-commit';
-    } else {
-      typeIconClass = 'octicon octicon-question';
-    }
-
-    return React.createElement(
-      'div',
-      { className: this.state.isRead ? 'row notification read' : 'row notification' },
-      React.createElement(
-        'div',
-        { className: 'col-xs-1' },
-        React.createElement('span', { className: typeIconClass })
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-xs-10 subject', onClick: this.openBrowser },
-        this.props.notification.subject.title
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-xs-1 check-wrapper' },
-        React.createElement('span', { className: 'octicon octicon-check', onClick: this.markAsRead })
-      )
-    );
-  }
-});
-
-module.exports = NotificationItem;
-
-},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],249:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":255,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29712,8 +29622,8 @@ var _ = require('underscore');
 
 var Actions = require('../actions/actions');
 var NotificationsStore = require('../stores/notifications');
-var SearchStore = require('../stores/search');
-var Repository = require('../components/repository');
+// var SearchStore = require('../stores/search');
+// var Repository = require('../components/repository');
 
 var Notifications = React.createClass({
   displayName: 'Notifications',
@@ -29762,7 +29672,6 @@ var Notifications = React.createClass({
   },
 
   render: function render() {
-    console.log("Notif");
     // var notifications, errors;
     // var wrapperClass = 'container-fluid main-container notifications';
     // var notificationsEmpty = _.isEmpty(this.state.notifications);
@@ -29826,7 +29735,43 @@ var Notifications = React.createClass({
 
 module.exports = Notifications;
 
-},{"../actions/actions":243,"../components/repository":251,"../stores/notifications":255,"../stores/search":257,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/notifications":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],249:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Reflux = require('reflux');
+// var shell = remote.require('shell');
+
+var AudioPlayer = React.createClass({
+  displayName: 'AudioPlayer',
+
+  getInitialState: function getInitialState() {
+    var song = localStorage.getItem('currentsong');
+    song = song || "https://api.soundcloud.com/tracks/199564903/stream";
+    return { stream: song };
+  },
+
+  componentDidMount: function componentDidMount() {
+    audiojs.events.ready(function () {
+      var as = audiojs.createAll();
+    });
+  },
+
+  render: function render() {
+    var stream = this.state.stream + "?oauth_token=" + localStorage.getItem('soundcloudtoken');
+
+    return React.createElement(
+      'div',
+      { className: 'main-container' },
+      React.createElement('audio', { src: stream, preload: 'auto' })
+    );
+  }
+});
+
+module.exports = AudioPlayer;
+// html
+
+},{"react":217,"reflux":218}],250:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29873,7 +29818,6 @@ var Profile = React.createClass({
   },
 
   render: function render() {
-    window.conso = this;
     var profile, info, errors;
     var profileEmpty = _.isEmpty(this.state.profile);
 
@@ -29942,121 +29886,241 @@ var Profile = React.createClass({
 
 module.exports = Profile;
 
-},{"../actions/actions":243,"../stores/profile":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/profile":257,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
-var remote = window.require('remote');
-var shell = remote.require('shell');
-
-var SingleNotification = require('../components/notification');
+var Reflux = require('reflux');
+var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
-var apiRequests = require('../utils/api-requests');
+var SearchItems = require('./searchItems');
 
-var Repository = React.createClass({
-  displayName: 'Repository',
+var Search = React.createClass({
+  displayName: 'Search',
+
+  mixins: [Reflux.connect(SearchStore, 'searchResults'), Reflux.listenTo(Actions.getSearchResults.completed, 'completedSearchResults'), Reflux.listenTo(Actions.getSearchResults.failed, 'failedSearchResults')],
+
+  onChange: function onChange(event) {
+    Actions.updateSearchTerm(event.target.value);
+    // TODO: wait for user to stop typing.
+    this.setState({ query: event.target.value });
+    this.getSearchResults(event.target.value);
+  },
+
+  toggleSearch: function toggleSearch(event) {
+    this.searchType = event.target.textContent;
+    window.localStorage.setItem('searchtype', this.searchType);
+    this.renderField();
+  },
+
+  getSearchResults: function getSearchResults() {
+    Actions.getSearchResults();
+  },
+
+  clearSearch: function clearSearch() {
+    document.getElementsByClassName('search-bar')[0].firstChild.value = "";
+    this.setState({ query: "" });
+    Actions.clearSearchTerm();
+  },
 
   getInitialState: function getInitialState() {
-    return {
-      isRead: false,
-      errors: false
-    };
+    var startingType = window.localStorage.getItem('searchtype');
+    if (startingType) {
+      this.searchType = startingType;
+    } else {
+      this.searchType = 'Tracks';
+      window.localStorage.setItem('searchtype', this.searchType);
+    }
+    return { query: "" };
   },
 
-  getAvatar: function getAvatar() {
-    return this.props.repo[0].repository.owner.avatar_url;
+  componentDidMount: function componentDidMount() {
+    this.renderField();
   },
 
-  openBrowser: function openBrowser() {
-    var url = this.props.repo[0].repository.html_url;
-    shell.openExternal(url);
-  },
+  renderField: function renderField() {
+    var i,
+        len,
+        options = document.getElementById('search-type').childNodes;
 
-  markRepoAsRead: function markRepoAsRead() {
-    var self = this;
-    var loginId = this.props.repo[0].repository.owner.login;
-    var repoId = this.props.repo[0].repository.name;
-    var fullName = this.props.repo[0].repository.full_name;
-
-    apiRequests.putAuth('https://api.github.com/repos/' + loginId + '/' + repoId + '/notifications', {}).end(function (err, response) {
-      if (response && response.ok) {
-        // Notification Read
-        self.setState({
-          isRead: true,
-          errors: false
-        });
-
-        Actions.removeRepoNotifications(fullName);
+    for (i = 0, len = options.length; i < len; i++) {
+      if (options[i].textContent === this.searchType) {
+        options[i].setAttribute('class', 'active-field');
       } else {
-        self.setState({
-          isRead: false,
-          errors: true
-        });
+        options[i].setAttribute('class', ' ');
       }
+    }
+  },
+
+  completedSearchResults: function completedSearchResults() {
+    this.setState({
+      loading: false,
+      errors: false
+    });
+  },
+
+  failedSearchResults: function failedSearchResults() {
+    this.setState({
+      loading: false,
+      errors: true
     });
   },
 
   render: function render() {
-    var self = this;
-    var organisationName, repositoryName;
+    var clearSearchIcon;
 
-    if (typeof this.props.repoName === 'string') {
-      var splitName = this.props.repoName.split('/');
-      organisationName = splitName[0];
-      repositoryName = splitName[1];
+    if (this.state.query !== "") {
+      clearSearchIcon = React.createElement(
+        'span',
+        { className: 'close-search', onClick: this.clearSearch },
+        React.createElement('i', { className: 'fa fa-times' })
+      );
     }
 
     return React.createElement(
       'div',
-      null,
+      { className: 'main-container search' },
       React.createElement(
         'div',
-        { className: this.state.isRead ? 'row repository read' : 'row repository' },
+        { className: 'search-bar' },
+        React.createElement('input', {
+          value: this.state.searchTerm,
+          onChange: this.onChange,
+          className: 'search',
+          type: 'text',
+          placeholder: 'Search...' }),
+        clearSearchIcon
+      ),
+      React.createElement(
+        'div',
+        { className: 'search-field', onClick: this.toggleSearch },
         React.createElement(
           'div',
-          { className: 'col-xs-2' },
-          React.createElement('img', { className: 'avatar', src: this.getAvatar() })
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-9 name', onClick: this.openBrowser },
+          { id: 'search-type' },
           React.createElement(
             'span',
             null,
-            '/' + repositoryName
+            'Tracks'
           ),
           React.createElement(
             'span',
             null,
-            organisationName
+            'Users'
+          ),
+          React.createElement(
+            'span',
+            null,
+            'Playlists'
           )
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-1 check-wrapper' },
-          React.createElement('span', { className: 'octicon octicon-check', onClick: this.markRepoAsRead })
         )
       ),
-      this.state.errors ? React.createElement(
+      React.createElement(
         'div',
-        { className: 'alert alert-danger' },
-        React.createElement(
-          'strong',
-          null,
-          'Oops!'
-        ),
-        ' We couldn\'t mark this repo as read.'
-      ) : null,
-      this.props.repo.map(function (obj) {
-        return React.createElement(SingleNotification, { isRead: self.state.isRead, notification: obj, key: obj.id });
-      })
+        { className: 'search-results' },
+        React.createElement(SearchItems, { searchResults: this.state.searchResults })
+      )
     );
   }
 });
 
-module.exports = Repository;
+module.exports = Search;
 
-},{"../actions/actions":243,"../components/notification":248,"../utils/api-requests":260,"react":217}],252:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/search":258,"./searchItems":252,"react":217,"reflux":218}],252:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var _ = require('underscore');
+var Router = require('react-router');
+var SearchItems = React.createClass({
+  displayName: 'SearchItems',
+
+  getInitialState: function getInitialState() {
+    return {};
+  },
+
+  mixins: [Router.State],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  playSong: function playSong(event) {
+    var stream_url = event.target.attributes.getNamedItem('data-stream').value;
+    window.localStorage.setItem('currentsong', stream_url);
+    console.log(window.localStorage.getItem('currentsong'));
+    this.context.router.transitionTo('player'); //playstream
+  },
+
+  generateResults: function generateResults() {
+    // TODO: add browser links to website
+    var self = this;
+    return _.map(this.props.searchResults, function (item) {
+      return React.createElement(
+        'div',
+        { key: item.id, className: 'search-item group' },
+        React.createElement('img', {
+          src: item.avatar_url || item.artwork_url,
+          onClick: self.playSong,
+          'data-stream': item.stream_url }),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'h3',
+            { className: 'song-artist' },
+            item.username || item.user.username
+          ),
+          React.createElement(
+            'p',
+            { className: 'song-title' },
+            item.title
+          ),
+          React.createElement(
+            'span',
+            null,
+            React.createElement(
+              'p',
+              { className: 'song-comments' },
+              item.comment_count
+            ),
+            React.createElement(
+              'p',
+              { className: 'song-likes' },
+              item.likes_count
+            ),
+            React.createElement(
+              'p',
+              { className: 'song-plays' },
+              item.playback_count
+            )
+          )
+        )
+      );
+    });
+  },
+
+  noResults: function noResults() {
+    return React.createElement(
+      'span',
+      { className: 'search-init' },
+      'Click on the input box above to search.'
+    );
+  },
+
+  render: function render() {
+    var content = Array.isArray(this.props.searchResults) ? this.generateResults() : this.noResults();
+
+    return React.createElement(
+      'div',
+      { className: 'search-items' },
+      content
+    );
+  }
+});
+
+module.exports = SearchItems;
+
+},{"react":217,"react-router":26,"underscore":242}],253:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30087,7 +30151,7 @@ var Sections = React.createClass({
   },
 
   goToSearch: function goToSearch() {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('search');
   },
 
   goToProfile: function goToProfile() {
@@ -30095,7 +30159,7 @@ var Sections = React.createClass({
   },
 
   goToPlayer: function goToPlayer() {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('player');
   },
 
   goBack: function goBack() {
@@ -30103,7 +30167,6 @@ var Sections = React.createClass({
   },
 
   appQuit: function appQuit() {
-    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 
@@ -30122,7 +30185,7 @@ var Sections = React.createClass({
 
 module.exports = Sections;
 
-},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],253:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":255,"react":217,"react-router":26,"reflux":218}],254:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30199,7 +30262,7 @@ var SettingsPage = React.createClass({
 
 module.exports = SettingsPage;
 
-},{"../actions/actions":243,"../stores/settings":258,"react":217,"react-toggle":42}],254:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"react":217,"react-toggle":42}],255:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30231,7 +30294,7 @@ var AuthStore = Reflux.createStore({
 
 module.exports = AuthStore;
 
-},{"../actions/actions":243,"reflux":218}],255:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],256:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30312,7 +30375,7 @@ var NotificationsStore = Reflux.createStore({
 
 module.exports = NotificationsStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],256:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"../stores/sound-notification":260,"../utils/api-requests":261,"reflux":218,"underscore":242}],257:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30368,14 +30431,29 @@ var ProfileStore = Reflux.createStore({
 
 module.exports = ProfileStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],257:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"../stores/sound-notification":260,"../utils/api-requests":261,"reflux":218,"underscore":242}],258:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
+var Loading = require('reloading');
+var apiRequests = require('../utils/api-requests');
+var ipc = window.require('ipc');
 
 var SearchStore = Reflux.createStore({
   listenables: Actions,
+
+  init: function init() {
+    this._searchResults = [];
+  },
+
+  updateTrayIcon: function updateTrayIcon(searchResults) {
+    if (searchResults.length > 0) {
+      ipc.sendChannel('update-icon', 'TrayActive');
+    } else {
+      ipc.sendChannel('update-icon', 'TrayIdle');
+    }
+  },
 
   onUpdateSearchTerm: function onUpdateSearchTerm(searchTerm) {
     this._searchTerm = searchTerm;
@@ -30389,12 +30467,48 @@ var SearchStore = Reflux.createStore({
 
   searchTerm: function searchTerm() {
     return this._searchTerm;
+  },
+
+  prepareURL: function prepareURL() {
+    var creds, query, fieldType;
+    creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
+    fieldType = window.localStorage.getItem('searchtype').toLowerCase();
+    query = '&q=' + this._searchTerm + '&limit=10';
+
+    return fieldType + creds + query;
+  },
+
+  onGetSearchResults: function onGetSearchResults() {
+    var self = this;
+
+    apiRequests.get('https://api.soundcloud.com/' + self.prepareURL()).end(function (err, response) {
+      if (response && response.ok) {
+        // Success - Do Something.
+        Actions.getSearchResults.completed(response.body);
+        self.updateTrayIcon(response.body);
+        Actions.isNewNotification(response.body);
+      } else {
+        // Error - Show messages.
+        Actions.getSearchResults.failed(err);
+      }
+    });
+  },
+
+  onGetSearchResultsCompleted: function onGetSearchResultsCompleted(searchResults) {
+    this._searchResults = searchResults;
+    this.trigger(this._searchResults);
+  },
+
+  onGetSearchResultsFailed: function onGetSearchResultsFailed() {
+    this._searchResults = [];
+    this.trigger(this._searchResults);
   }
+
 });
 
 module.exports = SearchStore;
 
-},{"../actions/actions":243,"reflux":218}],258:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"reflux":218,"reloading":238}],259:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30463,7 +30577,7 @@ var SettingsStore = Reflux.createStore({
 
 module.exports = SettingsStore;
 
-},{"../actions/actions":243,"reflux":218}],259:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],260:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30516,17 +30630,17 @@ var SoundNotificationStore = Reflux.createStore({
     });
 
     // Play Sound / Show Notification.
-    if (newNotifications && newNotifications.length) {
-      if (playSound) {
-        self.playSound();
-      }
-      if (showNotifications) {
-        this.showNotification(newNotifications.length, response, {
-          full_name: newNotifications[0].repository.full_name,
-          subject: newNotifications[0].subject.title
-        });
-      }
-    }
+    // if (newNotifications && newNotifications.length) {
+    //   if (playSound) {
+    //     self.playSound();
+    //   }
+    //   if (showNotifications) {
+    //     this.showNotification(newNotifications.length, response, {
+    //       full_name: newNotifications[0].repository.full_name,
+    //       subject: newNotifications[0].subject.title
+    //     });
+    //   }
+    // }
 
     // Now Reset the previousNotifications array.
     self._previousNotifications = _.map(response, function (obj) {
@@ -30538,7 +30652,7 @@ var SoundNotificationStore = Reflux.createStore({
 
 module.exports = SoundNotificationStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"reflux":218,"underscore":242}],260:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"reflux":218,"underscore":242}],261:[function(require,module,exports){
 'use strict';
 
 var request = require('superagent');
@@ -30568,4 +30682,4 @@ var apiRequests = {
 
 module.exports = apiRequests;
 
-},{"../stores/auth":254,"superagent":239}]},{},[244]);
+},{"../stores/auth":255,"superagent":239}]},{},[244]);

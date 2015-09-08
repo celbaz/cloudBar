@@ -5,8 +5,8 @@ var _ = require('underscore');
 
 var Actions = require('../actions/actions');
 var NotificationsStore = require('../stores/notifications');
-var SearchStore = require('../stores/search');
-var Repository = require('../components/repository');
+// var SearchStore = require('../stores/search');
+// var Repository = require('../components/repository');
 
 var Notifications = React.createClass({
   areIn: function (repoFullName, searchTerm) {
@@ -53,7 +53,6 @@ var Notifications = React.createClass({
   },
 
   render: function () {
-    console.log("Notif")
     // var notifications, errors;
     // var wrapperClass = 'container-fluid main-container notifications';
     // var notificationsEmpty = _.isEmpty(this.state.notifications);

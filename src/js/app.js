@@ -4,7 +4,9 @@ var Router = require('react-router');
 var AuthStore = require('./stores/auth');
 var Navigation = require('./components/navigation');
 var Footer = require('./components/footer');
+var PlayerPage = require('./components/player');
 var ProfilePage = require('./components/profile');
+var SearchPage = require('./components/search');
 var LoginPage = require('./components/login');
 var NotificationsPage = require('./components/notifications');
 var SettingsPage = require('./components/settings');
@@ -47,7 +49,9 @@ var routes = (
     <Route name="notifications" handler={NotificationsPage}/>
     <Route name="login" handler={LoginPage}/>
     <Route name="profile" handler={ProfilePage}/>
+    <Route name="search" handler={SearchPage}/>
     <Route name="settings" handler={SettingsPage}/>
+    <Route name="player" handler={PlayerPage} />
     <NotFoundRoute handler={NotFound}/>
   </Route>
 );

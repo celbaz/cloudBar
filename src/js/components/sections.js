@@ -27,7 +27,7 @@ var Sections = React.createClass({
   },
 
   goToSearch: function () {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('search');
   },
 
   goToProfile: function () {
@@ -35,7 +35,7 @@ var Sections = React.createClass({
   },
 
   goToPlayer: function () {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('player');
   },
 
   goBack: function () {
@@ -43,7 +43,6 @@ var Sections = React.createClass({
   },
 
   appQuit: function () {
-    console.log("CLICKED");
     ipc.sendChannel('app-quit');
   },
 
