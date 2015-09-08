@@ -35,7 +35,7 @@ var Sections = React.createClass({
   },
 
   goToPlayer: function () {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('player');
   },
 
   goBack: function () {

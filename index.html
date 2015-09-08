@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/reset.css" rel="stylesheet">
+    <link href="css/settings.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/fontello.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
@@ -14,7 +15,7 @@
   <body>
       <div id="app"></div>
   </body>
-
+  <script src="audioplayer/audio.min.js"></script>
   <script type="text/javascript" src="src/build/app.js"></script>
 
   <script type="text/javascript">
@@ -23,6 +24,10 @@
       if(e.deltaY % 1 !== 0) {
         e.preventDefault();
       }
+    });
+
+    audiojs.events.ready(function() {
+    var as = audiojs.createAll();
     });
   </script>
 </html>

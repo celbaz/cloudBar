@@ -29285,6 +29285,7 @@ var Router = require('react-router');
 var AuthStore = require('./stores/auth');
 var Navigation = require('./components/navigation');
 var Footer = require('./components/footer');
+var PlayerPage = require('./components/player');
 var ProfilePage = require('./components/profile');
 var SearchPage = require('./components/search');
 var LoginPage = require('./components/login');
@@ -29340,6 +29341,7 @@ var routes = React.createElement(
   React.createElement(Route, { name: 'profile', handler: ProfilePage }),
   React.createElement(Route, { name: 'search', handler: SearchPage }),
   React.createElement(Route, { name: 'settings', handler: SettingsPage }),
+  React.createElement(Route, { name: 'player', handler: PlayerPage }),
   React.createElement(NotFoundRoute, { handler: NotFound })
 );
 
@@ -29347,7 +29349,7 @@ Router.run(routes, function (Handler) {
   React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":248,"./components/profile":249,"./components/search":250,"./components/settings":253,"./stores/auth":254,"react":217,"react-router":26}],245:[function(require,module,exports){
+},{"./components/footer":245,"./components/login":246,"./components/navigation":247,"./components/notifications":248,"./components/player":249,"./components/profile":250,"./components/search":251,"./components/settings":254,"./stores/auth":255,"react":217,"react-router":26}],245:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29395,7 +29397,7 @@ var Footer = React.createClass({
 
 module.exports = Footer;
 
-},{"../stores/auth":254,"./sections":252,"react":217,"reflux":218}],246:[function(require,module,exports){
+},{"../stores/auth":255,"./sections":253,"react":217,"reflux":218}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29502,7 +29504,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],247:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"react":217}],247:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29610,7 +29612,7 @@ var Navigation = React.createClass({
 
 module.exports = Navigation;
 
-},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":255,"react":217,"react-router":26,"reflux":218}],248:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29733,7 +29735,43 @@ var Notifications = React.createClass({
 
 module.exports = Notifications;
 
-},{"../actions/actions":243,"../stores/notifications":255,"react":217,"reflux":218,"reloading":238,"underscore":242}],249:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/notifications":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],249:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Reflux = require('reflux');
+// var shell = remote.require('shell');
+
+var AudioPlayer = React.createClass({
+  displayName: 'AudioPlayer',
+
+  getInitialState: function getInitialState() {
+    var song = localStorage.getItem('currentsong');
+    song = song || "https://api.soundcloud.com/tracks/199564903/stream";
+    return { stream: song };
+  },
+
+  componentDidMount: function componentDidMount() {
+    audiojs.events.ready(function () {
+      var as = audiojs.createAll();
+    });
+  },
+
+  render: function render() {
+    var stream = this.state.stream + "?oauth_token=" + localStorage.getItem('soundcloudtoken');
+
+    return React.createElement(
+      'div',
+      { className: 'main-container' },
+      React.createElement('audio', { src: stream, preload: 'auto' })
+    );
+  }
+});
+
+module.exports = AudioPlayer;
+// html
+
+},{"react":217,"reflux":218}],250:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29848,7 +29886,7 @@ var Profile = React.createClass({
 
 module.exports = Profile;
 
-},{"../actions/actions":243,"../stores/profile":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],250:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/profile":257,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29880,6 +29918,8 @@ var Search = React.createClass({
   },
 
   clearSearch: function clearSearch() {
+    document.getElementsByClassName('search-bar')[0].firstChild.value = "";
+    this.setState({ query: "" });
     Actions.clearSearchTerm();
   },
 
@@ -29985,12 +30025,12 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"../actions/actions":243,"../stores/search":257,"./searchItems":251,"react":217,"reflux":218}],251:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/search":258,"./searchItems":252,"react":217,"reflux":218}],252:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var _ = require('underscore');
-
+var Router = require('react-router');
 var SearchItems = React.createClass({
   displayName: 'SearchItems',
 
@@ -29998,13 +30038,30 @@ var SearchItems = React.createClass({
     return {};
   },
 
+  mixins: [Router.State],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  playSong: function playSong(event) {
+    var stream_url = event.target.attributes.getNamedItem('data-stream').value;
+    window.localStorage.setItem('currentsong', stream_url);
+    console.log(window.localStorage.getItem('currentsong'));
+    this.context.router.transitionTo('player'); //playstream
+  },
+
   generateResults: function generateResults() {
     // TODO: add browser links to website
+    var self = this;
     return _.map(this.props.searchResults, function (item) {
       return React.createElement(
         'div',
-        { className: 'search-item' },
-        React.createElement('img', { src: item.avatar_url || item.artwork_url }),
+        { key: item.id, className: 'search-item group' },
+        React.createElement('img', {
+          src: item.avatar_url || item.artwork_url,
+          onClick: self.playSong,
+          'data-stream': item.stream_url }),
         React.createElement(
           'div',
           null,
@@ -30045,7 +30102,7 @@ var SearchItems = React.createClass({
   noResults: function noResults() {
     return React.createElement(
       'span',
-      null,
+      { className: 'search-init' },
       'Click on the input box above to search.'
     );
   },
@@ -30063,7 +30120,7 @@ var SearchItems = React.createClass({
 
 module.exports = SearchItems;
 
-},{"react":217,"underscore":242}],252:[function(require,module,exports){
+},{"react":217,"react-router":26,"underscore":242}],253:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30102,7 +30159,7 @@ var Sections = React.createClass({
   },
 
   goToPlayer: function goToPlayer() {
-    this.context.router.transitionTo('settings');
+    this.context.router.transitionTo('player');
   },
 
   goBack: function goBack() {
@@ -30128,7 +30185,7 @@ var Sections = React.createClass({
 
 module.exports = Sections;
 
-},{"../actions/actions":243,"../stores/auth":254,"react":217,"react-router":26,"reflux":218}],253:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/auth":255,"react":217,"react-router":26,"reflux":218}],254:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30205,7 +30262,7 @@ var SettingsPage = React.createClass({
 
 module.exports = SettingsPage;
 
-},{"../actions/actions":243,"../stores/settings":258,"react":217,"react-toggle":42}],254:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"react":217,"react-toggle":42}],255:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30237,7 +30294,7 @@ var AuthStore = Reflux.createStore({
 
 module.exports = AuthStore;
 
-},{"../actions/actions":243,"reflux":218}],255:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],256:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30318,7 +30375,7 @@ var NotificationsStore = Reflux.createStore({
 
 module.exports = NotificationsStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],256:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"../stores/sound-notification":260,"../utils/api-requests":261,"reflux":218,"underscore":242}],257:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30374,7 +30431,7 @@ var ProfileStore = Reflux.createStore({
 
 module.exports = ProfileStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],257:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"../stores/sound-notification":260,"../utils/api-requests":261,"reflux":218,"underscore":242}],258:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30451,7 +30508,7 @@ var SearchStore = Reflux.createStore({
 
 module.exports = SearchStore;
 
-},{"../actions/actions":243,"../utils/api-requests":260,"reflux":218,"reloading":238}],258:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"reflux":218,"reloading":238}],259:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30520,7 +30577,7 @@ var SettingsStore = Reflux.createStore({
 
 module.exports = SettingsStore;
 
-},{"../actions/actions":243,"reflux":218}],259:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],260:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30595,7 +30652,7 @@ var SoundNotificationStore = Reflux.createStore({
 
 module.exports = SoundNotificationStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"reflux":218,"underscore":242}],260:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"reflux":218,"underscore":242}],261:[function(require,module,exports){
 'use strict';
 
 var request = require('superagent');
@@ -30625,4 +30682,4 @@ var apiRequests = {
 
 module.exports = apiRequests;
 
-},{"../stores/auth":254,"superagent":239}]},{},[244]);
+},{"../stores/auth":255,"superagent":239}]},{},[244]);

@@ -13,7 +13,7 @@ var Search = React.createClass({
 
   onChange: function (event) {
     Actions.updateSearchTerm(event.target.value);
-    // TODO: wait for user to stop typing.
+    // TODO: set timout and wait for user to stop typing.
     this.setState({query: event.target.value});
     this.getSearchResults(event.target.value);
   },
@@ -29,6 +29,8 @@ var Search = React.createClass({
   },
 
   clearSearch: function () {
+    document.getElementsByClassName('search-bar')[0].firstChild.value = "";
+    this.setState({query: ""});
     Actions.clearSearchTerm();
   },
 
