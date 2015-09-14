@@ -33,7 +33,6 @@ var ProfileStore = Reflux.createStore({
           // Success - Do Something.
           Actions.getProfile.completed(response.body);
           // self.updateTrayIcon(response.body);
-          // Actions.isNewNotification(response.body);
         } else {
           // Error - Show messages.
           Actions.getProfile.failed(err);

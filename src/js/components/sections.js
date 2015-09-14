@@ -39,7 +39,7 @@ var Sections = React.createClass({
   },
 
   goBack: function () {
-    this.context.router.transitionTo('notifications');
+    this.context.router.transitionTo('search');
   },
 
   appQuit: function () {
