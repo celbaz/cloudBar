@@ -13,8 +13,8 @@ span, footer {
   background: transparent;
 }
 
-input {
-  display: block;
+input, button {
+  display: inline-block;
   outline: none;
   width: auto;
   color: inherit;

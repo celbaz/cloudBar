@@ -276,7 +276,6 @@ div.quit-app:hover {
   padding: 15px; /* TODO: compact for more results? */
   background: #ebebeb;
   border-radius: 2px;
-  cursor: pointer;
 }
 
 .search-item:hover {
@@ -286,6 +285,7 @@ div.quit-app:hover {
 }
 
 .search-item > figure {
+  position: relative;
   float: left;
   width: 45px;
   height: 45px;
@@ -313,23 +313,78 @@ div.quit-app:hover {
   font-weight: 700;
 }
 
-.track-info > .meta {
+/* Results metadata */
+.track-info .options-wrapper {
+  position: relative;
+  width: 100%;
+  height: 15px;
   margin-top: 5px;
   font-size: 10px;
+  overflow: hidden;
+}
+
+.track-info .meta {
+  position: absolute;
+  top: 0;
+  transition: top 0.5s;
+
   color: #aaa;
 }
 
-.track-info > .meta > li {
+.track-info .meta > li {
   float: left;
-  margin-right: 5px;
-}
-
-.search-item:hover .meta > li {
-  color: #ff6e40;
+  margin: 1px 5px 0 0;
 }
 
 .track-info i:before {
   margin-left: 0;
+}
+
+.play-options {
+  position: absolute;
+  top: 15px;
+  transition: top 0.5s;
+}
+
+.search-item:hover .options-wrapper {
+  color: #ff6e40;
+}
+
+.search-item:hover .track-info .meta {
+  top: -15px;
+}
+
+.search-item:hover .play-options {
+  top: 0;
+}
+
+.play-options > button {
+  padding: 0 2px;
+  border: 1px solid #ff6e40;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.play-options > button:before {
+  margin: 0;
+  margin-right: 1px;
+}
+
+.play-options > button:hover {
+  color: #fff;
+  background: #ff6e40;
+}
+
+.play-options > .play-button {
+  margin-right: 5px;
+}
+
+.play-options > .add-button {
+
+}
+
+.play-options > .add-button:before {
+  content: "+";
 }
 
 /* Playlist result */

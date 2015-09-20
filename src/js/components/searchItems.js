@@ -62,22 +62,29 @@ var SearchItems = React.createClass({
               {item.username || item.user.username}
             </h4>
 
-            <ul className="meta group">
-              <li className="song-plays">
-                <i className="icon-play" />
-                {item.playback_count || 0}
-              </li>
+            <div className="options-wrapper">
+              <ul className="meta group">
+                <li className="song-plays">
+                  <i className="icon-play" />
+                  {item.playback_count || 0}
+                </li>
 
-              <li className="song-likes">
-                <i className="icon-heart" />
-                {item.likes_count || 0}
-              </li>
+                <li className="song-likes">
+                  <i className="icon-heart" />
+                  {item.likes_count || 0}
+                </li>
 
-              <li className="song-length">
-                <i className="icon-clock" />
-                {convertMsToMin(item.duration)}
-              </li>
-            </ul>
+                <li className="song-length">
+                  <i className="icon-clock" />
+                  {convertMsToMin(item.duration)}
+                </li>
+              </ul>
+
+              <div className="play-options">
+                <button className="play-button icon-play">Play Track</button>
+                <button className="add-button">Add to Queue</button>
+              </div>
+            </div>
           </article>
         </li>
       );
