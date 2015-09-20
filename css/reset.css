@@ -1,8 +1,6 @@
-html, body, header, nav, h1, a,
-ul, li, strong, main, button, i,
-section, div, h2, h3, p, form,
-fieldset, label,
-span, footer, button {
+html, body, main, form, fieldset, label, input, button, ul, li, nav, section,
+article, header, h1, h2, h3, h4, small, figure, img, a, strong, i, div, p,
+span, footer {
   margin: 0;
   padding: 0;
   border: 0;
@@ -18,8 +16,6 @@ span, footer, button {
 ul {
   list-style: none;
 }
-
-/* Clearfix */
 
 .group:after {
   content: "";
