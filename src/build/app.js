@@ -29932,17 +29932,17 @@ var Search = React.createClass({
         React.createElement(
           'li',
           null,
-          'Tracks'
+          'By Title'
         ),
         React.createElement(
           'li',
           null,
-          'Users'
+          'By Artist'
         ),
         React.createElement(
           'li',
           null,
-          'Playlists'
+          'By Playlist'
         )
       ),
       React.createElement(SearchItems, { searchResults: this.state.searchResults })

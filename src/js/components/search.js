@@ -97,9 +97,9 @@ var Search = React.createClass({
         </fieldset>
 
         <ul id="search-type" className="tabs nav group" onClick={this.toggleSearch}>
-          <li>Tracks</li>
-          <li>Users</li>
-          <li>Playlists</li>
+          <li>By Title</li>
+          <li>By Artist</li>
+          <li>By Playlist</li>
         </ul>
 
         <SearchItems searchResults={this.state.searchResults} />
