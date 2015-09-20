@@ -29880,6 +29880,20 @@ module.exports = Search;
 var React = require('react');
 var _ = require('underscore');
 var Router = require('react-router');
+
+var convertMsToMin = function convertMsToMin(ms) {
+  var min, sec;
+
+  min = Math.floor(ms / 60000);
+  sec = Math.round(ms % 60000 / 1000);
+
+  if (sec < 10) {
+    sec = "0" + sec;
+  }
+
+  return min + ":" + sec;
+};
+
 var SearchItems = React.createClass({
   displayName: 'SearchItems',
 
@@ -29939,13 +29953,19 @@ var SearchItems = React.createClass({
               'li',
               { className: 'song-plays' },
               React.createElement('i', { className: 'icon-play' }),
-              item.playback_count
+              item.playback_count || 0
             ),
             React.createElement(
               'li',
               { className: 'song-likes' },
               React.createElement('i', { className: 'icon-heart' }),
-              item.likes_count
+              item.likes_count || 0
+            ),
+            React.createElement(
+              'li',
+              { className: 'song-length' },
+              React.createElement('i', { className: 'icon-clock' }),
+              convertMsToMin(item.duration)
             )
           )
         )
@@ -29955,37 +29975,54 @@ var SearchItems = React.createClass({
 
   generatePlaylists: function generatePlaylists() {
     var self = this;
+
     return _.map(this.props.searchResults, function (list) {
       // Playlist Info
+
+      var playlistType;
+
+      if (list.playlist_type) {
+        playlistType = React.createElement(
+          'li',
+          { className: 'playlist-type' },
+          list.playlist_type
+        );
+      }
+
       return React.createElement(
-        'div',
-        { key: list.id, className: 'playlist-container', onClick: self.renderSongs },
+        'li',
+        { key: list.id,
+          className: 'search-item playlist group',
+          onClick: self.renderSongs },
         React.createElement(
-          'ul',
+          'figure',
           null,
+          React.createElement('img', { src: list.artwork_url })
+        ),
+        React.createElement(
+          'article',
+          { className: 'track-info' },
           React.createElement(
-            'li',
-            null,
-            'track_count: ',
-            list.track_count
+            'h3',
+            { className: 'song-title ellipsis' },
+            list.title
           ),
           React.createElement(
-            'li',
-            null,
-            'artwork_url: ',
-            list.artwork_url
+            'h4',
+            { className: 'song-artist ellipsis' },
+            list.user.username
           ),
           React.createElement(
-            'li',
-            null,
-            'created_at: ',
-            list.created_at
-          ),
-          React.createElement(
-            'li',
-            null,
-            'playlist_type: ',
-            list.playlist_type
+            'ul',
+            { className: 'meta group' },
+            React.createElement(
+              'li',
+              { className: 'track-count' },
+              React.createElement('i', { className: 'icon-play' }),
+              list.track_count,
+              ' song(s)'
+            ),
+            playlistType
           )
         )
       );

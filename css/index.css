@@ -324,7 +324,7 @@ div.quit-app:hover {
   margin-right: 5px;
 }
 
-.search-item:hover .track-info > .meta > li {
+.search-item:hover .meta > li {
   color: #ff6e40;
 }
 
@@ -332,7 +332,26 @@ div.quit-app:hover {
   margin-left: 0;
 }
 
+/* Playlist result */
+.playlist .meta {
+  margin-top: 3px;
+}
 
+.playlist .meta > li {
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.playlist .meta > li.playlist-type {
+  padding: 2px;
+  color: #f7f7f7;
+  background: #aaa;
+  border-radius: 1px;
+}
+
+.meta > .playlist-type:before {
+  content: "#";
+}
 
 .search-init {
   padding: 75px 50px;
@@ -354,3 +373,9 @@ div.quit-app:hover {
 .likes .tabs > li:first-child {
   margin-right: 10px;
 }
+
+.likes-wrapper {
+  width: 100%;
+  height: 258px;
+}
+

@@ -1,6 +1,20 @@
 var React = require('react');
 var _ = require('underscore');
 var Router = require('react-router');
+
+var convertMsToMin = function (ms) {
+  var min, sec;
+
+  min = Math.floor(ms / 60000);
+  sec = Math.round(ms % 60000 / 1000);
+
+  if (sec < 10) {
+    sec = "0" + sec;
+  }
+
+  return min + ":" + sec;
+};
+
 var SearchItems = React.createClass({
 
   getInitialState: function () {
@@ -51,12 +65,17 @@ var SearchItems = React.createClass({
             <ul className="meta group">
               <li className="song-plays">
                 <i className="icon-play" />
-                {item.playback_count}
+                {item.playback_count || 0}
               </li>
 
               <li className="song-likes">
                 <i className="icon-heart" />
-                {item.likes_count}
+                {item.likes_count || 0}
+              </li>
+
+              <li className="song-length">
+                <i className="icon-clock" />
+                {convertMsToMin(item.duration)}
               </li>
             </ul>
           </article>
@@ -67,17 +86,48 @@ var SearchItems = React.createClass({
 
   generatePlaylists: function () {
     var self = this;
+
     return _.map(this.props.searchResults, function (list) {
       // Playlist Info
+
+      var playlistType;
+
+      if (list.playlist_type) {
+        playlistType = (
+          <li className="playlist-type">
+            {list.playlist_type}
+          </li>
+        );
+      }
+
       return (
-        <div key={list.id} className="playlist-container" onClick={self.renderSongs}>
-          <ul>
-            <li>track_count: {list.track_count}</li>
-            <li>artwork_url: {list.artwork_url}</li>
-            <li>created_at: {list.created_at}</li>
-            <li>playlist_type: {list.playlist_type}</li>
-          </ul>
-        </div>
+        <li key={list.id}
+          className="search-item playlist group"
+          onClick={self.renderSongs}>
+
+          <figure>
+            <img src={list.artwork_url} />
+          </figure>
+
+          <article className="track-info">
+            <h3 className="song-title ellipsis">
+              {list.title}
+            </h3>
+
+            <h4 className="song-artist ellipsis">
+              {list.user.username}
+            </h4>
+
+            <ul className="meta group">
+              <li className="track-count">
+                <i className="icon-play" />
+                {list.track_count} song(s)
+              </li>
+
+              {playlistType}
+            </ul>
+          </article>
+        </li>
       );
     });
   },
