@@ -1,8 +1,8 @@
 var React = require('react');
 var Reflux = require('reflux');
 var Router = require('react-router');
-var ipc = window.require('ipc');
-
+var remote = window.require('remote');
+var globalShortcut = remote.require('global-shortcut');
 var Actions = require('../actions/actions');
 var AudioStore = require('../stores/audio');
 
@@ -15,19 +15,17 @@ var Audio = React.createClass({
 
   componentDidMount: function () {
     // Play Test Sounds and queue playback
-    // AudioStore.playNextSound();
-    document.addEventListener('keydown', function(e) {
-      if(e.keyCode === 32) {
-        if(AudioStore._audioBeingPlayed.paused) {
-          AudioStore._audioBeingPlayed.play();
-        } else {
-          AudioStore._audioBeingPlayed.pause();
-        }
-      } else if (e.keyCode === 187) {
-        AudioStore.playNextSound();
+    var ret = globalShortcut.register('MediaPlayPause', function() {
+      if(AudioStore._audioBeingPlayed.paused) {
+        AudioStore._audioBeingPlayed.play();
+      } else {
+        AudioStore._audioBeingPlayed.pause();
       }
     });
 
+    globalShortcut.register("MediaNextTrack", function() {
+      AudioStore.playNextSound();
+    });
   },
 
   render: function () {

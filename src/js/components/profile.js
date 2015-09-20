@@ -6,6 +6,7 @@ var remote = window.require('remote');
 var shell = remote.require('shell');
 var Actions = require('../actions/actions');
 var ProfileStore = require('../stores/profile');
+var Settings = require('./settings');
 
 var Profile = React.createClass({
 
@@ -84,6 +85,7 @@ var Profile = React.createClass({
     return (
       <div className="main-container profile">
         {(profile) ? profile : errors}
+        <Settings />
       </div>
     );
   }
