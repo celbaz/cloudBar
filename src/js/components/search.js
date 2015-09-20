@@ -80,9 +80,7 @@ var Search = React.createClass({
 
     if (this.state.query !== "") {
       clearSearchIcon = (
-        <span className='close-search' onClick={this.clearSearch}>
-          <i className="fa fa-times"></i>
-        </span>
+        <span className='close-search' onClick={this.clearSearch}></span>
       );
     }
 

@@ -48,21 +48,21 @@ var Sections = React.createClass({
 
   render: function () {
     return (
-      <ul className='sticky-nav nav group'>
+      <ul className='sections nav group'>
         <li onClick={this.goToHome}>
-          <i className='fa fa-tachometer' />
+          <i className='icon-user' />
         </li>
 
         <li onClick={this.goToSearch}>
-          <i className='fa fa-search' />
+          <i className='icon-search' />
         </li>
 
         <li onClick={this.goToProfile}>
-          <i className='fa fa-inbox' />
+          <i className='icon-star' />
         </li>
 
         <li onClick={this.goToPlayer}>
-          <i className='fa fa-soundcloud' />
+          <i className='icon-soundcloud' />
         </li>
       </ul>
     );

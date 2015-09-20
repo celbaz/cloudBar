@@ -29285,7 +29285,7 @@ var Footer = React.createClass({
         'span',
         { className: 'github-link', onClick: this.openRepoBrowser },
         'For More Info',
-        React.createElement('i', { className: 'fa fa-github' })
+        React.createElement('i', { className: 'icon-github' })
       );
     }
 
@@ -29825,12 +29825,12 @@ var SearchItems = React.createClass({
           { className: 'track-info' },
           React.createElement(
             'h3',
-            { className: 'song-title' },
+            { className: 'song-title ellipsis' },
             item.username || item.user.username
           ),
           React.createElement(
             'h4',
-            { className: 'song-artist' },
+            { className: 'song-artist ellipsis' },
             item.title
           ),
           React.createElement(
@@ -29926,26 +29926,26 @@ var Sections = React.createClass({
   render: function render() {
     return React.createElement(
       'ul',
-      { className: 'sticky-nav nav group' },
+      { className: 'sections nav group' },
       React.createElement(
         'li',
         { onClick: this.goToHome },
-        React.createElement('i', { className: 'fa fa-tachometer' })
+        React.createElement('i', { className: 'icon-user' })
       ),
       React.createElement(
         'li',
         { onClick: this.goToSearch },
-        React.createElement('i', { className: 'fa fa-search' })
+        React.createElement('i', { className: 'icon-search' })
       ),
       React.createElement(
         'li',
         { onClick: this.goToProfile },
-        React.createElement('i', { className: 'fa fa-inbox' })
+        React.createElement('i', { className: 'icon-star' })
       ),
       React.createElement(
         'li',
         { onClick: this.goToPlayer },
-        React.createElement('i', { className: 'fa fa-soundcloud' })
+        React.createElement('i', { className: 'icon-soundcloud' })
       )
     );
   }
