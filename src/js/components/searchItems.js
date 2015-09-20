@@ -27,31 +27,31 @@ var SearchItems = React.createClass({
     var self = this;
     return _.map(this.props.searchResults, function (item) {
       return (
-        <div key={item.id} className="search-item group">
+        <li key={item.id} className="search-item group">
+          <figure>
             <img
               src={ item.avatar_url || item.artwork_url}
               onClick={self.playSong}
               data-stream={item.stream_url} />
-            <div>
-              <h3 className="song-artist">
-                {item.username || item.user.username}
-              </h3>
-              <p className="song-title">
-                {item.title}
+          </figure>
+
+          <article className="track-info">
+            <h3 className="song-title ellipsis">
+              {item.username || item.user.username}
+            </h3>
+            <h4 className="song-artist ellipsis">
+              {item.title}
+            </h4>
+            <span>
+              <p className="song-likes">
+                {item.likes_count}
               </p>
-              <span>
-                <p className="song-comments">
-                  {item.comment_count}
-                </p>
-                <p className="song-likes">
-                  {item.likes_count}
-                </p>
-                <p className="song-plays">
-                  {item.playback_count}
-                </p>
-              </span>
-            </div>
-        </div>
+              <p className="song-plays">
+                {item.playback_count}
+              </p>
+            </span>
+          </article>
+        </li>
       );
     });
   },
@@ -68,9 +68,9 @@ var SearchItems = React.createClass({
     var content = (Array.isArray(this.props.searchResults)) ? this.generateResults() : this.noResults();
 
     return (
-      <div className="search-items">
+      <ul className="search-items">
         {content}
-      </div>
+      </ul>
     );
   }
 });

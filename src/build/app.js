@@ -29810,33 +29810,32 @@ var SearchItems = React.createClass({
     var self = this;
     return _.map(this.props.searchResults, function (item) {
       return React.createElement(
-        'div',
+        'li',
         { key: item.id, className: 'search-item group' },
-        React.createElement('img', {
-          src: item.avatar_url || item.artwork_url,
-          onClick: self.playSong,
-          'data-stream': item.stream_url }),
         React.createElement(
-          'div',
+          'figure',
           null,
+          React.createElement('img', {
+            src: item.avatar_url || item.artwork_url,
+            onClick: self.playSong,
+            'data-stream': item.stream_url })
+        ),
+        React.createElement(
+          'article',
+          { className: 'track-info' },
           React.createElement(
             'h3',
-            { className: 'song-artist' },
+            { className: 'song-title' },
             item.username || item.user.username
           ),
           React.createElement(
-            'p',
-            { className: 'song-title' },
+            'h4',
+            { className: 'song-artist' },
             item.title
           ),
           React.createElement(
             'span',
             null,
-            React.createElement(
-              'p',
-              { className: 'song-comments' },
-              item.comment_count
-            ),
             React.createElement(
               'p',
               { className: 'song-likes' },
@@ -29865,7 +29864,7 @@ var SearchItems = React.createClass({
     var content = Array.isArray(this.props.searchResults) ? this.generateResults() : this.noResults();
 
     return React.createElement(
-      'div',
+      'ul',
       { className: 'search-items' },
       content
     );
