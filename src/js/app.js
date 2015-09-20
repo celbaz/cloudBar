@@ -8,7 +8,6 @@ var PlayerPage = require('./components/player');
 var ProfilePage = require('./components/profile');
 var SearchPage = require('./components/search');
 var LoginPage = require('./components/login');
-var NotificationsPage = require('./components/notifications');
 var SettingsPage = require('./components/settings');
 
 var Route = Router.Route;
@@ -45,8 +44,7 @@ var NotFound = React.createClass({
 
 var routes = (
   <Route handler={App} path="/">
-    <DefaultRoute handler={NotificationsPage} />
-    <Route name="notifications" handler={NotificationsPage}/>
+    <DefaultRoute handler={SearchPage} />
     <Route name="login" handler={LoginPage}/>
     <Route name="profile" handler={ProfilePage}/>
     <Route name="search" handler={SearchPage}/>

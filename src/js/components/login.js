@@ -45,7 +45,7 @@ var Login = React.createClass({
       if (code) {
         Actions.login(code);
         ipc.sendChannel('reopen-window');
-        self.context.router.transitionTo('notifications');
+        self.context.router.transitionTo('search');
         // TODO: clean up or comment out unused code in this file
         // self.requestSoundCloudToken(options, code);
       } else if (error) {
@@ -77,7 +77,7 @@ var Login = React.createClass({
         if (response && response.ok) {
           // Success - Do Something.
           // Actions.login(response.body.access_token);
-          // self.context.router.transitionTo('notifications');
+          // self.context.router.transitionTo('search');
           // ipc.sendChannel('reopen-window');
         } else {
           // Error - Show messages.

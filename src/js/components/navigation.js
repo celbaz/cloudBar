@@ -9,9 +9,7 @@ var AuthStore = require('../stores/auth');
 var Navigation = React.createClass({
   mixins: [
     Router.State,
-    Reflux.connect(AuthStore, 'authStatus'),
-    Reflux.listenTo(Actions.getNotifications.completed, 'refreshDone'),
-    Reflux.listenTo(Actions.getNotifications.failed, 'refreshDone')
+    Reflux.connect(AuthStore, 'authStatus')
   ],
 
   contextTypes: {
@@ -25,25 +23,6 @@ var Navigation = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-    var self = this;
-    var iFrequency = 60000;
-    var myInterval = 0;
-    if (myInterval > 0) { clearInterval(myInterval); }
-    setInterval( function () {
-      self.refreshNotifications();
-    }, iFrequency );
-  },
-
-  refreshNotifications: function () {
-    this.setState( {loading: true } );
-    Actions.getNotifications();
-  },
-
-  refreshDone: function () {
-    this.setState( {loading: false } );
-  },
-
   goToSettings: function () {
     this.context.router.transitionTo('settings');
   },
@@ -55,7 +34,7 @@ var Navigation = React.createClass({
   },
 
   goBack: function () {
-    this.context.router.transitionTo('notifications');
+    this.context.router.transitionTo('profile');
   },
 
   appQuit: function () {
@@ -68,7 +47,7 @@ var Navigation = React.createClass({
 
     if (this.state.authStatus) {
       refreshIcon = (
-        <i className={loadingClass} onClick={this.refreshNotifications} />
+        <i className={loadingClass} />
       );
       logoutIcon = (
         <i className='fa fa-sign-out' onClick={this.logOut} />
