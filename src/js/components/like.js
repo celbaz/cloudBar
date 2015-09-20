@@ -71,11 +71,36 @@ var Likes = React.createClass({
   },
 
   generatePlaylists: function () {
-    return <h3>Playlists info</h3>;
+    var self = this;
+    return _.map(this.state.like, function (list) {
+      // Playlist Info
+      return (
+          <div key={list.id} className="playlist-container" onClick={self.renderSongs}>
+            <ul>
+              <li>track_count: {list.track_count}</li>
+              <li>artwork_url: {list.artwork_url}</li>
+              <li>created_at: {list.created_at}</li>
+              <li>playlist_type: {list.playlist_type}</li>
+            </ul>
+          </div>
+      );
+    });
+  },
+
+  renderSongs: function () {
+    // TODO: Implement
   },
 
   toggleTab: function (event) {
-
+    var tabText = event.target.textContent;
+    if(tabText !== this.state.likeTab) {
+      this.setState({
+        likeTab: tabText
+      });
+      window.localStorage.setItem('liked-component-tab', tabText);
+      Actions.getLikes();
+    }
+    event.stopPropagation();
   },
 
   render: function () {

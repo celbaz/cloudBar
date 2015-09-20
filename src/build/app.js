@@ -29412,7 +29412,7 @@ var Likes = React.createClass({
     var initState = window.localStorage.getItem('liked-component-tab');
     if (!initState) {
       window.localStorage.setItem('liked-component-tab', 'Tracks');
-      initState = "Tracks";
+      initState = 'Tracks';
     }
     return { likeTab: initState };
   },
@@ -29483,14 +29483,59 @@ var Likes = React.createClass({
   },
 
   generatePlaylists: function generatePlaylists() {
-    return React.createElement(
-      'h3',
-      null,
-      'Playlists info'
-    );
+    var self = this;
+    return _.map(this.state.like, function (list) {
+      // Playlist Info
+      return React.createElement(
+        'div',
+        { key: list.id, className: 'playlist-container', onClick: self.renderSongs },
+        React.createElement(
+          'ul',
+          null,
+          React.createElement(
+            'li',
+            null,
+            'track_count: ',
+            list.track_count
+          ),
+          React.createElement(
+            'li',
+            null,
+            'artwork_url: ',
+            list.artwork_url
+          ),
+          React.createElement(
+            'li',
+            null,
+            'created_at: ',
+            list.created_at
+          ),
+          React.createElement(
+            'li',
+            null,
+            'playlist_type: ',
+            list.playlist_type
+          )
+        )
+      );
+    });
   },
 
-  toggleTab: function toggleTab(event) {},
+  renderSongs: function renderSongs() {
+    // TODO: Implement
+  },
+
+  toggleTab: function toggleTab(event) {
+    var tabText = event.target.textContent;
+    if (tabText !== this.state.likeTab) {
+      this.setState({
+        likeTab: tabText
+      });
+      window.localStorage.setItem('liked-component-tab', tabText);
+      Actions.getLikes();
+    }
+    event.stopPropagation();
+  },
 
   render: function render() {
     var content;
@@ -30298,16 +30343,19 @@ var LikeStore = Reflux.createStore({
   prepareURL: function prepareURL() {
     var creds, fieldType;
     creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
-    fieldType = 'me/favorites';
+    if (window.localStorage.getItem('liked-component-tab') === "Tracks") {
+      fieldType = 'favorites';
+    } else {
+      fieldType = 'playlists';
+    }
 
-    return fieldType + creds;
+    return "me/" + fieldType + creds;
   },
 
   onGetLikes: function onGetLikes() {
     var self = this;
 
     apiRequests.get('https://api.soundcloud.com/' + self.prepareURL()).end(function (err, response) {
-      window.carl = response;
       if (response && response.ok) {
         Actions.getLikes.completed(response.body);
       } else {

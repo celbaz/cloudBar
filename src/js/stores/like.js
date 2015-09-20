@@ -13,9 +13,13 @@ var LikeStore = Reflux.createStore({
   prepareURL: function () {
     var creds, fieldType;
     creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
-    fieldType = 'me/favorites';
+    if(window.localStorage.getItem('liked-component-tab') === "Tracks") {
+      fieldType = 'favorites';
+    } else {
+      fieldType = 'playlists';
+    }
 
-    return fieldType + creds;
+    return "me/" + fieldType + creds;
   },
 
   onGetLikes: function () {
@@ -24,7 +28,6 @@ var LikeStore = Reflux.createStore({
     apiRequests
       .get('https://api.soundcloud.com/' + self.prepareURL())
       .end(function (err, response) {
-        window.carl = response;
         if (response && response.ok) {
           Actions.getLikes.completed(response.body);
         } else {
