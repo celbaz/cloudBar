@@ -29290,7 +29290,7 @@ var Footer = React.createClass({
     }
 
     return React.createElement(
-      'div',
+      'nav',
       { className: 'footer' },
       content
     );
@@ -29929,14 +29929,29 @@ var Sections = React.createClass({
   },
 
   render: function render() {
-
     return React.createElement(
-      'span',
-      { className: 'sections' },
-      React.createElement('i', { className: 'fa  fa-tachometer', onClick: this.goToHome }),
-      React.createElement('i', { className: 'fa fa-search', onClick: this.goToSearch }),
-      React.createElement('i', { className: 'fa fa-inbox', onClick: this.goToProfile }),
-      React.createElement('i', { className: 'fa fa-soundcloud', onClick: this.goToPlayer })
+      'ul',
+      { className: 'sticky-nav nav group' },
+      React.createElement(
+        'li',
+        { onClick: this.goToHome },
+        React.createElement('i', { className: 'fa fa-tachometer' })
+      ),
+      React.createElement(
+        'li',
+        { onClick: this.goToSearch },
+        React.createElement('i', { className: 'fa fa-search' })
+      ),
+      React.createElement(
+        'li',
+        { onClick: this.goToProfile },
+        React.createElement('i', { className: 'fa fa-inbox' })
+      ),
+      React.createElement(
+        'li',
+        { onClick: this.goToPlayer },
+        React.createElement('i', { className: 'fa fa-soundcloud' })
+      )
     );
   }
 });
@@ -30390,7 +30405,9 @@ function drainQueue() {
         currentQueue = queue;
         queue = [];
         while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
         }
         queueIndex = -1;
         len = queue.length;
@@ -30442,7 +30459,6 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 };
 
-// TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');

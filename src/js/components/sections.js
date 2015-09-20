@@ -47,15 +47,25 @@ var Sections = React.createClass({
   },
 
   render: function () {
-
     return (
-        <span className='sections'>
-          <i className='fa  fa-tachometer' onClick={this.goToHome} />
-          <i className='fa fa-search' onClick={this.goToSearch} />
-          <i className='fa fa-inbox' onClick={this.goToProfile} />
-          <i className='fa fa-soundcloud' onClick={this.goToPlayer} />
-        </span>
-      );
+      <ul className='sticky-nav nav group'>
+        <li onClick={this.goToHome}>
+          <i className='fa fa-tachometer' />
+        </li>
+
+        <li onClick={this.goToSearch}>
+          <i className='fa fa-search' />
+        </li>
+
+        <li onClick={this.goToProfile}>
+          <i className='fa fa-inbox' />
+        </li>
+
+        <li onClick={this.goToPlayer}>
+          <i className='fa fa-soundcloud' />
+        </li>
+      </ul>
+    );
   }
 });
 

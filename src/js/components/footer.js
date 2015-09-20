@@ -29,9 +29,9 @@ var Footer = React.createClass({
     }
 
     return (
-      <div className='footer'>
+      <nav className='footer'>
         {content}
-      </div>
+      </nav>
     );
   }
 });
