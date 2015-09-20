@@ -22,8 +22,8 @@ var Sections = React.createClass({
     };
   },
 
-  goToHome: function () {
-    this.context.router.transitionTo('settings');
+  goToLike: function () {
+    this.context.router.transitionTo('like');
   },
 
   goToSearch: function () {
@@ -49,15 +49,15 @@ var Sections = React.createClass({
   render: function () {
     return (
       <ul className='sections nav group'>
-        <li onClick={this.goToHome}>
-          <i className='icon-user' />
-        </li>
-
         <li onClick={this.goToSearch}>
           <i className='icon-search' />
         </li>
 
         <li onClick={this.goToProfile}>
+          <i className='icon-user' />
+        </li>
+
+        <li onClick={this.goToLike}>
           <i className='icon-star' />
         </li>
 

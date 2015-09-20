@@ -324,3 +324,8 @@ div.quit-app:hover {
   font-size: 18px;
   font-weight: 500;
 }*/
+.carl {
+  width: 100px;
+  height: 100px;
+  background: red;
+}
