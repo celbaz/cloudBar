@@ -29263,6 +29263,7 @@ var Actions = Reflux.createActions({
   'login': {},
   'logout': {},
   'getProfile': { asyncResult: true },
+  'getLikes': { asyncResult: true },
   'updateSearchTerm': {},
   'clearSearchTerm': {},
   'getSearchResults': { asyncResult: true },
@@ -29399,18 +29400,134 @@ module.exports = Footer;
 var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
+var _ = require('underscore');
+var LikeStore = require('../stores/like');
 
 var Likes = React.createClass({
   displayName: 'Likes',
 
+  mixins: [Reflux.connect(LikeStore, 'like'), Reflux.listenTo(Actions.getLikes.completed, 'completedLikes'), Reflux.listenTo(Actions.getLikes.failed, 'failedLikes')],
+
+  getInitialState: function getInitialState() {
+    var initState = window.localStorage.getItem('liked-component-tab');
+    if (!initState) {
+      window.localStorage.setItem('liked-component-tab', 'Tracks');
+      initState = "Tracks";
+    }
+    return { likeTab: initState };
+  },
+
+  componentWillMount: function componentWillMount() {
+    Actions.getLikes();
+  },
+
+  completedLikes: function completedLikes() {
+    this.setState({
+      loading: false,
+      errors: false
+    });
+  },
+
+  failedLikes: function failedLikes() {
+    this.setState({
+      loading: false,
+      errors: true
+    });
+  },
+
+  generateTracks: function generateTracks(liked_songs) {
+    var self = this;
+    if (!Array.isArray(liked_songs)) return React.createElement(
+      'h3',
+      null,
+      'NO'
+    );
+    return _.map(liked_songs, function (item) {
+      return React.createElement(
+        'div',
+        { key: item.id, className: 'search-item group' },
+        React.createElement('img', {
+          src: item.avatar_url || item.artwork_url,
+          onClick: self.playSong,
+          'data-stream': item.stream_url }),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'h3',
+            { className: 'song-artist' },
+            item.username || item.user.username
+          ),
+          React.createElement(
+            'p',
+            { className: 'song-title' },
+            item.title
+          ),
+          React.createElement(
+            'span',
+            null,
+            React.createElement(
+              'p',
+              { className: 'song-likes' },
+              item.likes_count
+            ),
+            React.createElement(
+              'p',
+              { className: 'song-plays' },
+              item.playback_count
+            )
+          )
+        )
+      );
+    });
+  },
+
+  generatePlaylists: function generatePlaylists() {
+    return React.createElement(
+      'h3',
+      null,
+      'Playlists info'
+    );
+  },
+
+  toggleTab: function toggleTab(event) {},
+
   render: function render() {
-    return React.createElement('div', { className: 'carl' });
+    var content;
+    if (this.state.likeTab === "Tracks") {
+      content = this.generateTracks(this.state.like);
+    } else {
+      content = this.generatePlaylists();
+    }
+    return React.createElement(
+      'div',
+      { className: 'main-container likes' },
+      React.createElement(
+        'ul',
+        { onClick: this.toggleTab },
+        React.createElement(
+          'li',
+          { className: this.state.likeTab === "Tracks" ? "active" : "" },
+          'Tracks'
+        ),
+        React.createElement(
+          'li',
+          { className: this.state.likeTab === "Playlists" ? "active" : "" },
+          'Playlists'
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: this.state.likeTab },
+        content
+      )
+    );
   }
 });
 
 module.exports = Likes;
 
-},{"../actions/actions":243,"react":217,"reflux":218}],247:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/like":256,"react":217,"reflux":218,"underscore":242}],247:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29517,7 +29634,7 @@ var Login = React.createClass({
 
 module.exports = Login;
 
-},{"../actions/actions":243,"../utils/api-requests":260,"react":217}],248:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"react":217}],248:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29755,7 +29872,7 @@ var Profile = React.createClass({
 
 module.exports = Profile;
 
-},{"../actions/actions":243,"../stores/profile":256,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/profile":257,"react":217,"reflux":218,"reloading":238,"underscore":242}],251:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -29894,7 +30011,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"../actions/actions":243,"../stores/search":257,"./searchItems":252,"react":217,"reflux":218}],252:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/search":258,"./searchItems":252,"react":217,"reflux":218}],252:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30131,7 +30248,7 @@ var SettingsPage = React.createClass({
 
 module.exports = SettingsPage;
 
-},{"../actions/actions":243,"../stores/settings":258,"react":217,"react-toggle":42}],255:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"react":217,"react-toggle":42}],255:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30164,6 +30281,56 @@ var AuthStore = Reflux.createStore({
 module.exports = AuthStore;
 
 },{"../actions/actions":243,"reflux":218}],256:[function(require,module,exports){
+'use strict';
+
+var Reflux = require('reflux');
+var Actions = require('../actions/actions');
+var Loading = require('reloading');
+var apiRequests = require('../utils/api-requests');
+
+var LikeStore = Reflux.createStore({
+  listenables: Actions,
+
+  init: function init() {
+    this._soundcloudLikes = window.localStorage.getItem('soundcloudLikes') || [];
+  },
+
+  prepareURL: function prepareURL() {
+    var creds, fieldType;
+    creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
+    fieldType = 'me/favorites';
+
+    return fieldType + creds;
+  },
+
+  onGetLikes: function onGetLikes() {
+    var self = this;
+
+    apiRequests.get('https://api.soundcloud.com/' + self.prepareURL()).end(function (err, response) {
+      window.carl = response;
+      if (response && response.ok) {
+        Actions.getLikes.completed(response.body);
+      } else {
+        Actions.getLikes.failed(err);
+      }
+    });
+  },
+
+  onGetLikesCompleted: function onGetLikesCompleted(favoritedResults) {
+    this._soundcloudLikes = favoritedResults;
+    this.trigger(this._soundcloudLikes);
+  },
+
+  onGetLikesFailed: function onGetLikesFailed() {
+    this._soundcloudLikes = [];
+    this.trigger(this._soundcloudLikes);
+  }
+
+});
+
+module.exports = LikeStore;
+
+},{"../actions/actions":243,"../utils/api-requests":261,"reflux":218,"reloading":238}],257:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30218,7 +30385,7 @@ var ProfileStore = Reflux.createStore({
 
 module.exports = ProfileStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"../stores/sound-notification":259,"../utils/api-requests":260,"reflux":218,"underscore":242}],257:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"../stores/sound-notification":260,"../utils/api-requests":261,"reflux":218,"underscore":242}],258:[function(require,module,exports){
 'use strict';
 
 var Reflux = require('reflux');
@@ -30294,7 +30461,7 @@ var SearchStore = Reflux.createStore({
 
 module.exports = SearchStore;
 
-},{"../actions/actions":243,"../utils/api-requests":260,"reflux":218,"reloading":238}],258:[function(require,module,exports){
+},{"../actions/actions":243,"../utils/api-requests":261,"reflux":218,"reloading":238}],259:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30363,7 +30530,7 @@ var SettingsStore = Reflux.createStore({
 
 module.exports = SettingsStore;
 
-},{"../actions/actions":243,"reflux":218}],259:[function(require,module,exports){
+},{"../actions/actions":243,"reflux":218}],260:[function(require,module,exports){
 'use strict';
 
 var ipc = window.require('ipc');
@@ -30438,7 +30605,7 @@ var SoundNotificationStore = Reflux.createStore({
 
 module.exports = SoundNotificationStore;
 
-},{"../actions/actions":243,"../stores/settings":258,"reflux":218,"underscore":242}],260:[function(require,module,exports){
+},{"../actions/actions":243,"../stores/settings":259,"reflux":218,"underscore":242}],261:[function(require,module,exports){
 'use strict';
 
 var request = require('superagent');
