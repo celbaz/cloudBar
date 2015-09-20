@@ -18,6 +18,12 @@ var SettingsPage = React.createClass({
     Actions.setSetting(key, event.target.checked);
   },
 
+  // Remove or Fix in the future
+  logOut: function () {
+    Actions.logout();
+    ipc.sendChannel('app-quit');
+  },
+
   appQuit: function () {
     ipc.sendChannel('app-quit');
   },
@@ -37,6 +43,12 @@ var SettingsPage = React.createClass({
           <button className='' onClick={this.appQuit}>
             <i className="fa fa-power-off" />
             Quit Cloudbar
+          </button>
+        </div>
+        <div className='quit-app'>
+          <button className='' onClick={this.logOut}>
+            <i className="fa fa-power" />
+            Log Out Of Cloudbar
           </button>
         </div>
       </div>

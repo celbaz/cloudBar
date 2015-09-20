@@ -147,12 +147,11 @@ div.toggle-label {
 
 div.quit-app {
   display: block;
-  border: 2px solid whitesmoke;
-  left: 61px;
-  bottom: 20vh;
-  position: absolute;
+  border: 2px solid black;
+  text-align: center;
   border-radius: 2px;
   padding: 10px;
+  margin: 6px;
   background-color: whitesmoke;
   transition: all 0.7s ease;
 }
@@ -378,4 +377,3 @@ div.quit-app:hover {
   width: 100%;
   height: 258px;
 }
-
