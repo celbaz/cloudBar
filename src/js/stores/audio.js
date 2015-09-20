@@ -9,11 +9,7 @@ var AudioStore = Reflux.createStore({
   init: function () {
     this._trackqueue = [];
     this._audioBeingPlayed = new Audio();
-    // Add the loop scenario where you just rotate. currently no
-    // TODO: REMOVE TEST TRACKS
-    this._trackqueue.push( {stream_id: 206675816});
-    this._trackqueue.push( {stream_id: 166945824});
-
+    // Add the loop scenario where you just rotate.
     var self = this;
     this._audioBeingPlayed.onended = function() {
         self.playNextSound();
@@ -29,7 +25,7 @@ var AudioStore = Reflux.createStore({
 
   addToQueue: function (track) {
     if(!this.currentlyPlaying()) {
-      this.playSound(track.stream)
+      this.playSound(track.stream_id)
     } else {
       this._trackqueue.push(track);
     }

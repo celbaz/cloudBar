@@ -1,7 +1,7 @@
 var React = require('react');
 var _ = require('underscore');
 var Router = require('react-router');
-
+var AudioStore = require('../stores/audio');
 var convertMsToMin = function (ms) {
   var min, sec;
 
@@ -29,11 +29,13 @@ var SearchItems = React.createClass({
     router: React.PropTypes.func
   },
 
-  playSong: function (event) {
-    var stream_url = event.target.attributes.getNamedItem('data-stream').value;
-    window.localStorage.setItem('currentsong', stream_url);
-    console.log(window.localStorage.getItem('currentsong'));
-    this.context.router.transitionTo('player'); //playstream
+  soundConnect: function (event) {
+    var id = event.target.parentElement.attributes.getNamedItem('data-stream').value;
+    if(event.target.textContent.includes('Play')) {
+      AudioStore.playSound(id);
+    } else {
+      AudioStore.addToQueue({stream_id: id});
+    }
   },
 
   generateResults: function () {
@@ -47,10 +49,7 @@ var SearchItems = React.createClass({
       return (
         <li key={item.id} className="search-item group">
           <figure>
-            <img
-              src={ item.avatar_url || item.artwork_url}
-              onClick={self.playSong}
-              data-stream={item.stream_url} />
+            <img src={ item.avatar_url || item.artwork_url}/>
           </figure>
 
           <article className="track-info">
@@ -71,7 +70,7 @@ var SearchItems = React.createClass({
 
                 <li className="song-likes">
                   <i className="icon-heart" />
-                  {item.likes_count || 0}
+                  {item.likes_count || item.favoritings_count || 0}
                 </li>
 
                 <li className="song-length">
@@ -80,9 +79,9 @@ var SearchItems = React.createClass({
                 </li>
               </ul>
 
-              <div className="play-options">
-                <button className="play-button icon-play">Play Track</button>
-                <button className="add-button">Add to Queue</button>
+              <div data-stream={item.id} className="play-options">
+                <button className="play-button icon-play" onClick={self.soundConnect}>Play Track</button>
+                <button className="add-button"  onClick={self.soundConnect}>Add to Queue</button>
               </div>
             </div>
           </article>

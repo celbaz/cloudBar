@@ -37,7 +37,7 @@ var SearchStore = Reflux.createStore({
     var creds, query, fieldType;
     creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
     fieldType = window.localStorage.getItem('searchtype').toLowerCase();
-    query = '&q=' + this._searchTerm + '&limit=10';
+    query = '&q=' + this._searchTerm + '&limit=20';
 
     return fieldType + creds + query;
   },
