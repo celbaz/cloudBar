@@ -13,6 +13,17 @@ span, footer {
   background: transparent;
 }
 
+input {
+  display: block;
+  outline: none;
+  width: auto;
+  color: inherit;
+  background: transparent;
+  box-sizing: content-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 ul {
   list-style: none;
 }

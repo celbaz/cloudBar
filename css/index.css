@@ -119,8 +119,8 @@ div.left-section {
 }
 
 div.main-container {
-    padding-top: 1vh;
-    height: 80vh;
+  height: 90vh;
+  padding: 0 10px;
 }
 
 .main-container.login {
@@ -161,7 +161,7 @@ div.quit-app:hover {
 }
 
 
-.sections i.fa {
+/*.sections i.fa {
   font-size: 30px;
   padding: 5px 21px;
   transition: color 0.5s ease;
@@ -177,7 +177,7 @@ div.quit-app:hover {
   width: 100%;
   height: 100%;
   background-color: #34495e;
-}
+}*/
 
 
 .profile img {
@@ -222,29 +222,21 @@ div.quit-app:hover {
 
 /* Search Section Styles */
 .search-bar {
-  padding: 10px 5px;
-  text-align: center;
+  margin: 10px 0;
+  border-bottom: 2px solid #aaa;
 }
 
 .search-bar > input {
-  padding: 4px 30px;
-  border-radius: 15px;
-  font-size: 16px;
-  color: #34495e;
-  border: none;
-  outline: none;
+  display: inline-block;
+  width: calc(100% - 30px);
+  padding: 11px 5px 9px 5px;
+  text-transform: uppercase;
 }
 
-input::-webkit-input-placeholder {
-  color: #34495e;
-}
-
-/*TODO: */
-/* these cause a drop in the search bar... also transition currently does nothing*/
 .close-search {
-  transition: all 0.5s;
-  margin-left: 10px;
-  font-size: 20px;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
 }
 
 .search-field {

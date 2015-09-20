@@ -88,7 +88,7 @@ var Search = React.createClass({
 
     return (
       <div className="main-container search">
-        <div className='search-bar'>
+        <fieldset className='search-bar'>
           <input
             value={this.state.searchTerm}
             onChange={this.onChange}
@@ -96,7 +96,7 @@ var Search = React.createClass({
             type='text'
             placeholder='Search...' />
           {clearSearchIcon}
-        </div>
+        </fieldset>
         <div className="search-field" onClick={this.toggleSearch}>
           <div id="search-type">
             <span>Tracks</span>
