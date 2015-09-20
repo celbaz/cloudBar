@@ -1,2 +1,20 @@
-- When logging in for the first time and have to approve the app, have to click log in again
-- Tracks on Likes page don't show like counts
+
+
+### Issues:
+
+A new User logs in:
+- After logging in you receive a blank page and were asked to login in again
+
+Search Page:
+- Needs to add set timeout on search
+- When search type changes redo search
+
+Login Page:
+- Auth Token does not refresh
+
+Profile Page:
+- Add info in local storage the first time and then periodically check if its changed.
+
+AudioPage:
+- remove keybinding for refresh and dev console
+- previous Track button and functionality
