@@ -23,6 +23,10 @@ var SearchItems = React.createClass({
   },
 
   generateResults: function () {
+    return this["generate" + this.props.resultType]();
+  },
+
+  generateTracks: function () {
     // TODO: add browser links to website
     var self = this;
     return _.map(this.props.searchResults, function (item) {
@@ -57,6 +61,23 @@ var SearchItems = React.createClass({
             </ul>
           </article>
         </li>
+      );
+    });
+  },
+
+  generatePlaylists: function () {
+    var self = this;
+    return _.map(this.props.searchResults, function (list) {
+      // Playlist Info
+      return (
+        <div key={list.id} className="playlist-container" onClick={self.renderSongs}>
+          <ul>
+            <li>track_count: {list.track_count}</li>
+            <li>artwork_url: {list.artwork_url}</li>
+            <li>created_at: {list.created_at}</li>
+            <li>playlist_type: {list.playlist_type}</li>
+          </ul>
+        </div>
       );
     });
   },

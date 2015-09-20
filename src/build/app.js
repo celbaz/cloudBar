@@ -29310,6 +29310,7 @@ var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var _ = require('underscore');
 var LikeStore = require('../stores/like');
+var SearchItems = require('./searchItems');
 
 var Likes = React.createClass({
   displayName: 'Likes',
@@ -29343,98 +29344,12 @@ var Likes = React.createClass({
     });
   },
 
-  generateTracks: function generateTracks(liked_songs) {
-    var self = this;
-    if (!Array.isArray(liked_songs)) return React.createElement(
-      'h3',
-      null,
-      'NO'
-    );
-    return _.map(liked_songs, function (item) {
-      return React.createElement(
-        'div',
-        { key: item.id, className: 'search-item group' },
-        React.createElement('img', {
-          src: item.avatar_url || item.artwork_url,
-          onClick: self.playSong,
-          'data-stream': item.stream_url }),
-        React.createElement(
-          'div',
-          null,
-          React.createElement(
-            'h3',
-            { className: 'song-artist' },
-            item.username || item.user.username
-          ),
-          React.createElement(
-            'p',
-            { className: 'song-title' },
-            item.title
-          ),
-          React.createElement(
-            'span',
-            null,
-            React.createElement(
-              'p',
-              { className: 'song-likes' },
-              item.likes_count
-            ),
-            React.createElement(
-              'p',
-              { className: 'song-plays' },
-              item.playback_count
-            )
-          )
-        )
-      );
-    });
-  },
-
-  generatePlaylists: function generatePlaylists() {
-    var self = this;
-    return _.map(this.state.like, function (list) {
-      // Playlist Info
-      return React.createElement(
-        'div',
-        { key: list.id, className: 'playlist-container', onClick: self.renderSongs },
-        React.createElement(
-          'ul',
-          null,
-          React.createElement(
-            'li',
-            null,
-            'track_count: ',
-            list.track_count
-          ),
-          React.createElement(
-            'li',
-            null,
-            'artwork_url: ',
-            list.artwork_url
-          ),
-          React.createElement(
-            'li',
-            null,
-            'created_at: ',
-            list.created_at
-          ),
-          React.createElement(
-            'li',
-            null,
-            'playlist_type: ',
-            list.playlist_type
-          )
-        )
-      );
-    });
-  },
-
   renderSongs: function renderSongs() {
     // TODO: Implement
   },
 
   toggleTab: function toggleTab(event) {
-    var tabText = event.target.textContent;
+    var tabText = event.target.id;
     if (tabText !== this.state.likeTab) {
       this.setState({
         likeTab: tabText
@@ -29446,33 +29361,32 @@ var Likes = React.createClass({
   },
 
   render: function render() {
-    var content;
-    if (this.state.likeTab === "Tracks") {
-      content = this.generateTracks(this.state.like);
-    } else {
-      content = this.generatePlaylists();
-    }
     return React.createElement(
       'div',
       { className: 'main-container likes' },
       React.createElement(
+        'h1',
+        null,
+        'My Music'
+      ),
+      React.createElement(
         'ul',
-        { onClick: this.toggleTab },
+        { className: 'tabs nav group', onClick: this.toggleTab },
         React.createElement(
           'li',
-          { className: this.state.likeTab === "Tracks" ? "active" : "" },
-          'Tracks'
+          { className: this.state.likeTab === "Tracks" ? "active" : "", id: 'Tracks' },
+          'My Favorite Tracks'
         ),
         React.createElement(
           'li',
-          { className: this.state.likeTab === "Playlists" ? "active" : "" },
-          'Playlists'
+          { className: this.state.likeTab === "Playlists" ? "active" : "", id: 'Playlists' },
+          'My Playlists'
         )
       ),
       React.createElement(
         'div',
-        { className: this.state.likeTab },
-        content
+        { className: 'likes-wrapper' },
+        React.createElement(SearchItems, { searchResults: this.state.like, resultType: this.state.likeTab })
       )
     );
   }
@@ -29480,7 +29394,7 @@ var Likes = React.createClass({
 
 module.exports = Likes;
 
-},{"../actions/actions":242,"../stores/like":255,"react":216,"reflux":217,"underscore":241}],246:[function(require,module,exports){
+},{"../actions/actions":242,"../stores/like":255,"./searchItems":251,"react":216,"reflux":217,"underscore":241}],246:[function(require,module,exports){
 'use strict';
 
 var remote = window.require('remote');
@@ -29841,13 +29755,17 @@ var Search = React.createClass({
 
   onChange: function onChange(event) {
     Actions.updateSearchTerm(event.target.value);
+
     // TODO: set timout and wait for user to stop typing.
-    this.setState({ query: event.target.value });
+    this.setState({
+      query: event.target.value,
+      searchTerm: event.target.value
+    });
     this.getSearchResults(event.target.value);
   },
 
   toggleSearch: function toggleSearch(event) {
-    this.searchType = event.target.textContent;
+    this.searchType = event.target.id;
     window.localStorage.setItem('searchtype', this.searchType);
     this.renderField();
   },
@@ -29883,8 +29801,8 @@ var Search = React.createClass({
         options = document.getElementById('search-type').childNodes;
 
     for (i = 0, len = options.length; i < len; i++) {
-      if (options[i].textContent === this.searchType) {
-        options[i].setAttribute('class', 'active-field');
+      if (options[i].id === this.searchType) {
+        options[i].setAttribute('class', 'active');
       } else {
         options[i].setAttribute('class', ' ');
       }
@@ -29931,21 +29849,25 @@ var Search = React.createClass({
         { id: 'search-type', className: 'tabs nav group', onClick: this.toggleSearch },
         React.createElement(
           'li',
-          null,
+          { id: 'Tracks' },
           'By Title'
         ),
         React.createElement(
           'li',
-          null,
+          { id: 'Users' },
           'By Artist'
         ),
         React.createElement(
           'li',
-          null,
+          { id: 'Playlists' },
           'By Playlist'
         )
       ),
-      React.createElement(SearchItems, { searchResults: this.state.searchResults })
+      React.createElement(
+        'div',
+        { className: 'search-results' },
+        React.createElement(SearchItems, { searchResults: this.state.searchResults, resultType: this.searchType === 'Playlists' ? "Playlists" : "Tracks" })
+      )
     );
   }
 });
@@ -29979,6 +29901,10 @@ var SearchItems = React.createClass({
   },
 
   generateResults: function generateResults() {
+    return this["generate" + this.props.resultType]();
+  },
+
+  generateTracks: function generateTracks() {
     // TODO: add browser links to website
     var self = this;
     return _.map(this.props.searchResults, function (item) {
@@ -30021,6 +29947,45 @@ var SearchItems = React.createClass({
               React.createElement('i', { className: 'icon-heart' }),
               item.likes_count
             )
+          )
+        )
+      );
+    });
+  },
+
+  generatePlaylists: function generatePlaylists() {
+    var self = this;
+    return _.map(this.props.searchResults, function (list) {
+      // Playlist Info
+      return React.createElement(
+        'div',
+        { key: list.id, className: 'playlist-container', onClick: self.renderSongs },
+        React.createElement(
+          'ul',
+          null,
+          React.createElement(
+            'li',
+            null,
+            'track_count: ',
+            list.track_count
+          ),
+          React.createElement(
+            'li',
+            null,
+            'artwork_url: ',
+            list.artwork_url
+          ),
+          React.createElement(
+            'li',
+            null,
+            'created_at: ',
+            list.created_at
+          ),
+          React.createElement(
+            'li',
+            null,
+            'playlist_type: ',
+            list.playlist_type
           )
         )
       );

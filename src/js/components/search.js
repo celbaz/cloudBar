@@ -13,13 +13,17 @@ var Search = React.createClass({
 
   onChange: function (event) {
     Actions.updateSearchTerm(event.target.value);
+
     // TODO: set timout and wait for user to stop typing.
-    this.setState({query: event.target.value});
+    this.setState({
+      query: event.target.value,
+      searchTerm: event.target.value
+    });
     this.getSearchResults(event.target.value);
   },
 
   toggleSearch: function (event) {
-    this.searchType = event.target.textContent;
+    this.searchType = event.target.id;
     window.localStorage.setItem('searchtype', this.searchType);
     this.renderField();
   },
@@ -53,8 +57,8 @@ var Search = React.createClass({
     var i, len, options = document.getElementById('search-type').childNodes;
 
     for(i = 0, len = options.length; i < len; i++) {
-      if(options[i].textContent === this.searchType) {
-        options[i].setAttribute('class', 'active-field');
+      if(options[i].id === this.searchType) {
+        options[i].setAttribute('class', 'active');
       } else {
         options[i].setAttribute('class', ' ');
       }
@@ -97,12 +101,14 @@ var Search = React.createClass({
         </fieldset>
 
         <ul id="search-type" className="tabs nav group" onClick={this.toggleSearch}>
-          <li>By Title</li>
-          <li>By Artist</li>
-          <li>By Playlist</li>
+          <li id="Tracks">By Title</li>
+          <li id="Users">By Artist</li>
+          <li id="Playlists">By Playlist</li>
         </ul>
 
-        <SearchItems searchResults={this.state.searchResults} />
+        <div className="search-results">
+          <SearchItems searchResults={this.state.searchResults} resultType={this.searchType === 'Playlists' ? "Playlists" : "Tracks"} />
+        </div>
       </div>
     );
   }
