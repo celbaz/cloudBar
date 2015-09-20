@@ -2,7 +2,6 @@ var React = require('react');
 var Router = require('react-router');
 
 var AuthStore = require('./stores/auth');
-var Navigation = require('./components/navigation');
 var Audio = require('./components/audio');
 var Footer = require('./components/footer');
 var PlayerPage = require('./components/player');
@@ -30,7 +29,6 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <Navigation />
         <Audio />
         <RouteHandler />
         <Footer />
