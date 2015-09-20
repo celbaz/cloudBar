@@ -29739,7 +29739,7 @@ var Search = React.createClass({
       'div',
       { className: 'main-container search' },
       React.createElement(
-        'div',
+        'fieldset',
         { className: 'search-bar' },
         React.createElement('input', {
           value: this.state.searchTerm,
@@ -29750,26 +29750,22 @@ var Search = React.createClass({
         clearSearchIcon
       ),
       React.createElement(
-        'div',
-        { className: 'search-field', onClick: this.toggleSearch },
+        'ul',
+        { id: 'search-type', className: 'tabs nav group', onClick: this.toggleSearch },
         React.createElement(
-          'div',
-          { id: 'search-type' },
-          React.createElement(
-            'span',
-            null,
-            'Tracks'
-          ),
-          React.createElement(
-            'span',
-            null,
-            'Users'
-          ),
-          React.createElement(
-            'span',
-            null,
-            'Playlists'
-          )
+          'li',
+          null,
+          'Tracks'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Users'
+        ),
+        React.createElement(
+          'li',
+          null,
+          'Playlists'
         )
       ),
       React.createElement(

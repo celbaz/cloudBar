@@ -29,6 +29,11 @@ div#app {
   background: #ff6e40;
 }
 
+.nav > li.active-field {
+  background-color: #ff6e40;
+  cursor: default;
+}
+
 /* Footer Styles */
 .footer {
   position: absolute;
@@ -221,6 +226,7 @@ div.quit-app:hover {
 }
 
 /* Search Section Styles */
+/* Search bar */
 .search-bar {
   margin: 10px 0;
   border-bottom: 2px solid #aaa;
@@ -239,42 +245,34 @@ div.quit-app:hover {
   cursor: pointer;
 }
 
-.search-field {
-}
-
-.search-field div {
-  /*padding: 4px 30px;*/
-  padding: 5px 0px;
-  /*border-radius: 8px;*/
-  font-size: 16px;
-  color: #34495e;
-  border: none;
-  outline: none;
-  background-color: white;
+/* Search nav */
+.tabs {
+  width: 100%;
+  margin: 10px 0;
   text-align: center;
+  color: #f7f7f7;
 }
 
-.search-field div > span {
-  padding: 5px;
-  transition: all 0.5s ease-in-out;
+.tabs > li {
+  float: left;
+  display: block;
+  width: calc((100% - 10px) / 3);
+  padding: 5px 0;
+  border-radius: 2px;
 }
 
-.search-field div > span:hover {
-  cursor: pointer;
+.tabs > li:nth-child(2) {
+  margin: 0 5px;
 }
 
-.active-field {
-  background-color: #34495e;
-  color: white;
-}
+
 
 
 /*Search Items*/
 .search-results {
-  overflow: scroll;
-  height: 253px;
-  /*TODO: REMOVE, This is just for styling */
-  border-top: 3px solid #34495e;
+  overflow: auto;
+  width: 100%;
+  height: 243px;
 }
 
 div.search-results > div {

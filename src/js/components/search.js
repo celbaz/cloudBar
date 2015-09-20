@@ -97,13 +97,13 @@ var Search = React.createClass({
             placeholder='Search...' />
           {clearSearchIcon}
         </fieldset>
-        <div className="search-field" onClick={this.toggleSearch}>
-          <div id="search-type">
-            <span>Tracks</span>
-            <span>Users</span>
-            <span>Playlists</span>
-          </div>
-        </div>
+
+        <ul id="search-type" className="tabs nav group" onClick={this.toggleSearch}>
+          <li>Tracks</li>
+          <li>Users</li>
+          <li>Playlists</li>
+        </ul>
+
         <div className='search-results'>
           <SearchItems searchResults={this.state.searchResults} />
         </div>
