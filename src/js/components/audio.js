@@ -14,12 +14,17 @@ var Audio = React.createClass({
   // to the view when to update.
 
   componentDidMount: function () {
-    // Play Test Sound
-    AudioStore.playSound();
-
+    // Play Test Sounds and queue playback
+    // AudioStore.playNextSound();
     document.addEventListener('keydown', function(e) {
-      if(e.keyCode === 81) {
-        AudioStore.pauseSound();
+      if(e.keyCode === 32) {
+        if(AudioStore._audioBeingPlayed.paused) {
+          AudioStore._audioBeingPlayed.play();
+        } else {
+          AudioStore._audioBeingPlayed.pause();
+        }
+      } else if (e.keyCode === 187) {
+        AudioStore.playNextSound();
       }
     });
 
