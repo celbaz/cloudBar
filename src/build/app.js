@@ -30063,16 +30063,29 @@ var SearchItems = React.createClass({
             list.user.username
           ),
           React.createElement(
-            'ul',
-            { className: 'meta group' },
+            'div',
+            { className: 'options-wrapper' },
             React.createElement(
-              'li',
-              { className: 'track-count' },
-              React.createElement('i', { className: 'icon-play' }),
-              list.track_count,
-              ' song(s)'
+              'ul',
+              { className: 'meta group' },
+              React.createElement(
+                'li',
+                { className: 'track-count' },
+                React.createElement('i', { className: 'icon-play' }),
+                list.track_count,
+                ' song(s)'
+              ),
+              playlistType
             ),
-            playlistType
+            React.createElement(
+              'div',
+              { className: 'play-options' },
+              React.createElement(
+                'button',
+                { className: 'play-button icon-play' },
+                'Start Playlist'
+              )
+            )
           )
         )
       );

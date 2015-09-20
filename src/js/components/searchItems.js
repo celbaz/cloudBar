@@ -125,14 +125,22 @@ var SearchItems = React.createClass({
               {list.user.username}
             </h4>
 
-            <ul className="meta group">
-              <li className="track-count">
-                <i className="icon-play" />
-                {list.track_count} song(s)
-              </li>
+            <div className="options-wrapper">
+              <ul className="meta group">
+                <li className="track-count">
+                  <i className="icon-play" />
+                  {list.track_count} song(s)
+                </li>
 
-              {playlistType}
-            </ul>
+                {playlistType}
+              </ul>
+
+              <div className="play-options">
+                <button className="play-button icon-play">
+                  Start Playlist
+                </button>
+              </div>
+            </div>
           </article>
         </li>
       );
