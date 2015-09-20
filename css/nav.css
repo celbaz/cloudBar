@@ -1,0 +1,56 @@
+/* Navigation styles */
+.nav {
+
+}
+
+.nav > li {
+  float: left;
+  background: #0e1f38;
+  cursor: pointer;
+}
+
+.nav > li:hover {
+  background: #ff6e40;
+}
+
+.nav > li.active {
+  background-color: #ff6e40;
+  cursor: default;
+}
+
+/* Tab styles */
+.tabs {
+  width: 100%;
+  margin: 10px 0;
+  text-align: center;
+  color: #f7f7f7;
+}
+
+.tabs > li {
+  float: left;
+  display: block;
+  padding: 5px 0;
+  border-radius: 2px;
+}
+
+/* Footer styles */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 12vh;
+  text-align: center;
+  font-size: 24px;
+  color: #f7f7f7;
+}
+
+.sections {
+  width: 100%;
+  height: 100%;
+}
+
+.sections > li {
+  width: 25%;
+  height: 100%;
+  padding: 10px 0;
+}

@@ -1,0 +1,151 @@
+/*Search Items*/
+.search-items {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.search-item {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 15px; /* TODO: compact for more results? */
+  background: #ebebeb;
+  border-radius: 2px;
+}
+
+.search-item:hover {
+  padding-bottom: 12px;
+  border-bottom: 3px solid #ff6e40;
+  background: #fff;
+  box-shadow: 0 1px 3px #aaa;
+}
+
+.search-item > figure {
+  position: relative;
+  float: left;
+  width: 45px;
+  height: 45px;
+  margin-right: 15px;
+  background: #ccc;
+}
+
+.search-item > figure > img {
+  width: 100%;
+  height: auto;
+}
+
+.track-info {
+  float: left;
+  width: calc(100% - 70px);
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-info > h3 {
+  font-weight: 700;
+}
+
+/* Results metadata */
+.track-info .options-wrapper {
+  position: relative;
+  width: 100%;
+  height: 15px;
+  margin-top: 5px;
+  font-size: 10px;
+  overflow: hidden;
+}
+
+.track-info .meta {
+  position: absolute;
+  top: 0;
+  transition: top 0.5s;
+
+  color: #aaa;
+}
+
+.track-info .meta > li {
+  float: left;
+  margin: 1px 5px 0 0;
+}
+
+.track-info i:before {
+  margin-left: 0;
+}
+
+.play-options {
+  position: absolute;
+  top: 17px;
+  transition: top 0.5s;
+}
+
+.search-item:hover .options-wrapper {
+  color: #ff6e40;
+}
+
+.search-item:hover .track-info .meta {
+  top: -17px;
+}
+
+.search-item:hover .play-options {
+  top: 0;
+}
+
+.play-options > button {
+  padding: 0 2px;
+  border: 1px solid #ff6e40;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.play-options > button:before {
+  margin: 0;
+  margin-right: 1px;
+}
+
+.play-options > button:hover {
+  color: #fff;
+  background: #ff6e40;
+}
+
+.play-options > .play-button {
+  margin-right: 5px;
+}
+
+.play-options > .add-button {
+
+}
+
+.play-options > .add-button:before {
+  content: "+";
+}
+
+/* Playlist result */
+.playlist .options-wrapper {
+  margin-top: 3px;
+}
+
+.playlist .meta > li {
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.playlist .meta > li.playlist-type {
+  padding: 2px;
+  color: #f7f7f7;
+  background: #aaa;
+  border-radius: 1px;
+}
+
+.meta > .playlist-type:before {
+  content: "#";
+}
+
+.search-init {
+  padding: 75px 50px;
+  text-align: center;
+  display: inherit;
+}
