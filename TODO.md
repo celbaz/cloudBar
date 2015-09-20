@@ -13,7 +13,12 @@ Login Page:
 - Auth Token does not refresh
 
 Profile Page:
+- restyle and add settings options
 - Add info in local storage the first time and then periodically check if its changed.
+
+Favorite Page:
+- Playlists should expand when clicked
+- Fix Icon for expand
 
 AudioPage:
 - remove keybinding for refresh and dev console

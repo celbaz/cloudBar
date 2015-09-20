@@ -135,6 +135,9 @@ var SearchItems = React.createClass({
               </ul>
 
               <div className="play-options">
+                <button className="play-button icon-clock">
+                  View Tracks
+                </button>
                 <button className="play-button icon-play">
                   Start Playlist
                 </button>
