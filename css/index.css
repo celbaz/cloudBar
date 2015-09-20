@@ -127,7 +127,7 @@ div.main-container {
   width: 100%;
   height: 90vh;
   padding: 0 10px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .main-container.login {
@@ -218,7 +218,8 @@ div.quit-app:hover {
 .search-bar > input {
   display: inline-block;
   width: calc(100% - 30px);
-  padding: 11px 5px 9px 5px;
+  padding: 5px;
+  padding-top: 10px;
   text-transform: uppercase;
 }
 
@@ -230,7 +231,7 @@ div.quit-app:hover {
   cursor: pointer;
 }
 
-.close-search:after {
+.close-search:before {
   content: "\00d7";
 }
 
@@ -258,33 +259,38 @@ div.quit-app:hover {
 
 
 /*Search Items*/
-.search-results {
+.search-items {
   overflow: auto;
   width: 100%;
   height: 251px;
-  font-size: 12px;
 }
 
 .search-item {
   width: 100%;
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 15px; /* TODO: compact for more results? */
   background: #ebebeb;
   border-radius: 2px;
+  cursor: pointer;
+}
+
+.search-item:hover {
+  padding-bottom: 12px;
+  border-bottom: 3px solid #ff6e40;
+  background: #fff;
 }
 
 .search-item > figure {
   float: left;
-  width: 50px;
-  height: 50px;
-  margin-right: 20px;
+  width: 45px;
+  height: 45px;
+  margin-right: 15px;
   background: #ccc;
 }
 
 .search-item > figure > img {
   width: 100%;
   height: auto;
-  cursor: pointer;
 }
 
 .track-info {
@@ -298,34 +304,33 @@ div.quit-app:hover {
   text-overflow: ellipsis;
 }
 
-.track-info > .song-title {
-
+.track-info > h3 {
+  font-weight: 700;
 }
 
-.search-item div span p {
-  display: inherit;
-  padding-left: 5px;
+.track-info > .meta {
+  margin-top: 5px;
+  font-size: 10px;
+  color: #aaa;
 }
+
+.track-info > .meta > li {
+  float: left;
+  margin-right: 5px;
+}
+
+.search-item:hover .track-info > .meta > li {
+  color: #ff6e40;
+}
+
+.track-info i:before {
+  margin-left: 0;
+}
+
+
 
 .search-init {
   padding: 75px 50px;
   text-align: center;
   display: inherit;
-}
-/*.main {
-  color: ghostwhite;
-  padding: 100px 100px 75px;
-  text-align: center;
-}
-
-.sign-in-button a {
-  color: ghostwhite;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-}*/
-.carl {
-  width: 100px;
-  height: 100px;
-  background: red;
 }

@@ -37,19 +37,24 @@ var SearchItems = React.createClass({
 
           <article className="track-info">
             <h3 className="song-title ellipsis">
-              {item.username || item.user.username}
-            </h3>
-            <h4 className="song-artist ellipsis">
               {item.title}
+            </h3>
+
+            <h4 className="song-artist ellipsis">
+              {item.username || item.user.username}
             </h4>
-            <span>
-              <p className="song-likes">
-                {item.likes_count}
-              </p>
-              <p className="song-plays">
+
+            <ul className="meta group">
+              <li className="song-plays">
+                <i className="icon-play" />
                 {item.playback_count}
-              </p>
-            </span>
+              </li>
+
+              <li className="song-likes">
+                <i className="icon-heart" />
+                {item.likes_count}
+              </li>
+            </ul>
           </article>
         </li>
       );

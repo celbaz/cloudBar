@@ -102,9 +102,7 @@ var Search = React.createClass({
           <li>Playlists</li>
         </ul>
 
-        <div className='search-results'>
-          <SearchItems searchResults={this.state.searchResults} />
-        </div>
+        <SearchItems searchResults={this.state.searchResults} />
       </div>
     );
   }
