@@ -1,0 +1,2 @@
+- When logging in for the first time and have to approve the app, have to click log in again
+- Tracks on Likes page don't show like counts
