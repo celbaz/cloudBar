@@ -7,6 +7,7 @@ var Footer = require('./components/footer');
 var PlayerPage = require('./components/player');
 var ProfilePage = require('./components/profile');
 var SearchPage = require('./components/search');
+var LikePage = require('./components/like');
 var LoginPage = require('./components/login');
 var SettingsPage = require('./components/settings');
 
@@ -45,9 +46,10 @@ var NotFound = React.createClass({
 var routes = (
   <Route handler={App} path="/">
     <DefaultRoute handler={SearchPage} />
-    <Route name="login" handler={LoginPage}/>
-    <Route name="profile" handler={ProfilePage}/>
     <Route name="search" handler={SearchPage}/>
+    <Route name="profile" handler={ProfilePage}/>
+    <Route name="like" handler={LikePage}/>
+    <Route name="login" handler={LoginPage}/>
     <Route name="settings" handler={SettingsPage}/>
     <Route name="player" handler={PlayerPage} />
     <NotFoundRoute handler={NotFound}/>

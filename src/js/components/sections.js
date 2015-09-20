@@ -22,8 +22,8 @@ var Sections = React.createClass({
     };
   },
 
-  goToHome: function () {
-    this.context.router.transitionTo('settings');
+  goToLike: function () {
+    this.context.router.transitionTo('like');
   },
 
   goToSearch: function () {
@@ -50,9 +50,9 @@ var Sections = React.createClass({
 
     return (
         <span className='sections'>
-          <i className='fa  fa-tachometer' onClick={this.goToHome} />
           <i className='fa fa-search' onClick={this.goToSearch} />
           <i className='fa fa-inbox' onClick={this.goToProfile} />
+          <i className='fa  fa-star' onClick={this.goToLike} />
           <i className='fa fa-soundcloud' onClick={this.goToPlayer} />
         </span>
       );
