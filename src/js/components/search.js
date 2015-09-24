@@ -12,14 +12,18 @@ var Search = React.createClass({
   ],
 
   onChange: function (event) {
-    Actions.updateSearchTerm(event.target.value);
+    window.clearTimeout(window.timeIn);
+    var e = event.target, self = this;
+    window.timeIn = window.setTimeout(function () {
+      Actions.updateSearchTerm(e.value);
 
-    // TODO: set timout and wait for user to stop typing.
-    this.setState({
-      query: event.target.value,
-      searchTerm: event.target.value
+      // TODO: set timout and wait for user to stop typing.
+      self.getSearchResults(e.value);
+    }, 500);
+    self.setState({
+      query: e.value,
+      searchTerm: e.value
     });
-    this.getSearchResults(event.target.value);
   },
 
   toggleSearch: function (event) {
@@ -39,6 +43,7 @@ var Search = React.createClass({
   },
 
   getInitialState: function () {
+    window.timeIn = null;
     var startingType = window.localStorage.getItem('searchtype');
     if(startingType) {
       this.searchType = startingType;
