@@ -28,8 +28,10 @@ var Search = React.createClass({
 
   toggleSearch: function (event) {
     this.searchType = event.target.id;
-    window.localStorage.setItem('searchtype', this.searchType);
-    this.renderField();
+    if(this.searchType !== localStorage.getItem('searchtype')) {
+      window.localStorage.setItem('searchtype', this.searchType);
+      this.renderField();
+    }
   },
 
   getSearchResults: function () {
@@ -68,6 +70,7 @@ var Search = React.createClass({
         options[i].setAttribute('class', ' ');
       }
     }
+    self.getSearchResults();
   },
 
   completedSearchResults: function () {
