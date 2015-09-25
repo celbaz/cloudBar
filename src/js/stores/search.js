@@ -2,21 +2,12 @@ var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var Loading = require('reloading');
 var apiRequests = require('../utils/api-requests');
-var ipc = window.require('ipc');
 
 var SearchStore = Reflux.createStore({
   listenables: Actions,
 
   init: function () {
     this._searchResults = [];
-  },
-
-  updateTrayIcon: function (searchResults) {
-    if (searchResults.length > 0) {
-      ipc.sendChannel('update-icon', 'TrayActive');
-    } else {
-      ipc.sendChannel('update-icon', 'TrayIdle');
-    }
   },
 
   onUpdateSearchTerm: function (searchTerm) {
@@ -34,24 +25,31 @@ var SearchStore = Reflux.createStore({
   },
 
   prepareURL: function () {
-    var creds, query, fieldType;
-    creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
-    fieldType = window.localStorage.getItem('searchtype').toLowerCase();
-    query = '&q=' + this._searchTerm + '&limit=20';
+    var creds, query, fieldType, searchtype = window.localStorage.getItem('searchtype');
 
+    creds = '?oauth_token=' + window.localStorage.getItem('soundcloudtoken');
+    if (searchtype === "playlists") {
+      fieldType = searchtype;
+      query = '&q=' + this._searchTerm;
+    } else {
+      fieldType = 'tracks';
+      query = (searchtype === 'title') ? '&q=' : '&' + searchtype + '=';
+      // query +=   '=';
+      query += encodeURIComponent(this._searchTerm) + '&filter=streamable';
+    }
+
+    query += '&limit=20';
     return fieldType + creds + query;
   },
 
   onGetSearchResults: function () {
-    var self = this;
 
     apiRequests
-      .get('https://api.soundcloud.com/' + self.prepareURL())
+      .get('https://api.soundcloud.com/' + this.prepareURL())
       .end(function (err, response) {
         if (response && response.ok) {
           // Success - Do Something.
           Actions.getSearchResults.completed(response.body);
-          self.updateTrayIcon(response.body);
         } else {
           // Error - Show messages.
           Actions.getSearchResults.failed(err);

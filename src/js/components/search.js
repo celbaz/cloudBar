@@ -19,7 +19,7 @@ var Search = React.createClass({
 
       // TODO: set timout and wait for user to stop typing.
       self.getSearchResults(e.value);
-    }, 500);
+    }, 300);
     self.setState({
       query: e.value,
       searchTerm: e.value
@@ -50,7 +50,7 @@ var Search = React.createClass({
     if(startingType) {
       this.searchType = startingType;
     } else {
-      this.searchType = 'Tracks';
+      this.searchType = 'title';
       window.localStorage.setItem('searchtype', this.searchType);
     }
     return { query: ""};
@@ -70,7 +70,7 @@ var Search = React.createClass({
         options[i].setAttribute('class', ' ');
       }
     }
-    self.getSearchResults();
+    if(this.state.query !== "") this.getSearchResults();
   },
 
   completedSearchResults: function () {
@@ -109,13 +109,13 @@ var Search = React.createClass({
         </fieldset>
 
         <ul id="search-type" className="tabs nav group" onClick={this.toggleSearch}>
-          <li id="Tracks">By Title</li>
-          <li id="Users">By Artist</li>
-          <li id="Playlists">By Playlist</li>
+          <li id="title">By Title</li>
+          <li id="tags">By Artist</li>
+          <li id="playlists">By Playlist</li>
         </ul>
 
         <div className="search-results">
-          <SearchItems searchResults={this.state.searchResults} resultType={this.searchType === 'Playlists' ? "Playlists" : "Tracks"} />
+          <SearchItems searchResults={this.state.searchResults} resultType={this.searchType === 'playlists' ? "Playlists" : "Tracks"} />
         </div>
       </div>
     );
