@@ -1,6 +1,6 @@
 html, body, main, form, fieldset, label, input, button, ul, li, nav, section,
 article, header, h1, h2, h3, h4, small, figure, img, a, strong, i, div, p,
-span, footer {
+span, footer, select {
   margin: 0;
   padding: 0;
   border: 0;
@@ -13,7 +13,7 @@ span, footer {
   background: transparent;
 }
 
-input, button {
+input, button, select {
   display: inline-block;
   outline: none;
   width: auto;

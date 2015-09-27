@@ -1,0 +1,168 @@
+/* Profile container */
+.main-container.profile {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Profile wrapper */
+.profile-wrapper {
+  text-align: center;
+}
+
+/* Profile header */
+.profile-head {
+  padding: 10px;
+  background: #ebebeb;
+  border-radius: 2px;
+}
+
+.profile-head > img {
+  width: 50px;
+  height: auto;
+  margin: auto;
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+.profile-head h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profile-head a {
+  color: #aaa;
+  cursor: pointer;
+}
+
+.profile-head a:hover {
+  text-decoration: underline;
+}
+
+/* Profile stats */
+.stats {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.stats > li {
+  float: left;
+  width: calc(25% - 3px);
+  padding: 10px 0;
+  background: #ebebeb;
+  border-radius: 2px;
+}
+
+.stats > li:not(:last-child) {
+  margin-right: 4px;
+}
+
+.stats strong {
+  display: block;
+  font-size: 18px;
+}
+
+/* Profile error */
+.profile-error {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.profile-error > h1 {
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+/* Settings */
+.settings > h2 {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.settings-list {
+
+}
+
+.settings-list > li {
+  margin: 5px 0;
+  padding: 10px;
+  background: #ebebeb;
+  border-radius: 2px;
+}
+
+.settings-list label {
+  float: left;
+  padding: 2px 0;
+  line-height: 1;
+}
+
+.settings-list .setting-option {
+  float: right;
+}
+
+/* Checkboxes */
+.toggle-checkbox {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border-radius: 10px;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.toggle-checkbox:before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: left 0.3s;
+
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.toggle-checkbox:checked {
+  background: #ff6e40;
+}
+
+.toggle-checkbox:checked:before {
+  left: 50%;
+}
+
+/* Search results select */
+.search-results-count {
+  width: 20px;
+  padding: 2px 5px;
+  line-height: 1;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Buttons */
+.buttons {
+  margin: 10px 0;
+}
+
+.buttons > button {
+  display: block;
+  width: calc(100% - 20px);
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ff6e40;
+  background: #fff;
+  border: 1px solid #ff6e40;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.buttons > button:first-child {
+  margin-bottom: 5px;
+}
+
+.buttons > button:hover {
+  color: #fff;
+  background: #ff6e40;
+}

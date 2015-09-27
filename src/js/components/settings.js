@@ -18,6 +18,10 @@ var SettingsPage = React.createClass({
     Actions.setSetting(key, event.target.checked);
   },
 
+  setResultsCount: function (event) {
+    var resultsCount = event.target.value;
+  },
+
   // Remove or Fix in the future
   logOut: function () {
     Actions.logout();
@@ -30,28 +34,54 @@ var SettingsPage = React.createClass({
 
   render: function () {
     return (
-      <div className="main-container settings">
-        <div className='settings-row'>
-          <div className='toggle-label'>Features to Come</div>
-          <ul>
-            <li>Auto Open At Computer Startup</li>
-            <li>Spotify Integration</li>
-            <li>UI Redesign</li>
+      <section className="settings-container">
+        <article className="settings">
+          <ul className="settings-list">
+            <li className="group">
+              <label>Auto-open on computer start-up</label>
+              <input
+                className="setting-option toggle-checkbox"
+                type="checkbox"
+                onChange={this.toggleSetting.bind(this, "auto-open")} />
+            </li>
+
+            <li className="group">
+              <label>Global keybindings</label>
+              <input
+                className="setting-option toggle-checkbox"
+                type="checkbox"
+                onChange={this.toggleSetting.bind(this, "keybindings")} />
+            </li>
+
+            <li className="group">
+              <label># of search results</label>
+              <select
+                className="setting-option search-results-count"
+                onChange={this.setResultsCount}>
+                {[10, 20, 50].map(function (count) {
+                  return (
+                    <option
+                      key={"count-" + count}
+                      value={count}>
+                      {count}
+                    </option>
+                  );
+                })}
+              </select>
+            </li>
           </ul>
-        </div>
-        <div className='quit-app'>
-          <button className='' onClick={this.appQuit}>
-            <i className="fa fa-power-off" />
+        </article>
+
+        <article className="buttons">
+          <button onClick={this.appQuit}>
             Quit Cloudbar
           </button>
-        </div>
-        <div className='quit-app'>
-          <button className='' onClick={this.logOut}>
-            <i className="fa fa-power" />
-            Log Out Of Cloudbar
+
+          <button onClick={this.logOut}>
+            Log out of Cloudbar
           </button>
-        </div>
-      </div>
+        </article>
+      </section>
     );
   }
 });
