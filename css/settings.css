@@ -1,0 +1,83 @@
+/* Profile wrapper */
+.profile-wrapper {
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* Profile header */
+.profile-head {
+  padding: 10px;
+  background: #ebebeb;
+}
+
+.profile-head > img {
+  width: 50px;
+  height: auto;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.profile-head h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profile-head a {
+  color: #aaa;
+  cursor: pointer;
+}
+
+.profile-head a:hover {
+  text-decoration: underline;
+}
+
+/* Profile stats */
+.stats {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.stats > li {
+  float: left;
+  width: calc(25% - 3px);
+  padding: 10px 0;
+  background: #ebebeb;
+}
+
+.stats > li:not(:last-child) {
+  margin-right: 4px;
+}
+
+.stats strong {
+  display: block;
+  font-size: 18px;
+}
+
+/* Profile error */
+.profile-error {
+  text-align: center;
+  margin-top: 75px;
+  font-size: 20px;
+}
+
+/* Quit button */
+div.quit-app {
+  display: block;
+  border: 2px solid black;
+  text-align: center;
+  border-radius: 2px;
+  padding: 10px;
+  margin: 6px;
+  background-color: whitesmoke;
+  transition: all 0.7s ease;
+}
+
+div.quit-app:hover {
+  background-color: #34495e;
+}
+
+.quit-app span {
+  padding-left: 5px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}

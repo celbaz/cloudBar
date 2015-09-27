@@ -69,16 +69,27 @@ var Profile = React.createClass({
             </figcaption>
           </figure>
 
-          <article className="stats">
-            <h2>Statistics</h2>
+          <ul className="stats group">
+            <li>
+              <strong>{info.public_favorites_count}</strong>
+              favorites
+            </li>
 
-            <ul>
-              <li># of playlists: {info.playlist_count}</li>
-              <li># of favorites: {info.public_favorites_count}</li>
-              <li># of followers: {info.followers_count}</li>
-              <li># of followings: {info.followings_count}</li>
-            </ul>
-          </article>
+            <li>
+              <strong>{info.playlist_count}</strong>
+              playlists
+            </li>
+
+            <li>
+              <strong>{info.followers_count}</strong>
+              followers
+            </li>
+
+            <li>
+              <strong>{info.followings_count}</strong>
+              followings
+            </li>
+          </ul>
         </section>
       );
     }
