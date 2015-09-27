@@ -1,9 +1,3 @@
-/* Profile container */
-.main-container.profile {
-  padding: 10px;
-  box-sizing: border-box;
-}
-
 /* Profile wrapper */
 .profile-wrapper {
   text-align: center;

@@ -97,7 +97,7 @@ var Profile = React.createClass({
     }
 
     return (
-      <div className="main-container profile">
+      <div className="main-container with-padding profile">
         {profile || errors}
         <Settings />
       </div>

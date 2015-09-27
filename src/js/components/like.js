@@ -58,7 +58,7 @@ var Likes = React.createClass({
 
   render: function () {
     return (
-      <div className="main-container likes">
+      <div className="main-container with-padding likes">
         <h1>My Music</h1>
         <ul className="tabs nav group" onClick={this.toggleTab}>
           <li className={(this.state.likeTab === "Tracks") ? "active" : ""} id="Tracks">My Favorite Tracks</li>

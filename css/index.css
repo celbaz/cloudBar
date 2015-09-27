@@ -65,13 +65,16 @@ div.left-section {
 }
 
 /*Main Section Styles*/
-
-div.main-container {
+.main-container {
   width: 100%;
   height: 88vh;
-  padding: 0 10px;
   font-size: 12px;
   overflow-y: auto;
+}
+
+.with-padding {
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .main-container.login {
