@@ -1,7 +1,11 @@
+.content {
+	height: 100%;
+	position: relative;
+}
+
 .player {
 	margin: 0 auto;
 	width: 100vw;
-	position: relative;
 	overflow: hidden;
 	background: #222;
 }
@@ -57,8 +61,8 @@
 	-webkit-filter: url("#goo-no-comp");
 	filter: url("../index.html#goo-no-comp");
 	transform: translateZ(0);
-	position: relative;
-	height: 265px;
+	position: absolute;
+	bottom: 40px;
 	z-index: 2;
 	white-space: nowrap;
 }
@@ -98,7 +102,9 @@
 }
 
 .player-controls {
-	position: relative;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
 	height: 40px;
 	line-height: 40px;
 	z-index: 5;
