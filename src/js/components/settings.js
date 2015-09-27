@@ -30,28 +30,27 @@ var SettingsPage = React.createClass({
 
   render: function () {
     return (
-      <div className="main-container settings">
-        <div className='settings-row'>
-          <div className='toggle-label'>Features to Come</div>
-          <ul>
+      <section className="settings">
+        <article className="features-to-come">
+          <h2>Features to Come</h2>
+
+          <ul className="features-list">
             <li>Auto Open At Computer Startup</li>
             <li>Spotify Integration</li>
             <li>UI Redesign</li>
           </ul>
-        </div>
-        <div className='quit-app'>
-          <button className='' onClick={this.appQuit}>
-            <i className="fa fa-power-off" />
+        </article>
+
+        <article className="buttons">
+          <button onClick={this.appQuit}>
             Quit Cloudbar
           </button>
-        </div>
-        <div className='quit-app'>
-          <button className='' onClick={this.logOut}>
-            <i className="fa fa-power" />
+
+          <button onClick={this.logOut}>
             Log Out Of Cloudbar
           </button>
-        </div>
-      </div>
+        </article>
+      </section>
     );
   }
 });
