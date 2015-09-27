@@ -1,6 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
-var AudioStore = require('./audio');
+var AudioStore = require('../stores/audio');
 // var shell = remote.require('shell');
 
 
@@ -9,13 +9,22 @@ var AudioPlayer = React.createClass({
 
   getInitialState: function () {
     var song = localStorage.getItem('currentsong');
-    return { playing: false};
+    return { paused: true};
   },
 
   playPause: function (event) {
-    $(event.target).toggleClass('fa-pause').toggleClass('fa-play')
+    $(event.target).toggleClass('fa-pause').toggleClass('fa-play');
     event.preventDefault();
     window.animiateGooey();
+    var stream = AudioStore._audioBeingPlayed;
+    if(stream.paused) {
+      stream.play();
+    } else {
+      $(stream).animate({ volume: 0}, { duration: 1250, complete: function () {
+        stream.pause();
+        stream.volume = 1;
+      }});
+    }
   },
 
   componentDidMount: function () {
@@ -23,7 +32,7 @@ var AudioPlayer = React.createClass({
   		,$bars=$(".player-spectrum-bar")
   		,$spectrum=$(".player-spectrum")
 
-  		,paused=true
+  		,paused= (!AudioStore.currentlyPlaying())
 
   		,barWidth=$bars.width()
   		,barHeight=$bars.height()
