@@ -2,7 +2,6 @@
 .search-container {
   display: -webkit-flex;
   -webkit-flex-direction: column;
-  -webkit-justify-content: space-between;
 }
 
 /* Search bar */
