@@ -13,10 +13,26 @@
     <link href="css/searchItems.css" rel="stylesheet">
     <link href="css/search.css" rel="stylesheet">
     <link href="css/likes.css" rel="stylesheet">
+    <link href="css/player.css" rel="stylesheet">
+    <!-- HELPER JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
 
   <body>
     <div id="app"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="300">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+        <filter id="goo-no-comp">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+        </filter>
+      </defs>
+    </svg>
   </body>
 
   <script type="text/javascript" src="src/build/app.js"></script>
@@ -27,5 +43,9 @@
         e.preventDefault();
       }
     });
+
+    window.$ = window.jQuery = require('./assets/js/jquery.js');
   </script>
+  <script type="text/javascript" src="assets/js/TweenMax.min.js"></script>
+  <script type="text/javascript" src="assets/js/player.js"></script>
 </html>

@@ -29,6 +29,7 @@ var Audio = React.createClass({
   },
 
   render: function () {
+    // TODO: remove this
     return (
       <p></p>
     );
