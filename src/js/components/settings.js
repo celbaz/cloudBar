@@ -18,6 +18,10 @@ var SettingsPage = React.createClass({
     Actions.setSetting(key, event.target.checked);
   },
 
+  setResultsCount: function (event) {
+    var resultsCount = event.target.value;
+  },
+
   // Remove or Fix in the future
   logOut: function () {
     Actions.logout();
@@ -30,14 +34,41 @@ var SettingsPage = React.createClass({
 
   render: function () {
     return (
-      <section className="settings">
-        <article className="features-to-come">
-          <h2>Features to Come</h2>
+      <section className="settings-container">
+        <article className="settings">
+          <ul className="settings-list">
+            <li className="group">
+              <label>Auto-open on computer start-up</label>
+              <input
+                className="setting-option toggle-checkbox"
+                type="checkbox"
+                onChange={this.toggleSetting.bind(this, "auto-open")} />
+            </li>
 
-          <ul className="features-list">
-            <li>Auto Open At Computer Startup</li>
-            <li>Spotify Integration</li>
-            <li>UI Redesign</li>
+            <li className="group">
+              <label>Global keybindings</label>
+              <input
+                className="setting-option toggle-checkbox"
+                type="checkbox"
+                onChange={this.toggleSetting.bind(this, "keybindings")} />
+            </li>
+
+            <li className="group">
+              <label># of search results</label>
+              <select
+                className="setting-option search-results-count"
+                onChange={this.setResultsCount}>
+                {[10, 20, 50].map(function (count) {
+                  return (
+                    <option
+                      key={"count-" + count}
+                      value={count}>
+                      {count}
+                    </option>
+                  );
+                })}
+              </select>
+            </li>
           </ul>
         </article>
 

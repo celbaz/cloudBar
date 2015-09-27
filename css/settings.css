@@ -1,6 +1,11 @@
+/* Profile container */
+.main-container.profile {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 /* Profile wrapper */
 .profile-wrapper {
-  padding: 10px 0;
   text-align: center;
 }
 
@@ -14,6 +19,7 @@
   width: 50px;
   height: auto;
   margin: auto;
+  margin-bottom: 10px;
   border-radius: 50%;
 }
 
@@ -58,6 +64,62 @@
   text-align: center;
   margin-top: 75px;
   font-size: 20px;
+}
+
+/* Settings */
+.settings > h2 {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.settings-list {
+
+}
+
+.settings-list > li {
+  margin: 5px 0;
+  padding: 10px;
+  background: #ebebeb;
+}
+
+.settings-list label {
+  float: left;
+  padding: 2px 0;
+  line-height: 1;
+}
+
+.settings-list .setting-option {
+  float: right;
+}
+
+.toggle-checkbox {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border-radius: 10px;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.toggle-checkbox:before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: left 0.3s;
+
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.toggle-checkbox:checked {
+  background: #ff6e40;
+}
+
+.toggle-checkbox:checked:before {
+  left: 50%;
 }
 
 /* Quit button */
