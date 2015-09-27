@@ -78,7 +78,7 @@ var SettingsPage = React.createClass({
           </button>
 
           <button onClick={this.logOut}>
-            Log Out Of Cloudbar
+            Log out of Cloudbar
           </button>
         </article>
       </section>
