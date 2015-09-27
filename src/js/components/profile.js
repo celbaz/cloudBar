@@ -41,7 +41,8 @@ var Profile = React.createClass({
     });
   },
 
-  openUserBrowser: function () {
+  openUserBrowser: function (e) {
+    e.preventDefault();
     shell.openExternal(this.state.profile.permalink_url);
   },
 
@@ -53,38 +54,38 @@ var Profile = React.createClass({
       errors = (
         <div className="profile-error">
           <h3>Oops something went wrong.</h3>
-          <h4>Couldn't get your profile.</h4>
+          <h4>{"Couldn't get your profile."}</h4>
         </div>
       );
     } else {
       info = this.state.profile;
       profile = (
-        <div className="profile-wrapper">
-          <div className="profile-info group">
+        <section className="profile-wrapper">
+          <figure className="profile-head">
             <img src={info.avatar_url} />
-            <div className="profile-info-right">
-              <span>{info.full_name}</span>
-              <span onClick={this.openUserBrowser}>
-                <a>View My Account</a>
-              </span>
-            </div>
-          </div>
-      </div>
+            <figcaption>
+              <h1>{info.full_name}</h1>
+              <a onClick={this.openUserBrowser}>View My Account</a>
+            </figcaption>
+          </figure>
+
+          <article className="stats">
+            <h2>Statistics</h2>
+
+            <ul>
+              <li># of playlists: {info.playlist_count}</li>
+              <li># of favorites: {info.public_favorites_count}</li>
+              <li># of followers: {info.followers_count}</li>
+              <li># of followings: {info.followings_count}</li>
+            </ul>
+          </article>
+        </section>
       );
-      //   <div className="stats">
-      //     <h2>Statistics</h2>
-      //   <ul>
-      //     <li># of playlists: {info.playlist_count}</li>
-      //     <li># of favorites: {info.public_favorites_count}</li>
-      //     <li># of followers: {info.followers_count}</li>
-      //     <li># of followings: {info.followings_count}</li>
-      //   </ul>
-      // </div>
     }
 
     return (
       <div className="main-container profile">
-        {(profile) ? profile : errors}
+        {profile || errors}
         <Settings />
       </div>
     );
