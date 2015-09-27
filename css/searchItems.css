@@ -23,8 +23,8 @@
 .search-item > figure {
   position: relative;
   float: left;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   margin-right: 15px;
   background: #ccc;
 }
@@ -53,8 +53,8 @@
 .track-info .options-wrapper {
   position: relative;
   width: 100%;
-  height: 15px;
-  margin-top: 5px;
+  height: 16px;
+  margin-top: 3px;
   font-size: 10px;
   overflow: hidden;
 }
@@ -125,7 +125,7 @@
 
 /* Playlist result */
 .playlist .options-wrapper {
-  margin-top: 3px;
+  margin-top: 1px;
 }
 
 .playlist .meta > li {
