@@ -8,6 +8,7 @@ var AudioPlayer = React.createClass({
 
   getInitialState: function () {
     var song = localStorage.getItem('currentsong');
+    return { playing: false};
   },
 
   componentDidMount: function () {

@@ -33,6 +33,7 @@ var SearchItems = React.createClass({
     var id = event.target.parentElement.attributes.getNamedItem('data-stream').value;
     if(event.target.textContent.includes('Play')) {
       AudioStore.playSound(id);
+      this.context.router.transitionTo('player');
     } else {
       AudioStore.addToQueue({stream_id: id});
     }
