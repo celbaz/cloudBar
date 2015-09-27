@@ -9,6 +9,7 @@
 .search-bar {
   padding-top: 10px;
   border-bottom: 2px solid #aaa;
+  min-height: 45px;
 }
 
 .search-bar > input {
@@ -29,6 +30,10 @@
 }
 
 /* Search nav */
+.search-container .tabs {
+  min-height: 24px;
+}
+
 .search-container .tabs > li {
   width: calc((100% - 10px) / 3);
 }
@@ -40,7 +45,5 @@
 /* Search Results */
 .search-results {
   width: 100%;
-  -webkit-flex: 1 1 auto;
   overflow-y: auto;
-  min-height: 0;
 }
