@@ -97,7 +97,7 @@ var Search = React.createClass({
     }
 
     return (
-      <div className="main-container search">
+      <div className="main-container search-container">
         <fieldset className='search-bar'>
           <input
             value={this.state.searchTerm}
