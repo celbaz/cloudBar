@@ -13,6 +13,7 @@
 .profile-head {
   padding: 10px;
   background: #ebebeb;
+  border-radius: 2px;
 }
 
 .profile-head > img {
@@ -48,6 +49,7 @@
   width: calc(25% - 3px);
   padding: 10px 0;
   background: #ebebeb;
+  border-radius: 2px;
 }
 
 .stats > li:not(:last-child) {
@@ -80,6 +82,7 @@
   margin: 5px 0;
   padding: 10px;
   background: #ebebeb;
+  border-radius: 2px;
 }
 
 .settings-list label {
@@ -92,6 +95,7 @@
   float: right;
 }
 
+/* Checkboxes */
 .toggle-checkbox {
   position: relative;
   width: 30px;
@@ -120,6 +124,14 @@
 
 .toggle-checkbox:checked:before {
   left: 50%;
+}
+
+/* Search results select */
+.search-results-count {
+  width: 20px;
+  padding: 2px 5px;
+  line-height: 1;
+  background: #fff;
 }
 
 /* Quit button */
