@@ -52,10 +52,12 @@ var Profile = React.createClass({
 
     if (this.state.errors || profileEmpty) {
       errors = (
-        <div className="profile-error">
-          <h3>Oops something went wrong.</h3>
-          <h4>{"Couldn't get your profile."}</h4>
-        </div>
+        <section className="profile-error">
+          <h1>Oops, something went wrong!</h1>
+          <p>
+            {"We couldn't retrieve your profile. Try checking your Internet connection?"}
+          </p>
+        </section>
       );
     } else {
       info = this.state.profile;

@@ -63,9 +63,14 @@
 
 /* Profile error */
 .profile-error {
+  padding: 10px;
   text-align: center;
-  margin-top: 75px;
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.profile-error > h1 {
+  margin-bottom: 5px;
+  font-weight: 700;
 }
 
 /* Settings */
@@ -132,19 +137,32 @@
   padding: 2px 5px;
   line-height: 1;
   background: #fff;
+  cursor: pointer;
 }
 
 /* Buttons */
+.buttons {
+  margin: 10px 0;
+}
+
 .buttons > button {
   display: block;
   width: calc(100% - 20px);
-  margin-bottom: 5px;
   padding: 10px;
-  background: #ebebeb;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ff6e40;
+  background: #fff;
+  border: 1px solid #ff6e40;
   border-radius: 2px;
   cursor: pointer;
 }
 
+.buttons > button:first-child {
+  margin-bottom: 5px;
+}
+
 .buttons > button:hover {
-  background: #fff;
+  color: #fff;
+  background: #ff6e40;
 }
