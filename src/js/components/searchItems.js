@@ -41,7 +41,7 @@ var SearchItems = React.createClass({
   },
 
   generateResults: function () {
-    return this["generate" + this.props.resultType]();
+    return this["generate" + this.props.itemType]();
   },
 
   generateTracks: function () {
@@ -109,22 +109,18 @@ var SearchItems = React.createClass({
     });
   },
 
-  noResults: function () {
-    return (
-      <span className="search-init">
-        Click on the input box above to search.
-      </span>
-    );
-  },
-
   render: function () {
-    var content = (Array.isArray(this.props.searchResults)) ? this.generateResults() : this.noResults();
-
-    return (
-      <ul className="search-items">
-        {content}
-      </ul>
-    );
+    if (Array.isArray(this.props.searchResults)) {
+      return (
+        <ul className="search-items">
+          {this.generateResults()}
+        </ul>
+      );
+    } else {
+      return (
+        <strong className="loading">Loading...</strong>
+      );
+    }
   }
 });
 
