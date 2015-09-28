@@ -13,12 +13,17 @@ div#app {
 
 /* Github link */
 .github-link {
+  display: block;
   font-size: 18px;
-/*  transition: color 0.7s ease;*/
+  color: #34495e;
   letter-spacing: 0.5px;
+  height: 100%;
+  padding-top: 10px;
+  background-color: #ff6e40;
 }
 
 .github-link i {
+  color: #34495e;
   font-size: 24px;
   padding-left: 14px;
   vertical-align: -3px;
@@ -78,7 +83,8 @@ div.left-section {
 }
 
 .main-container.login {
-  margin: 100px 25px;
+  padding: 150px 39px;
+  background-color: #ff6e40;
 }
 
 .sign-in-button {
@@ -91,6 +97,10 @@ div.left-section {
   font-weight: 500;
   border-radius: 6px;
   box-shadow: 3px 3px 0px 0px rgba(42, 62, 80, 1.0);
+}
+
+.sign-in-button:hover {
+  cursor: pointer;
 }
 
 .settings-row ul > li {

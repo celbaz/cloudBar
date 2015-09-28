@@ -38,6 +38,10 @@ var AudioPlayer = React.createClass({
     }
   },
 
+  playNext: function () {
+    AudioStore.playNextSound();
+  },
+
   componentDidMount: function () {
     var $cover=$(".player-cover")
       ,$bars=$(".player-spectrum-bar")
@@ -121,6 +125,8 @@ var AudioPlayer = React.createClass({
   },
 
   render: function () {
+
+    var user = (this.state.user) ? this.state.user.username : "N/A";
     return (
       <div className="main-container">
         <div className="content">
@@ -128,7 +134,7 @@ var AudioPlayer = React.createClass({
           <div className="player-info">
             <div className="player-info-text">
               <h2 className="player-song-name">{this.state.title || "N/A"}</h2>
-              <h3 className="player-artist">{this.state.user.username || "N/A"}</h3>
+              <h3 className="player-artist">{user}</h3>
             </div>
             <div className="player-cover">
               <img src={this.state.artwork_url || "assets/default.jpg"}
@@ -168,7 +174,7 @@ var AudioPlayer = React.createClass({
               <button className="player-button play-pause-button" onClick= {this.playPause}>
                 <i className="fa fa-pause"></i>
               </button>
-              <button className="player-button">
+              <button className="player-button" onClick= {this.playNext}>
                 <i className="fa fa-step-forward"></i>
               </button>
             </div>

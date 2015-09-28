@@ -25,7 +25,7 @@ var Footer = React.createClass({
     if(this.state.authStatus) {
       content = <Sections />
     } else {
-      content = <span className='github-link' onClick={this.openRepoBrowser}>For More Info<i className="icon-github" /></span>;
+      content = <span className='github-link' onClick={this.openRepoBrowser}>For More Info<i className="fa fa-github" /></span>;
     }
 
     return (

@@ -26,7 +26,7 @@ var AudioStore = Reflux.createStore({
 
   addToQueue: function (track) {
     if(!this.currentlyPlaying()) {
-      this.playSound(track.id);
+      this.playSound(track.id, track);
     } else {
       this._trackqueue.push(track);
     }
@@ -58,7 +58,7 @@ var AudioStore = Reflux.createStore({
   playNextSound: function () {
     if(this._trackqueue.length > 0) {
       var track = this._trackqueue.pop()
-      this.playSound(track.id);
+      this.playSound(track.id, track);
     } else {
       alert("Your Queue is Empty");
     }
