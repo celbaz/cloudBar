@@ -88,12 +88,14 @@ var Login = React.createClass({
 
   render: function () {
     return (
-      <div className="main-container login">
-          <div>
-            <button className='sign-in-button' onClick={this.authSoundCloud}>
-              Log in to SoundCloud
-            </button>
-          </div>
+      <div className="login">
+        <section className="login-main">
+          <h1>Cloudbar</h1>
+
+          <button className="sign-in-button" onClick={this.authSoundCloud}>
+            Sign in with SoundCloud
+          </button>
+        </section>
       </div>
     );
   }

@@ -10,29 +10,37 @@ var Footer = React.createClass({
     Reflux.connect(AuthStore, 'authStatus')
   ],
 
-  openRepoBrowser: function () {
-    shell.openExternal('http://www.carlelbaz.com');
-  },
-
   getInitialState: function () {
     return {
       authStatus: AuthStore.authStatus()
     };
   },
 
-  render: function () {
-    var content;
-    if(this.state.authStatus) {
-      content = <Sections />
-    } else {
-      content = <span className='github-link' onClick={this.openRepoBrowser}>For More Info<i className="fa fa-github" /></span>;
-    }
+  openRepoBrowser: function (event) {
+    event.preventDefault();
+    shell.openExternal('http://www.carlelbaz.com');
+  },
 
-    return (
-      <nav className='footer'>
-        {content}
-      </nav>
-    );
+  render: function () {
+    if (this.state.authStatus) {
+      return (
+        <nav className='footer'>
+          <Sections />
+        </nav>
+      );
+    } else {
+      return (
+        <section className="login-footer">
+          <small>
+            Created by
+            <a href="#" onClick={this.openRepoBrowser}>
+              celbaz
+              <i className="icon-github-circled" />
+            </a>
+          </small>
+        </section>
+      );
+    }
   }
 });
 
