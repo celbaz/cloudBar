@@ -129,12 +129,8 @@
 }
 
 /* Playlist result */
-.playlist .options-wrapper {
-
-}
-
-.playlist .meta > li {
-
+.playlist {
+  position: relative;
 }
 
 .playlist .meta > li.playlist-type {
@@ -214,4 +210,27 @@
 
 .track-list > li:hover .track-artist {
   color: #eee;
+}
+
+/* Close playlist button */
+.x {
+  position: absolute;
+  cursor: pointer;
+}
+
+.x:before {
+  content: "\00d7";
+}
+
+.playlist > .x {
+  top: 5px;
+  right: 5px;
+
+  line-height: 1;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.playlist > .x:hover {
+  color: #121113;
 }
