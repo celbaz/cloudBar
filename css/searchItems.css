@@ -54,7 +54,7 @@
   position: relative;
   width: 100%;
   height: 16px;
-  margin-top: 3px;
+  margin-top: 2px;
   font-size: 10px;
   overflow: hidden;
 }
@@ -69,7 +69,9 @@
 
 .track-info .meta > li {
   float: left;
-  margin: 1px 5px 0 0;
+  display: inline-block;
+  margin-right: 5px;
+  padding: 2px 0;
 }
 
 .track-info i:before {
@@ -82,10 +84,6 @@
   transition: top 0.5s;
 }
 
-.search-item:hover .options-wrapper {
-  color: #ff6e40;
-}
-
 .search-item:hover .track-info .meta {
   top: -17px;
 }
@@ -96,6 +94,7 @@
 
 .play-options > button {
   padding: 0 2px;
+  color: #ff6e40;
   border: 1px solid #ff6e40;
   border-radius: 2px;
   cursor: pointer;
@@ -125,12 +124,11 @@
 
 /* Playlist result */
 .playlist .options-wrapper {
-  margin-top: 1px;
+
 }
 
 .playlist .meta > li {
-  display: inline-block;
-  padding: 2px 0;
+
 }
 
 .playlist .meta > li.playlist-type {
