@@ -2,6 +2,8 @@ var React = require('react');
 var _ = require('underscore');
 var Router = require('react-router');
 var AudioStore = require('../stores/audio');
+var PlaylistItem = require('./playlistItem');
+
 var convertMsToMin = function (ms) {
   var min, sec;
 
@@ -93,60 +95,9 @@ var SearchItems = React.createClass({
   },
 
   generatePlaylists: function () {
-    var self = this;
-
     return _.map(this.props.searchResults, function (list) {
-      // Playlist Info
-
-      var playlistType;
-
-      if (list.playlist_type) {
-        playlistType = (
-          <li className="playlist-type">
-            {list.playlist_type}
-          </li>
-        );
-      }
-
       return (
-        <li key={list.id}
-          className="search-item playlist group"
-          onClick={self.renderSongs}>
-
-          <figure>
-            <img src={list.artwork_url} />
-          </figure>
-
-          <article className="track-info">
-            <h3 className="song-title ellipsis">
-              {list.title}
-            </h3>
-
-            <h4 className="song-artist ellipsis">
-              {list.user.username}
-            </h4>
-
-            <div className="options-wrapper">
-              <ul className="meta group">
-                <li className="track-count">
-                  <i className="icon-play" />
-                  {list.track_count} song(s)
-                </li>
-
-                {playlistType}
-              </ul>
-
-              <div className="play-options">
-                <button className="play-button icon-clock">
-                  View Tracks
-                </button>
-                <button className="play-button icon-play">
-                  Start Playlist
-                </button>
-              </div>
-            </div>
-          </article>
-        </li>
+        <PlaylistItem playlist={list} key={"list-" + list.id} />
       );
     });
   },
