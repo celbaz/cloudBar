@@ -30,12 +30,13 @@ var SearchItems = React.createClass({
   },
 
   soundConnect: function (event) {
-    var id = event.target.parentElement.attributes.getNamedItem('data-stream').value;
+    var id = event.target.parentElement.attributes.getNamedItem('data-index').value;
+    var songObject =  this.props.searchResults[id];
     if(event.target.textContent.includes('Play')) {
-      AudioStore.playSound(id);
+      AudioStore.playSound(songObject.id, songObject);
       this.context.router.transitionTo('player');
     } else {
-      AudioStore.addToQueue({stream_id: id});
+      AudioStore.addToQueue(songObject);
     }
   },
 
@@ -46,7 +47,7 @@ var SearchItems = React.createClass({
   generateTracks: function () {
     // TODO: add browser links to website
     var self = this;
-    return _.map(this.props.searchResults, function (item) {
+    return _.map(this.props.searchResults, function (item, index) {
       return (
         <li key={item.id} className="search-item group">
           <figure>
@@ -80,7 +81,7 @@ var SearchItems = React.createClass({
                 </li>
               </ul>
 
-              <div data-stream={item.id} className="play-options">
+              <div data-stream={item.id} data-index={index} className="play-options">
                 <button className="play-button icon-play" onClick={self.soundConnect}>Play Track</button>
                 <button className="add-button"  onClick={self.soundConnect}>Add to Queue</button>
               </div>

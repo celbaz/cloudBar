@@ -36,6 +36,26 @@ var LikeStore = Reflux.createStore({
       });
   },
 
+  likeTrack: function (id) {
+    if(this.currentlyInFavorites(id)){
+      apiRequests
+        .delete('https://api.soundcloud.com/me/favorites/' + id)
+        .end(function (err, response) { return response});
+
+    } else {
+      apiRequests
+        .put('https://api.soundcloud.com/me/favorites/' + id)
+        .end(function (err, response) { return response});
+    }
+  },
+
+  currentlyInFavorites: function (id) {
+    for (var i = 0, len = this._soundcloudLikes.length; i < len; i++) {
+      if(this._soundcloudLikes[i].id === id) return true;
+    }
+    return false;
+  },
+
   onGetLikesCompleted: function (favoritedResults) {
     this._soundcloudLikes = favoritedResults;
     this.trigger(this._soundcloudLikes);

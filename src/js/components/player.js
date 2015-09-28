@@ -1,6 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var AudioStore = require('../stores/audio');
+var LikeStore = require('../stores/like');
 // var shell = remote.require('shell');
 
 
@@ -9,17 +10,27 @@ var AudioPlayer = React.createClass({
 
   getInitialState: function () {
     var song = localStorage.getItem('currentsong');
-    return { paused: true};
+    if(AudioStore._dataBeingPlayed) {
+      return AudioStore._dataBeingPlayed;
+    } else {
+      return { paused: true};
+    }
+  },
+
+  like: function () {
+    LikeStore.likeTrack(this.state.id);
   },
 
   playPause: function (event) {
-    $(event.target).toggleClass('fa-pause').toggleClass('fa-play');
+    var button = $(event.target);
     event.preventDefault();
     window.animiateGooey();
     var stream = AudioStore._audioBeingPlayed;
     if(stream.paused) {
+      button.removeClass('fa-pause').addClass('fa-play');
       stream.play();
     } else {
+      button.removeClass('fa-play').addClass('fa-pause');
       $(stream).animate({ volume: 0}, { duration: 1250, complete: function () {
         stream.pause();
         stream.volume = 1;
@@ -116,11 +127,12 @@ var AudioPlayer = React.createClass({
         <div className="player">
           <div className="player-info">
             <div className="player-info-text">
-              <h2 className="player-song-name">Gooey</h2>
-              <h3 className="player-artist">Glass Animals</h3>
+              <h2 className="player-song-name">{this.state.title || "N/A"}</h2>
+              <h3 className="player-artist">{this.state.user.username || "N/A"}</h3>
             </div>
             <div className="player-cover">
-              <img src="assets/default.jpg" width="300"/>
+              <img src={this.state.artwork_url || "assets/default.jpg"}
+                width="300"/>
             </div>
           </div>
           <div className="player-spectrum">
@@ -150,8 +162,8 @@ var AudioPlayer = React.createClass({
               <button className="player-button">
                 <i className="fa fa-bars"></i>
               </button>
-              <button className="player-button">
-                <i className="fa fa-step-backward"></i>
+              <button className="player-button" onClick={this.like}>
+                <i className="fa fa-heart"></i>
               </button>
               <button className="player-button play-pause-button" onClick= {this.playPause}>
                 <i className="fa fa-pause"></i>

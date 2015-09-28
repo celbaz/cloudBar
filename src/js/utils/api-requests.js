@@ -14,6 +14,20 @@ var apiRequests = {
       .set('Accept', 'application/json');
   },
 
+  put: function(url) {
+    return request
+      .put(url)
+      .send({ oauth_token: AuthStore.authStatus()})
+      .set('Accept', 'application/json');
+  },
+
+  delete: function(url) {
+    return request
+      .del(url)
+      .send({ oauth_token: AuthStore.authStatus()})
+      .set('Accept', 'application/json');
+  },
+
   getAuth: function (url) {
     return request
       .get(url)

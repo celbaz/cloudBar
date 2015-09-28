@@ -9,6 +9,7 @@ var AudioStore = Reflux.createStore({
   init: function () {
     this._trackqueue = [];
     this._audioBeingPlayed = new Audio();
+    this._dataBeingPlayed = null;
     // Add the loop scenario where you just rotate.
     var self = this;
     this._audioBeingPlayed.onended = function() {
@@ -16,16 +17,16 @@ var AudioStore = Reflux.createStore({
     };
   },
 
-  buildStreamURL: function (stream_id) {
+  buildStreamURL: function (id) {
     return (
-      "https://api.soundcloud.com/tracks/" + stream_id + "/stream?oauth_token="
+      "https://api.soundcloud.com/tracks/" + id + "/stream?oauth_token="
       + window.localStorage.getItem('soundcloudtoken')
     );
   },
 
   addToQueue: function (track) {
     if(!this.currentlyPlaying()) {
-      this.playSound(track.stream_id)
+      this.playSound(track.id);
     } else {
       this._trackqueue.push(track);
     }
@@ -47,7 +48,8 @@ var AudioStore = Reflux.createStore({
     return false;
   },
 
-  playSound: function (stream_id) {
+  playSound: function (stream_id, currentsong) {
+    this._dataBeingPlayed = currentsong;
     var audio = this._audioBeingPlayed;
     audio.src = this.buildStreamURL(stream_id);
     audio.play();
@@ -56,7 +58,7 @@ var AudioStore = Reflux.createStore({
   playNextSound: function () {
     if(this._trackqueue.length > 0) {
       var track = this._trackqueue.pop()
-      this.playSound(track.stream_id);
+      this.playSound(track.id);
     } else {
       alert("Your Queue is Empty");
     }
