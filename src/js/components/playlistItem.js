@@ -24,10 +24,14 @@ var PlaylistItem = React.createClass({
         <li key={"track-" + track.id}
           onClick={self.playSong.bind(self, track)}
           className="group">
-          <img src={track.artwork_url} />
-          <strong className="track-title">
-            {track.title} - {track.user.username}
-          </strong>
+          <figure className="icon-play">
+            <img src={track.artwork_url} />
+          </figure>
+
+          <span className="track-info-wrapper ellipsis">
+            <strong className="track-title">{track.title}</strong>
+            <small className="track-artist">{track.user.username}</small>
+          </span>
         </li>
       );
     });
@@ -62,7 +66,7 @@ var PlaylistItem = React.createClass({
       );
     }
 
-    classNames = "search-item playlist group";
+    classNames = "search-item playlist";
 
     if (this.state.expand) {
       classNames += " expand";
@@ -71,44 +75,46 @@ var PlaylistItem = React.createClass({
 
     return (
       <li className={classNames}>
-        <figure>
-          <img src={this.props.playlist.artwork_url} />
-        </figure>
+        <section className="group">
+          <figure>
+            <img src={this.props.playlist.artwork_url} />
+          </figure>
 
-        <article className="track-info">
-          <h3 className="song-title ellipsis">
-            {this.props.playlist.title}
-          </h3>
+          <article className="track-info">
+            <h3 className="song-title ellipsis">
+              {this.props.playlist.title}
+            </h3>
 
-          <h4 className="song-artist ellipsis">
-            {this.props.playlist.user.username}
-          </h4>
+            <h4 className="song-artist ellipsis">
+              {this.props.playlist.user.username}
+            </h4>
 
-          <div className="options-wrapper">
-            <ul className="meta group">
-              <li className="track-count">
-                <i className="icon-play" />
-                {this.props.playlist.track_count} song(s)
-              </li>
+            <div className="options-wrapper">
+              <ul className="meta group">
+                <li className="track-count">
+                  <i className="icon-play" />
+                  {this.props.playlist.track_count} song(s)
+                </li>
 
-              {playlistType}
-            </ul>
+                {playlistType}
+              </ul>
 
-            <div className="play-options">
-              <button
-                className="play-button icon-clock"
-                onClick={this.renderTracks}>
-                View Tracks
-              </button>
+              <div className="play-options">
+                <button
+                  className="play-button icon-clock"
+                  onClick={this.renderTracks}>
+                  View Tracks
+                </button>
 
-              <button
-                className="play-button icon-play"
-                onClick={this.startPlaylist}>
-                Start Playlist
-              </button>
+                <button
+                  className="play-button icon-play"
+                  onClick={this.startPlaylist}>
+                  Start Playlist
+                </button>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </section>
 
         {this.tracklist()}
         {closePlaylist}
