@@ -4,10 +4,40 @@ var AudioStore = require('../stores/audio');
 var PlaylistItem = React.createClass({
 
   getInitialState: function () {
-    return {};
+    return {
+      expand: false
+    };
   },
 
   renderTracks: function () {
+    this.setState({
+      expand: true
+    });
+  },
+
+  tracklist: function () {
+    if (!this.state.expand) return;
+
+    var self = this;
+    var tracks = this.props.playlist.tracks.map(function (track) {
+      return (
+        <li key={"track-" + track.id}
+          onClick={self.playSong.bind(self, track)}
+          className="group">
+          <img src={track.artwork_url} />
+          <strong className="track-title">
+            {track.title} - {track.user.username}
+          </strong>
+        </li>
+      );
+    });
+
+    return (
+      <ul className="track-list">{tracks}</ul>
+    );
+  },
+
+  playSong: function (song) {
 
   },
 
@@ -15,8 +45,14 @@ var PlaylistItem = React.createClass({
 
   },
 
+  closePlaylist: function () {
+    this.setState({
+      expand: false
+    });
+  },
+
   render: function () {
-    var playlistType;
+    var playlistType, classNames, closePlaylist;
 
     if (this.props.playlist.playlist_type) {
       playlistType = (
@@ -26,8 +62,15 @@ var PlaylistItem = React.createClass({
       );
     }
 
+    classNames = "search-item playlist group";
+
+    if (this.state.expand) {
+      classNames += " expand";
+      closePlaylist = <button className="x" onClick={this.closePlaylist} />;
+    }
+
     return (
-      <li className="search-item playlist group">
+      <li className={classNames}>
         <figure>
           <img src={this.props.playlist.artwork_url} />
         </figure>
@@ -66,6 +109,9 @@ var PlaylistItem = React.createClass({
             </div>
           </div>
         </article>
+
+        {this.tracklist()}
+        {closePlaylist}
       </li>
     );
   }
