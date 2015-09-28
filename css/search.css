@@ -2,12 +2,14 @@
 .search-container {
   display: -webkit-flex;
   -webkit-flex-direction: column;
+  padding-top: 10px;
 }
 
 /* Search bar */
 .search-bar {
+  min-height: 40px;
+  margin: 0 10px;
   border-bottom: 2px solid #aaa;
-  min-height: 45px;
 }
 
 .search-bar > input {
@@ -29,7 +31,8 @@
 
 /* Search nav */
 .search-container .tabs {
-  min-height: 24px;
+  min-height: 25px;
+  padding: 0 10px;
 }
 
 .search-container .tabs > li {
@@ -43,5 +46,6 @@
 /* Search Results */
 .search-results {
   width: 100%;
+  padding: 0 10px;
   overflow-y: auto;
 }
