@@ -1,6 +1,6 @@
 body {
-  background-color: #f7f7f7;
-  font-family: sans-serif;
+  background-color: #0e1f38;
+  font-family: 'Raleway', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #121113;
 }
 
@@ -8,68 +8,10 @@ div#app {
   height: 100vh;
   position: relative;
   overflow-y: hidden;
+  background-color: #f7f7f7;
 }
 
-
-/* Github link */
-.github-link {
-  display: block;
-  font-size: 18px;
-  color: #34495e;
-  letter-spacing: 0.5px;
-  height: 100%;
-  padding-top: 10px;
-  background-color: #ff6e40;
-}
-
-.github-link i {
-  color: #34495e;
-  font-size: 24px;
-  padding-left: 14px;
-  vertical-align: -3px;
-}
-
-span.github-link:hover {
-  color: #34495e;
-  cursor: pointer;
-}
-
-/*TODO: Take out bottom border*/
-div.header {
-  display: none;
-  height: 10vh;
-  /*border-bottom: 2px solid #34495e;*/
-}
-
-.navigation {
-  height: 100%;
-}
-
-.navigation > div {
-  padding: 10px;
-}
-
-div.right-section {
-  text-align: right;
-}
-
-div.left-section {
-  float: left;
-  padding-left: 0px;
-}
-
-.navigation > div > i {
-  transition: color 0.7s ease;
-  padding-left: 10px;
-  font-size: 20px;
-}
-
-.navigation > div > i:hover {
-  color: #34495e;
-  cursor: pointer;
-}
-
-/*Main Section Styles*/
+/* Main container */
 .main-container {
   width: 100%;
   height: 88vh;
@@ -82,6 +24,7 @@ div.left-section {
   box-sizing: border-box;
 }
 
+/* Login screen */
 .main-container.login {
   padding: 150px 39px;
   background-color: #ff6e40;
@@ -101,15 +44,4 @@ div.left-section {
 
 .sign-in-button:hover {
   cursor: pointer;
-}
-
-.settings-row ul > li {
-  padding-bottom: 5px;
-  text-align: center;
-}
-
-div.toggle-label {
-  text-align: center;
-  padding: 15px 0px;
-  font-size: 20px;
 }
