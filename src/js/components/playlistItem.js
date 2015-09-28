@@ -1,4 +1,5 @@
 var React = require('react');
+var Router = require('react-router');
 var AudioStore = require('../stores/audio');
 
 var PlaylistItem = React.createClass({
@@ -7,6 +8,14 @@ var PlaylistItem = React.createClass({
     return {
       expand: false
     };
+  },
+
+  mixins: [
+    Router.State
+  ],
+
+  contextTypes: {
+    router: React.PropTypes.func
   },
 
   renderTracks: function () {
@@ -22,7 +31,7 @@ var PlaylistItem = React.createClass({
     var tracks = this.props.playlist.tracks.map(function (track) {
       return (
         <li key={"track-" + track.id}
-          onClick={self.playSong.bind(self, track)}
+          onClick={self.playTrack.bind(self, track)}
           className="group">
           <figure className="icon-play">
             <img src={track.artwork_url} />
@@ -41,8 +50,9 @@ var PlaylistItem = React.createClass({
     );
   },
 
-  playSong: function (song) {
-
+  playTrack: function (track) {
+    AudioStore.playSound(track.id, track);
+    this.context.router.transitionTo('player');
   },
 
   startPlaylist: function () {

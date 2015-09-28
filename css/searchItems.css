@@ -236,6 +236,10 @@
 }
 
 /* Expanded playlist */
+.playlist.expand {
+  background: #fff;
+}
+
 .playlist.expand .track-info .meta {
   top: -17px;
 }
