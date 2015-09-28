@@ -53,7 +53,7 @@ var Search = React.createClass({
       this.searchType = 'title';
       window.localStorage.setItem('searchtype', this.searchType);
     }
-    return { query: ""};
+    return { query: "" };
   },
 
   componentDidMount: function () {
@@ -88,11 +88,25 @@ var Search = React.createClass({
   },
 
   render: function () {
-    var clearSearchIcon;
+    var clearSearchIcon, searchResults;
 
     if (this.state.query !== "") {
       clearSearchIcon = (
         <span className='close-search' onClick={this.clearSearch}></span>
+      );
+    }
+
+    if (this.state.query) {
+      searchResults = (
+        <SearchItems
+          searchResults={this.state.searchResults}
+          itemType={this.searchType === 'playlists' ? "Playlists" : "Tracks"} />
+      );
+    } else {
+      searchResults = (
+        <strong className="loading">
+          Search for tracks and playlists in the search bar above.
+        </strong>
       );
     }
 
@@ -108,15 +122,15 @@ var Search = React.createClass({
           {clearSearchIcon}
         </fieldset>
 
-        <ul id="search-type" className="tabs nav group" onClick={this.toggleSearch}>
+        <ul id="search-type"
+          className="tabs nav group"
+          onClick={this.toggleSearch}>
           <li id="title">By Title</li>
           <li id="tags">By Artist</li>
           <li id="playlists">By Playlist</li>
         </ul>
 
-        <div className="search-results">
-          <SearchItems searchResults={this.state.searchResults} resultType={this.searchType === 'playlists' ? "Playlists" : "Tracks"} />
-        </div>
+        <div className="search-results">{searchResults}</div>
       </div>
     );
   }

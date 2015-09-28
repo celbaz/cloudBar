@@ -1,3 +1,9 @@
+.loading {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+}
+
 /*Search Items*/
 .search-items {
   width: 100%;
@@ -20,7 +26,7 @@
   box-shadow: 0 1px 3px #aaa;
 }
 
-.search-item > figure {
+.search-item figure {
   position: relative;
   float: left;
   width: 50px;
@@ -29,7 +35,7 @@
   background: #ccc;
 }
 
-.search-item > figure > img {
+.search-item figure > img {
   width: 100%;
   height: auto;
 }
@@ -123,12 +129,8 @@
 }
 
 /* Playlist result */
-.playlist .options-wrapper {
-
-}
-
-.playlist .meta > li {
-
+.playlist {
+  position: relative;
 }
 
 .playlist .meta > li.playlist-type {
@@ -142,8 +144,106 @@
   content: "#";
 }
 
-.search-init {
-  padding: 75px 50px;
-  text-align: center;
-  display: inherit;
+/* Playlist track list */
+.track-list {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.track-list > li {
+  width: 100%;
+  padding: 5px;
+  border-bottom: 1px solid #aaa;
+  cursor: pointer;
+}
+
+.track-list > li:hover {
+  color: #fff;
+  background: #ff6e40;
+}
+
+.track-list figure {
+  float: left;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.track-list figure:before {
+  display: none;
+}
+
+.track-list img {
+  width: 100%;
+  height: 100%;
+}
+
+.track-list > li:hover figure:before {
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #fff;
+  background: rgba(99, 99, 99, 0.5);
+}
+
+.track-list .track-info-wrapper {
+  float: left;
+  display: block;
+  width: calc(100% - 25px);
+  padding: 4px 0;
+  line-height: 1;
+}
+
+.track-info-wrapper > .track-artist {
+  margin-left: 5px;
+  color: #aaa;
+}
+
+.track-list > li:hover .track-artist {
+  color: #eee;
+}
+
+/* Close playlist button */
+.x {
+  position: absolute;
+  cursor: pointer;
+}
+
+.x:before {
+  content: "\00d7";
+}
+
+.playlist > .x {
+  top: 5px;
+  right: 5px;
+
+  line-height: 1;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.playlist > .x:hover {
+  color: #121113;
+}
+
+/* Expanded playlist */
+.playlist.expand {
+  background: #fff;
+}
+
+.playlist.expand .track-info .meta {
+  top: -17px;
+}
+
+.playlist.expand .play-options {
+  top: 0;
 }

@@ -58,15 +58,20 @@ var Likes = React.createClass({
 
   render: function () {
     return (
-      <div className="main-container with-padding likes">
+      <div className="main-container likes">
         <h1>My Music</h1>
+
         <ul className="tabs nav group" onClick={this.toggleTab}>
-          <li className={(this.state.likeTab === "Tracks") ? "active" : ""} id="Tracks">My Favorite Tracks</li>
-          <li className={(this.state.likeTab === "Playlists") ? "active" : ""} id="Playlists">My Playlists</li>
+          <li className={(this.state.likeTab === "Tracks") ? "active" : ""}
+            id="Tracks">My Favorite Tracks</li>
+          <li className={(this.state.likeTab === "Playlists") ? "active" : ""}
+            id="Playlists">My Playlists</li>
         </ul>
 
         <div className="likes-wrapper">
-          <SearchItems searchResults={this.state.like} resultType={this.state.likeTab} />
+          <SearchItems
+            searchResults={this.state.like}
+            itemType={this.state.likeTab} />
         </div>
       </div>
     );
