@@ -234,3 +234,12 @@
 .playlist > .x:hover {
   color: #121113;
 }
+
+/* Expanded playlist */
+.playlist.expand .track-info .meta {
+  top: -17px;
+}
+
+.playlist.expand .play-options {
+  top: 0;
+}
