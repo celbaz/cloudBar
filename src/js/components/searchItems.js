@@ -83,14 +83,16 @@ var SearchItems = React.createClass({
 
               <div className="play-options">
                 <button
-                  className="play-button icon-play"
+                  className="play-button"
                   onClick={self.playTrack.bind(self, item)}>
+                  <i className="icon-play" />
                   Play Track
                 </button>
 
                 <button
                   className="add-button"
                   onClick={self.addToQueue.bind(self, item)}>
+                  <i className="add-icon" />
                   Add to Queue
                 </button>
               </div>

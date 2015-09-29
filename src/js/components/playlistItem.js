@@ -111,14 +111,16 @@ var PlaylistItem = React.createClass({
 
               <div className="play-options">
                 <button
-                  className="play-button icon-clock"
+                  className="view-tracks"
                   onClick={this.renderTracks}>
+                  <i className="fa fa-bars" />
                   View Tracks
                 </button>
 
                 <button
-                  className="play-button icon-play"
+                  className="start-playlist"
                   onClick={this.startPlaylist}>
+                  <i className="icon-play" />
                   Start Playlist
                 </button>
               </div>

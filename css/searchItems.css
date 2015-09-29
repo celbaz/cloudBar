@@ -106,9 +106,8 @@
   cursor: pointer;
 }
 
-.play-options > button:before {
-  margin: 0;
-  margin-right: 1px;
+.play-options > button:first-child {
+  margin-right: 5px;
 }
 
 .play-options > button:hover {
@@ -116,15 +115,15 @@
   background: #ff6e40;
 }
 
-.play-options > .play-button {
-  margin-right: 5px;
+.play-button i {
+  margin: 0;
 }
 
-.play-options > .add-button {
-
+.add-button i {
+  margin-right: 2px;
 }
 
-.play-options > .add-button:before {
+.add-icon:before {
   content: "+";
 }
 
@@ -142,6 +141,14 @@
 
 .meta > .playlist-type:before {
   content: "#";
+}
+
+.view-tracks i {
+  margin: 0 3px 0 1px;
+}
+
+.start-playlist i {
+  margin: 0;
 }
 
 /* Playlist track list */
