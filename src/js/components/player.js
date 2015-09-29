@@ -26,11 +26,10 @@ var AudioPlayer = React.createClass({
     event.preventDefault();
     window.animiateGooey();
     var stream = AudioStore._audioBeingPlayed;
+    button.toggleClass('fa-pause').toggleClass('fa-play');
     if(stream.paused) {
-      button.removeClass('fa-pause').addClass('fa-play');
       stream.play();
     } else {
-      button.removeClass('fa-play').addClass('fa-pause');
       $(stream).animate({ volume: 0}, { duration: 1250, complete: function () {
         stream.pause();
         stream.volume = 1;
@@ -124,6 +123,26 @@ var AudioPlayer = React.createClass({
     };
   },
 
+  toggleQueueView: function (event) {
+    var moved, content;
+    if($('.queue-list').length === 1) {
+      moved = "-=" + ($('.content').height() -  40);
+      window.animiateGooey();
+    } else {
+      moved = "+=" + ($('.content').height() - 40);
+      window.animiateGooey();
+      content = "<div class='queue-list'>";
+      content += "<p class='coming-soon'>Coming Soon: Queue Functionality</p>";
+      content += "</div>";
+      $('.player-controls').after(content);
+    }
+    $('.player-controls, .player-spectrum, .queue-list').animate({bottom: moved}, 500, function() {
+      if(moved.includes("-")) {
+        $('.queue-list').remove();
+      }
+  });
+  },
+
   render: function () {
 
     var user = (this.state.user) ? this.state.user.username : "N/A";
@@ -165,7 +184,7 @@ var AudioPlayer = React.createClass({
           </div>
           <div className="player-controls">
             <div className="player-buttons">
-              <button className="player-button">
+              <button className="player-button" onClick={this.toggleQueueView}>
                 <i className="fa fa-bars"></i>
               </button>
               <button className="player-button" onClick={this.like}>
