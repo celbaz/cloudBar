@@ -106,13 +106,13 @@
   cursor: pointer;
 }
 
+.play-options > button:first-child {
+  margin-right: 5px;
+}
+
 .play-options > button:hover {
   color: #fff;
   background: #ff6e40;
-}
-
-.play-button {
-  margin-right: 5px;
 }
 
 .play-button i {
