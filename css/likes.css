@@ -7,6 +7,7 @@
 
 /* Header */
 .likes > h1 {
+  min-height: 30px;
   margin: 10px 0 0 5px;
   padding: 0 10px;
   font-size: 18px;
@@ -15,6 +16,7 @@
 
 /* Likes tabs */
 .likes .tabs {
+  min-height: 26px;
   padding: 0 10px;
 }
 
