@@ -10,7 +10,8 @@ var SettingsPage = React.createClass({
   getInitialState: function () {
     var settings = SettingsStore.getSettings();
     return {
-      openAtStartup: settings.openAtStartup
+      openAtStartup: settings.openAtStartup,
+      settings: settings
     };
   },
 
@@ -20,6 +21,7 @@ var SettingsPage = React.createClass({
 
   setResultsCount: function (event) {
     var resultsCount = event.target.value;
+    Actions.setSetting('resultsCount', String(resultsCount));
   },
 
   // Remove or Fix in the future
@@ -33,6 +35,8 @@ var SettingsPage = React.createClass({
   },
 
   render: function () {
+
+    var resCount = this.state.settings.resultsCount;
     return (
       <section className="settings-container">
         <article className="settings">
@@ -58,9 +62,10 @@ var SettingsPage = React.createClass({
               <select
                 className="setting-option search-results-count"
                 onChange={this.setResultsCount}>
-                {[10, 20, 50].map(function (count) {
+                {[10, 20, 50, 100, 200].map(function (count) {
                   return (
                     <option
+                      selected={(resCount == count)}
                       key={"count-" + count}
                       value={count}>
                       {count}

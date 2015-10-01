@@ -8,6 +8,7 @@ var SearchStore = Reflux.createStore({
 
   init: function () {
     this._searchResults = [];
+    this._resultsCount = JSON.parse(localStorage.getItem('settings')).resultsCount;
   },
 
   onUpdateSearchTerm: function (searchTerm) {
@@ -38,7 +39,7 @@ var SearchStore = Reflux.createStore({
       query += encodeURIComponent(this._searchTerm) + '&filter=streamable';
     }
 
-    query += '&limit=20';
+    query += '&limit=' + this._resultsCount;
     return fieldType + creds + query;
   },
 

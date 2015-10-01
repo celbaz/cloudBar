@@ -13,7 +13,7 @@ var SettingsStore = Reflux.createStore({
       settings = {
         participating: false,
         playSound: true,
-        showNotifications: true,
+        resultsCount: '20',
         openAtStartup: false
       };
     }
@@ -30,8 +30,8 @@ var SettingsStore = Reflux.createStore({
       settings.playSound = true;
     }
 
-    if (typeof settings.showNotifications !== 'boolean') {
-      settings.showNotifications = true;
+    if (typeof settings.resultsCount !== 'string') {
+      settings.resultsCount = '20';
     }
 
     if (typeof settings.openAtStartup !== 'boolean') {
