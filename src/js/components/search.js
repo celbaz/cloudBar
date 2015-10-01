@@ -126,8 +126,8 @@ var Search = React.createClass({
           className="tabs nav group"
           onClick={this.toggleSearch}>
           <li id="title">By Title</li>
-          <li id="tags">By Artist</li>
-          <li id="playlists">By Playlist</li>
+          <li id="tags">By Tag</li>
+          <li id="username">By Artist</li>
         </ul>
 
         <div className="search-results">{searchResults}</div>
