@@ -56,7 +56,8 @@ var PlaylistItem = React.createClass({
   },
 
   startPlaylist: function () {
-
+    AudioStore.startPlaylist(this.props.playlist.tracks);
+    this.context.router.transitionTo('player');
   },
 
   closePlaylist: function () {

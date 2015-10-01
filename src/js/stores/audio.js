@@ -32,6 +32,10 @@ var AudioStore = Reflux.createStore({
     }
   },
 
+  startPlaylist: function (track_list) {
+    this._trackqueue = track_list;
+    this.playNextSound();
+  },
   // quick fix
   currentlyPlaying: function () {
     return (!this._audioBeingPlayed.paused);

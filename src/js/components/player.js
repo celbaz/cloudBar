@@ -9,6 +9,7 @@ var LikeStore = require('../stores/like');
 var AudioPlayer = React.createClass({
 
   getInitialState: function () {
+    $(AudioStore._audioBeingPlayed).on('timeupdate', function () {$('#seekbar').attr('value', this.currentTime / this.duration)});
     var song = localStorage.getItem('currentsong');
     if(AudioStore._dataBeingPlayed) {
       return AudioStore._dataBeingPlayed;
@@ -197,7 +198,7 @@ var AudioPlayer = React.createClass({
                 <i className="fa fa-step-forward"></i>
               </button>
             </div>
-            <div className="player-slider"></div>
+            <progress id="seekbar" value="0" max="1" style={{width: "135px"}}></progress>
           </div>
         </div>
       </div>
