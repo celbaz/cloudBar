@@ -3,7 +3,7 @@ var Reflux = require('reflux');
 var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
 var SearchItems = require('./searchItems');
-var AuthStore = require('./stores/auth');
+var AuthStore = require('../stores/auth');
 
 var Search = React.createClass({
   mixins: [

@@ -4,7 +4,7 @@ var Actions = require('../actions/actions');
 var _ = require('underscore');
 var LikeStore = require('../stores/like');
 var SearchItems = require('./searchItems');
-var AuthStore = require('./stores/auth');
+var AuthStore = require('../stores/auth');
 
 var Likes = React.createClass({
 

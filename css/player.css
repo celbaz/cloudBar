@@ -199,6 +199,24 @@
   max-width: 250px;
 }
 
+progress {
+  -webkit-appearance: none;
+  height: 7px;
+  width: 135px;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: transparent;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.40) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #841E21;
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
 
 @import url(http://fonts.googleapis.com/css?family=Raleway:100,400,600,800);
 

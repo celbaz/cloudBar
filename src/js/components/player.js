@@ -198,7 +198,7 @@ var AudioPlayer = React.createClass({
                 <i className="fa fa-step-forward"></i>
               </button>
             </div>
-            <progress id="seekbar" value="0" max="1" style={{width: "135px"}}></progress>
+            <progress id="seekbar" value="0.8" max="1"></progress>
           </div>
         </div>
       </div>

@@ -44,7 +44,6 @@ var AuthStore = Reflux.createStore({
 
   },
 
-
   authStatus: function () {
     return this._soundcloudtoken;
   }

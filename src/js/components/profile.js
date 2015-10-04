@@ -7,7 +7,7 @@ var shell = remote.require('shell');
 var Actions = require('../actions/actions');
 var ProfileStore = require('../stores/profile');
 var Settings = require('./settings');
-var AuthStore = require('./stores/auth');
+var AuthStore = require('../stores/auth');
 
 var Profile = React.createClass({
 
