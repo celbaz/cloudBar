@@ -4,6 +4,7 @@ var Actions = require('../actions/actions');
 var _ = require('underscore');
 var LikeStore = require('../stores/like');
 var SearchItems = require('./searchItems');
+var AuthStore = require('./stores/auth');
 
 var Likes = React.createClass({
 
@@ -34,6 +35,7 @@ var Likes = React.createClass({
   },
 
   failedLikes: function () {
+    AuthStore.refreshToken();
     this.setState({
       loading: false,
       errors: true

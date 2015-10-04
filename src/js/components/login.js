@@ -17,8 +17,8 @@ var Login = React.createClass({
 
     // Start Login
     var options = {
-      client_id: '68c7400f38328848d4eeea65d8eec5dc',
-      client_secret: '196357e64e7636dd1eb75db21b4e0c98',
+      client_id: '214389ad8add5d1248a0e8f0c00e0bdc',
+      client_secret: 'ff02b6e4f0013681665aba35ebeb57e5',
       redirect_uri: 'http://localhost/callback'
     };
 
@@ -30,11 +30,12 @@ var Login = React.createClass({
       'node-integration': false
     });
     var soundcloudUrl = 'https://soundcloud.com/connect?';
-    var authUrl = soundcloudUrl + 'client_id=' + options.client_id + '&redirect_uri=' + options.redirect_uri + "&response_type=token";
+    var authUrl = soundcloudUrl + 'client_id=' + options.client_id + '&redirect_uri=' + options.redirect_uri + "&response_type=code";
     authWindow.loadUrl(authUrl);
 
     authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
-      var raw_code = newUrl.match(/access_token=([^&]*)/) || null;
+      console.log('Hello', newUrl);
+      var raw_code = newUrl.match(/code=([^&]*)/) || null;
       var code = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
       var error = /\?error=(.+)$/.exec(newUrl);
 
@@ -43,11 +44,7 @@ var Login = React.createClass({
       }
 
       if (code) {
-        Actions.login(code);
-        ipc.sendChannel('reopen-window');
-        self.context.router.transitionTo('search');
-        // TODO: clean up or comment out unused code in this file
-        // self.requestSoundCloudToken(options, code);
+        self.requestSoundCloudToken(options, code);
       } else if (error) {
         alert('Oops! Something went wrong and we couldn\'t ' +
           'log you in using SoundCloud. Please try again.');
@@ -71,14 +68,13 @@ var Login = React.createClass({
         client_secret: options.client_secret,
         redirect_uri: options.redirect_uri,
         grant_type: 'authorization_code',
-        code: code
+        code: code.replace("#", "")
       })
       .end(function (err, response) {
+        console.log(response);
         if (response && response.ok) {
-          // Success - Do Something.
-          // Actions.login(response.body.access_token);
-          // self.context.router.transitionTo('search');
-          // ipc.sendChannel('reopen-window');
+          Actions.login(response.body.access_token, response.body.refresh_token);
+          self.context.router.transitionTo('search');
         } else {
           // Error - Show messages.
           // Show appropriate message

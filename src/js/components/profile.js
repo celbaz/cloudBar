@@ -7,6 +7,7 @@ var shell = remote.require('shell');
 var Actions = require('../actions/actions');
 var ProfileStore = require('../stores/profile');
 var Settings = require('./settings');
+var AuthStore = require('./stores/auth');
 
 var Profile = React.createClass({
 
@@ -35,6 +36,7 @@ var Profile = React.createClass({
   },
 
   failedProfile: function () {
+  AuthStore.refreshToken();
     this.setState({
       loading: false,
       errors: true

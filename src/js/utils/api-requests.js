@@ -10,8 +10,9 @@ var apiRequests = {
   post: function (url, params) {
     return request
       .post(url)
-      .send(params)
-      .set('Accept', 'application/json');
+      .set('Content-Type', 'application/json')
+      .send(params);
+
   },
 
   put: function(url) {

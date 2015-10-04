@@ -3,6 +3,7 @@ var Reflux = require('reflux');
 var SearchStore = require('../stores/search');
 var Actions = require('../actions/actions');
 var SearchItems = require('./searchItems');
+var AuthStore = require('./stores/auth');
 
 var Search = React.createClass({
   mixins: [
@@ -81,6 +82,7 @@ var Search = React.createClass({
   },
 
   failedSearchResults: function () {
+    AuthStore.refreshToken();
     this.setState({
       loading: false,
       errors: true
