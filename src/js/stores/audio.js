@@ -59,13 +59,33 @@ var AudioStore = Reflux.createStore({
     audio.play();
   },
 
+  onCurrentPlay: function () {
+
+    apiRequests
+      .get('https://api.soundcloud.com/' + this.prepareURL())
+      .end(function (err, response) {
+        if (response && response.ok) {
+          // Success - Do Something.
+          Actions.getSearchResults.completed(response.body);
+        } else {
+          // Error - Show messages.
+          Actions.getSearchResults.failed(err);
+        }
+      });
+  },
+
   playNextSound: function () {
     if(this._trackqueue.length > 0) {
-      var track = this._trackqueue.pop()
+      var track = this._trackqueue.pop();
       this.playSound(track.id, track);
     } else {
       alert("Your Queue is Empty");
     }
+  },
+
+  onGetCurrentPlay: function () {
+    console.log("getting new song", this._dataBeingPlayed)
+    this.trigger(this._dataBeingPlayed);
   },
 
   pauseSound: function () {

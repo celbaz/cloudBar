@@ -2,8 +2,8 @@ var React = require('react');
 var Reflux = require('reflux');
 var AudioStore = require('../stores/audio');
 var LikeStore = require('../stores/like');
-// var shell = remote.require('shell');
-
+var PlayerInfo = require('./PlayerInfo');
+var Actions = require('../actions/actions');
 
 
 var AudioPlayer = React.createClass({
@@ -40,6 +40,7 @@ var AudioPlayer = React.createClass({
 
   playNext: function () {
     AudioStore.playNextSound();
+    Actions.getCurrentPlay();
   },
 
   componentDidMount: function () {
@@ -145,22 +146,11 @@ var AudioPlayer = React.createClass({
   },
 
   render: function () {
-
-    var user = (this.state.user) ? this.state.user.username : "N/A";
     return (
       <div className="main-container">
         <div className="content">
         <div className="player">
-          <div className="player-info">
-            <div className="player-info-text">
-              <h2 className="player-song-name">{this.state.title || "N/A"}</h2>
-              <h3 className="player-artist">{user}</h3>
-            </div>
-            <div className="player-cover">
-              <img src={this.state.artwork_url || "assets/default.jpg"}
-                width="300"/>
-            </div>
-          </div>
+          <PlayerInfo {... this.state} />
           <div className="player-spectrum">
             <div className="player-spectrum-bars">
               <div className="player-spectrum-bar"></div>
@@ -198,7 +188,7 @@ var AudioPlayer = React.createClass({
                 <i className="fa fa-step-forward"></i>
               </button>
             </div>
-            <progress id="seekbar" value="0.8" max="1"></progress>
+            <progress id="seekbar" value="0" max="1"></progress>
           </div>
         </div>
       </div>

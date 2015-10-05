@@ -9,6 +9,7 @@ var Actions = Reflux.createActions({
   'updateSearchTerm': {},
   'clearSearchTerm': {},
   'getSearchResults': {asyncResult: true},
+  'getCurrentPlay': {},
   'setSetting': {}
 
 });
