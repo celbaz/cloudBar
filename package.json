@@ -4,7 +4,7 @@
   "description": "Desktop Menubar for OSX",
   "main": "index.js",
   "scripts": {
-    "build": "electron-packager . Example --platform=darwin --arch=x64 --version=0.26.0 --ignore=node_modules/electron --icon=Icon.icns",
+    "build": "electron-packager . cloudBar --platform=darwin --arch=x64 --version=0.26.0 --ignore=node_modules/electron --icon=Icon.icns",
     "build-js": "browserify -t [babelify] javascripts/components/Initialize.jsx > javascripts/build/main.js",
     "build-src":"browserify -t [babelify] src/js/app.js > src/build/app.js",
     "watch":"watchify -t [babelify] src/js/app.js -o src/build/app.js",

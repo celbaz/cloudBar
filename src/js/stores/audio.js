@@ -84,7 +84,6 @@ var AudioStore = Reflux.createStore({
   },
 
   onGetCurrentPlay: function () {
-    console.log("getting new song", this._dataBeingPlayed)
     this.trigger(this._dataBeingPlayed);
   },
 

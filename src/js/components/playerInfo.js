@@ -15,12 +15,10 @@ var PlayerInfo = React.createClass({
   },
 
   setTrack: function () {
-    console.log("sdfasdf")
     this.setState({ change: true});
   },
 
   render: function () {
-    window.carl = this;
     var user = (this.state.user) ? this.state.user.username : "N/A";
     return (
       <div className="player-info">

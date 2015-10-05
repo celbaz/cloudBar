@@ -34,7 +34,6 @@ var Login = React.createClass({
     authWindow.loadUrl(authUrl);
 
     authWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
-      console.log('Hello', newUrl);
       var raw_code = newUrl.match(/code=([^&]*)/) || null;
       var code = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
       var error = /\?error=(.+)$/.exec(newUrl);
@@ -71,7 +70,6 @@ var Login = React.createClass({
         code: code.replace("#", "")
       })
       .end(function (err, response) {
-        console.log(response);
         if (response && response.ok) {
           Actions.login(response.body.access_token, response.body.refresh_token);
           self.context.router.transitionTo('search');
