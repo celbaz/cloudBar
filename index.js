@@ -6,7 +6,7 @@ var mb = menubar({
   dir: __dirname,
   height: 390,
   width: 300,
-  'always-on-top': true,
+  'always-on-top': false,
   index: 'file://' + __dirname + '/index.html'
 });
 

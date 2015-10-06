@@ -27,7 +27,7 @@ var AudioPlayer = React.createClass({
     event.preventDefault();
     window.animiateGooey();
     var stream = AudioStore._audioBeingPlayed;
-    button.toggleClass('fa-pause').toggleClass('fa-play');
+    button.toggleClass('fa-pause');
     if(stream.paused) {
       stream.play();
     } else {
@@ -36,6 +36,7 @@ var AudioPlayer = React.createClass({
         stream.volume = 1;
       }});
     }
+    button.toggleClass('fa-play');
   },
 
   playNext: function () {

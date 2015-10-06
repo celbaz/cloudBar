@@ -34,7 +34,7 @@ var Footer = React.createClass({
           <small>
             Created by
             <a href="#" onClick={this.openRepoBrowser}>
-              celbaz
+              Carl Elbaz
               <i className="icon-github-circled" />
             </a>
           </small>
